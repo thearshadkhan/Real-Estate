@@ -24,10 +24,12 @@ const PropertyList = () => {
       <ul>
         {properties.map((property) => (
           <li key={property._id}>
+          <img src={property.photos} alt={property.title} style={{ width: "340px", height: "340px", borderRadius: "8px" }} />
             <h3>{property.title}</h3>
             <p>{property.description}</p>
             <p>City: {property.city}</p>
             <p>Price: ${property.price}</p>
+
           </li>
         ))}
       </ul>
