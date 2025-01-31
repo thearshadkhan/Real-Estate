@@ -26,29 +26,29 @@ const Register = () => {
 
   return (
 
-    <div className="mx-40 my-40 px-20 py-30 bg-red-200">
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="text"
+    <div className="mx-40 my-20 px-20 py-10 bg-red-200">
+      <h2 className="px-80 my-10 text-5xl">Register</h2>
+      <form className="flex flex-col" onSubmit={handleSubmit}>
+        <input className="my-10 border-1" type="text"
           name="name"
           placeholder="Name"
           value={formData.name}
           onChange={handleChange}
         />
-        <input type="email"
+        <input className="my-10  border-1" type="email"
           name="email"
           placeholder="Email"
           value={formData.email}
           onChange={handleChange}
         />
-        <input type="password"
+        <input className="my-10 border-1" type="password"
           name="password"
           placeholder="Password"
           value={formData.password}
           onChange={handleChange}
         />
 
-        <button type="submit">Register</button>
+        <button className="" type="submit">Register</button>
       </form>
       {message && <p>{message}</p>}
     </div>
