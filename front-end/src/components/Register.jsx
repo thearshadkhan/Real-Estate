@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { registerUser } from "./userService";
+import { registerUser } from "../services/userService";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -25,30 +25,29 @@ const Register = () => {
   };
 
   return (
-    <div>
+
+    <div className="mx-40 my-40 px-20 py-30 bg-red-200">
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
+        <input type="text"
           name="name"
           placeholder="Name"
           value={formData.name}
           onChange={handleChange}
         />
-        <input
-          type="email"
+        <input type="email"
           name="email"
           placeholder="Email"
           value={formData.email}
           onChange={handleChange}
         />
-        <input
-          type="password"
+        <input type="password"
           name="password"
           placeholder="Password"
           value={formData.password}
           onChange={handleChange}
         />
+
         <button type="submit">Register</button>
       </form>
       {message && <p>{message}</p>}
