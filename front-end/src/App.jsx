@@ -12,10 +12,14 @@
 
 import React from 'react'
 import Register from './components/Register'
+import PropertyList from './components/PropertyList'
+import AddProperty from './components/AddProperty'
 
 const App = () => {
   return (
     <><Register/>
+    <AddProperty/>
+    <PropertyList/>
     </>
   )
 }
