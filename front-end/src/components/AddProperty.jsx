@@ -38,7 +38,7 @@ const AddProperty = () => {
           type="text"
           name="ownerId"
           placeholder="Owner ID"
-          value={formData.ownerId}
+          value={formData.email}
           onChange={handleChange}
           required
         />

@@ -17,10 +17,11 @@ import AddProperty from './components/AddProperty'
 
 const App = () => {
   return (
-    <><Register/>
+    <div className="bg-gray-400 p-10">
+    <Register/>
     <AddProperty/>
     <PropertyList/>
-    </>
+    </div>
   )
 }
 

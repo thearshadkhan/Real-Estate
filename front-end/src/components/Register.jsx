@@ -26,11 +26,11 @@ const Register = () => {
 
   return (
 
-    <div className="w-fit mx-auto my-20 px-10 py-10 bg-blue-200 flex flex-col">
+    <div className="w-fit mx-auto px-10 py-10 bg-blue-200 flex flex-col rounded">
       <h2>Register</h2>
       <form className="flex flex-col w-fit py-2 gap-3" onSubmit={handleSubmit}>
         <input 
-          className="px-2 py-1 border-1 rounded border-blue-400"
+          className="px-2 py-1 border-1 rounded border-blue-400 focus:bg-blue-100"
           type="text"
           name="name"
           placeholder="Name"
