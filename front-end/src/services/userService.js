@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/users"; // Base URL for your backend
+const API_URL = "http://localhost:3000/api/users"; // Base URL for your backend
 
 // Register a new user
 export const registerUser = async (userData) => {
@@ -29,5 +29,16 @@ export const fetchUserById = async (id) => {
     return response.data;
   } catch (error) {
     throw error.response?.data?.message || error.message;
+  }
+};
+export const loginUser = async (email, password) => {
+  try {
+    const response = await axios.post(`${API_URL}/login`, {
+      email,
+      password,
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response?.data?.message || "Login failed";
   }
 };

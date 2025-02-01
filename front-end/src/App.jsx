@@ -1,28 +1,76 @@
-// import React from "react";
+
+
+// import React from 'react'
+// // import Register from './components/Register'
+// // import PropertyList from './components/PropertyList'
+// // import AddProperty from './components/AddProperty'
+
+// // const App = () => {
+// //   return (
+// //     <><Register/>
+// //     <AddProperty/>
+// //     <PropertyList/>
+// //     </>
+// //   )
+// // }
+
+// // export default App
+// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// import Register from './components/Register'
+// import PropertyList from './components/PropertyList'
+// import AddProperty from './components/AddProperty'
+// import Login from './components/Login';
+
 // function App() {
 //   return (
-//     <div className="flex justify-center items-center h-screen bg-gray-100">
-//       <h1 className="text-3xl font-bold text-blue-500">Real Estate App</h1>
+//     <Router>
+//       <Routes>
       
-//     </div>
+//       <Route path="/" element={<Register/>} />
+//       <Route path="/propertylist" element={<PropertyList/>} />
+//         <Route path="/login" element={<Login />} />
+//         <Route path="/add-property" element={<AddProperty />} />
+//       </Routes>
+//     </Router>
 //   );
 // }
 
 // export default App;
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from "./Pages/HomePage";
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
+import AddProperty from "./Pages/AddProperty";
+import PropertyDetails from "./Pages/PropertyDetails";
+import UserProfile from "./Pages/UserProfile";
+import Dashboard from "./Pages/Dashboard";
+import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
+import PropertyPage from "./Pages/Propertpage";
 
-import React from 'react'
-import Register from './components/Register'
-import PropertyList from './components/PropertyList'
-import AddProperty from './components/AddProperty'
 
-const App = () => {
+function App() {
   return (
-    <div className="bg-gray-400 p-10">
-    <Register/>
-    <AddProperty/>
-    <PropertyList/>
-    </div>
-  )
+  
+      <Router>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/properties" element={<AddProperty />} />
+          <Route path="/propertyPage" element={<PropertyPage />} />
+          <Route path="/property/:id" element={<PropertyDetails />} />
+          <Route path="/profile" element={<UserProfile/>} />
+          <Route path="/dashboard" element={<Dashboard/>} />
+        </Routes>
+        <Footer />
+      </Router>
+  
+  );
 }
 
-export default App
+export default App;
+
+

@@ -1,17 +1,22 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/properties"; // Base URL for properties
+const API_URL = "http://localhost:3000/api/properties"; // Base URL for properties
 
 // Add a new property
-export const addProperty = async (propertyData) => {
+
+export const addProperty = async (propertyData, token) => {
   try {
-    const response = await axios.post(API_URL, propertyData);
-    return response.data;
+      const response = await axios.post(API_URL, propertyData, {
+          headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+          },
+      });
+      return response.data;
   } catch (error) {
-    throw error.response?.data?.message || error.message;
+      throw error.response?.data?.message || "Property creation failed";
   }
 };
-
 // Get all properties
 export const fetchAllProperties = async () => {
   try {
