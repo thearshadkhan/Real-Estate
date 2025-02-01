@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api/users"; // Base URL for your backend
+const API_URL = "http://localhost:5000/api/users"; // Base URL for your backend
 
 // Register a new user
 export const registerUser = async (userData) => {

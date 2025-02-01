@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api/properties"; // Base URL for properties
+const API_URL = "http://localhost:5000/api/properties"; // Base URL for properties
 
 // Add a new property
 
