@@ -26,7 +26,7 @@ const PropertyPage = () => {
           <li key={property._id}>
             {property.photos.length > 0 && (
               <img
-                src={`http://localhost:3000/${property.photos[0]}`} 
+                src={`http://localhost:5000/${property.photos[0]}`} 
                 alt={property.title} 
                 style={{ width: "340px", height: "340px", borderRadius: "8px" }}
               />
