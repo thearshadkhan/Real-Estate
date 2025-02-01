@@ -13,7 +13,7 @@ const Login = () => {
         try {
             const data = await loginUser(email, password);
             localStorage.setItem("token", data.token);
-            navigate("/add-property"); // Redirect after login
+            navigate("/properties"); // Redirect after login
         } catch (err) {
             setError("Invalid credentials");
         }
