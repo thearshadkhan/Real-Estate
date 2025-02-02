@@ -1,11 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const NavBar = () => {
   return (
-    <nav className="fixed top-0 left-0 w-full bg-red-700 text-white p-4 flex justify-between items-center rounded-full shadow-lg z-50">
-      
-      {/* Logo */}
-      <h1 className="text-2xl font-bold px-4 py-2 rounded-full">Brick & Beams</h1>
+
+    <div className='fixed w-9/10 bg-red-700 p-4 text-white flex flex-row justify-between ml-15 mt-2 z-10 rounded-full'>
+    <Link to='/'><h1 className="text-2xl font-bold px-4 py-2 rounded-full">Brick & Beams</h1></Link>
 
       {/* Search Bar */}
       <div className="relative flex items-center">
@@ -22,10 +22,10 @@ const NavBar = () => {
       {/* Right Section */}
       <div className="flex gap-4">
         <span className="px-4 py-2 rounded-full cursor-pointer hover:bg-red-900 transition">Agra ▼</span>
-        <span className="px-4 py-2  rounded-full cursor-pointer hover:bg-red-900 transition">Login →</span>
+        <Link to="/Login" className="px-4 py-2  rounded-full cursor-pointer hover:bg-red-900 transition">Login →</Link>
       </div>
-
-    </nav>
+    
+    </div>
   );
 };
 
