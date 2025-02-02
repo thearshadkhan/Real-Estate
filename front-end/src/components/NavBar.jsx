@@ -21,7 +21,7 @@ const NavBar = () => {
 
       {/* Right Section */}
       <div className="flex gap-4 items-center">
-        <select className="px-4 py-2 rounded-full cursor-pointer hover:bg-red-900 transition">
+        <select className="bg-red-700 px-4 py-2 rounded-full cursor-pointer hover:bg-red-800 transition">
           <option value="">Agra</option>
           <option value="">Noida</option>
           <option value="">Gurugram</option>

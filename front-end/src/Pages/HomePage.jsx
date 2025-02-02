@@ -19,7 +19,7 @@ const HomePage = () => {
       >
         <h2 className="text-5xl font-bold mb-5">
           Buying & Selling Property <br /> Made Easy With{" "}
-          <span className="text-red-600">Brick & Beams</span>
+          <span className="text-red-700">Brick & Beams</span>
         </h2>
 
         {/* Search Filters */}
@@ -36,7 +36,7 @@ const HomePage = () => {
           <select className="py-2 px-4  bg-black text-white rounded">
             <option>Price</option>
           </select>
-          <button className="bg-red-600 text-white px-6 py-2 rounded-full flex items-center">
+          <button className="bg-red-700 text-white px-6 py-2 rounded-full flex items-center">
             Search 🔍
           </button>
         </div>

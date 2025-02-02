@@ -22,7 +22,7 @@ const PropertyPage = () => {
       <h2 className="text-3xl font-semibold text-gray-800 mb-6">Property Listings</h2>
 
       {error && (
-        <p className="text-red-600 bg-red-100 border border-red-400 px-4 py-2 rounded-md mb-4">
+        <p className="text-red-700 bg-red-100 border border-red-400 px-4 py-2 rounded-md mb-4">
           Error: {error}
         </p>
       )}
