@@ -2,57 +2,66 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5000/api/properties"; // Base URL for properties
 
-// Add a new property
-
+// ✅ Add a new property
 export const addProperty = async (propertyData, token) => {
   try {
-      const response = await axios.post(API_URL, propertyData, {
-          headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${token}`,
-          },
-      });
-      return response.data;
+    const response = await axios.post(API_URL, propertyData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
   } catch (error) {
-      throw error.response?.data?.message || "Property creation failed";
+    throw new Error(error.response?.data?.message || "Property creation failed");
   }
 };
-// Get all properties
+
+// ✅ Get all properties
 export const fetchAllProperties = async () => {
   try {
     const response = await axios.get(API_URL);
     return response.data;
   } catch (error) {
-    throw error.response?.data?.message || error.message;
+    throw new Error(error.response?.data?.message || error.message);
   }
 };
 
-// Get a property by ID
+// ✅ Get a property by ID
 export const fetchPropertyById = async (id) => {
   try {
     const response = await axios.get(`${API_URL}/${id}`);
     return response.data;
   } catch (error) {
-    throw error.response?.data?.message || error.message;
+    throw new Error(error.response?.data?.message || error.message);
   }
 };
 
-// Update a property
-export const updateProperty = async (id, propertyData) => {
+// ✅ Update a property (Requires Authorization)
+export const updateProperty = async (id, propertyData, token) => {
   try {
-    const response = await axios.put(`${API_URL}/${id}`, propertyData);
+    const response = await axios.put(`${API_URL}/${id}`, propertyData, {
+      headers: {
+        "Content-Type": propertyData instanceof FormData ? "multipart/form-data" : "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
-    throw error.response?.data?.message || error.message;
+    throw new Error(error.response?.data?.message || "Property update failed");
   }
 };
 
-// Delete a property
-export const deleteProperty = async (id) => {
+// ✅ Delete a property (Requires Authorization)
+export const deleteProperty = async (id, token) => {
   try {
-    const response = await axios.delete(`${API_URL}/${id}`);
+    const response = await axios.delete(`${API_URL}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
-    throw error.response?.data?.message || error.message;
+    throw new Error(error.response?.data?.message || "Property deletion failed");
   }
 };
