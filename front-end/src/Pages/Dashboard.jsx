@@ -1,9 +1,27 @@
-import React from 'react'
+import React from "react";
+import { Navigate, Link, Outlet } from "react-router-dom";
+
+const isAuthenticated = () => {
+  return localStorage.getItem("token"); // Ensure authentication check
+};
 
 const Dashboard = () => {
-  return (
-    <div>Dashboard</div>
-  )
-}
+  if (!isAuthenticated()) {
+    return <Navigate to="/login" />;
+  }
 
-export default Dashboard
+  return (
+    <div>
+      <h2>Admin Dashboard</h2>
+      <nav>
+        <ul>
+          <li><Link to="properties">Property Management</Link></li>  {/* Relative path */}
+          <li><Link to="users">User Management</Link></li>  {/* Relative path */}
+        </ul>
+      </nav>
+      <Outlet /> {/* This renders nested components */}
+    </div>
+  );
+};
+
+export default Dashboard;
