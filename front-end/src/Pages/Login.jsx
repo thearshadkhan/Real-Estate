@@ -22,7 +22,7 @@ const Login = () => {
                 navigate("/dashboard"); // Redirect admin to dashboard
             } 
             else {
-                navigate("/properties"); 
+                navigate("/addProperty"); 
             }
         } catch (err) {
             setError("Invalid credentials or access denied");
@@ -48,6 +48,7 @@ const Login = () => {
                 <input className="border-gray-300 border-1 focus:outline-none w-full text-lg p-2 rounded-lg" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
                 <input className="border-gray-300 border-1 focus:outline-none w-full text-lg p-2 rounded-lg" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                 <button className="bg-gradient-to-r from-white/60 to-white/10 w-full text-xl font-semibold px-6 py-2 rounded-lg text-white hover:bg-gradient-to-l from-white/60 to-white/10" type="submit">Login →</button>
+                
             </form>
             </div>
         </div>

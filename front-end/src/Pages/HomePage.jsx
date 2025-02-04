@@ -1,5 +1,6 @@
 import React from "react";
 import heroBg from "../assets/hero-section.jpg";
+import { FaSearch } from "react-icons/fa";
 
 const HomePage = () => {
   return (
@@ -12,14 +13,14 @@ const HomePage = () => {
           backgroundImage: `url(${heroBg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          height:"90vh",
-          borderBottomRightRadius:20,
-          borderBottomLeftRadius:20,
+          height: "90vh",
+          borderBottomRightRadius: 20,
+          borderBottomLeftRadius: 20,
         }}
       >
         <h2 className="text-5xl font-bold mb-5">
-          Buying & Selling Property <br /> Made Easy With{" "}
-          <span className="text-red-700">Brick & Beams</span>
+          Buying & Selling Property<br /> Made Easy With{" "}<br/>
+          <span className="text-red-600 text-7xl">Brick & Beams</span>
         </h2>
 
         {/* Search Filters */}
@@ -36,9 +37,11 @@ const HomePage = () => {
           <select className="py-2 px-4  bg-black text-white rounded">
             <option>Price</option>
           </select>
-          <button className="bg-red-700 text-white px-6 py-2 rounded-full flex items-center">
-            Search 🔍
+          <button className="flex items-center space-x-2 bg-red-700 hover:bg-red-600 text-white px-4 py-2 rounded-full">
+            <FaSearch className="text-lg" />
+            <span>Search</span>
           </button>
+
         </div>
       </div>
     </div>
