@@ -101,6 +101,23 @@ router.put("/users/:id/ban", authorizeAdmin, async (req, res) => {
       res.status(500).json({ message: error.message });
     }
   });
+  // Get Dashboard Metrics
+router.get("/dashboard/metrics", authorizeAdmin, async (req, res) => {
+  try {
+    const totalUsers = await User.countDocuments();
+    const totalActiveProperties = await Property.countDocuments({ approvalStatus: "approved" });
+    const totalBlockedUsers = await User.countDocuments({ status: "suspended" });
+
+    res.status(200).json({
+      totalUsers,
+      totalActiveProperties,
+      totalBlockedUsers,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
   
 
 module.exports = router;
