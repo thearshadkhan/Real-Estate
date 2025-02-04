@@ -4,6 +4,7 @@ import HomePage from "./Pages/HomePage";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import AddProperty from "./Pages/AddProperty";
+import PropertyPage from "./Pages/Propertpage";
 import PropertyDetails from "./Pages/PropertyDetails";
 import UserProfile from "./Pages/UserProfile";
 import Dashboard from "./Pages/Dashboard";
@@ -26,6 +27,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/properties" element={<AddProperty />} />
+        <Route path="/propertyPage" element={<PropertyPage />} />
         <Route path="/property/:id" element={<PropertyDetails />} />
         <Route path="/profile" element={<UserProfile />} />
 
