@@ -5,7 +5,8 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: String, enum: ["admin", "owner", "user"], default: "user" },
-    isBlocked: { type: Boolean, default: false },
-}, { timestamps: true });
+    status: { type: String, enum: ["active", "suspended"], default: "active" },
+    activityLogs: [{ action: String, timestamp: Date }],
+});
 
 module.exports = mongoose.model("User", userSchema);
