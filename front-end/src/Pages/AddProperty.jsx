@@ -44,7 +44,8 @@ const AddProperty = () => {
           alert("Property added successfully");
           navigate("/propertyPage");
       } catch (err) {
-          alert("Error adding property");
+          alert("Please login first");
+          navigate("/login");
       }
   };
 
