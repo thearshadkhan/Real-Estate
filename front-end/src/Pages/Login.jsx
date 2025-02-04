@@ -15,10 +15,19 @@ const Login = () => {
         try {
             const data = await loginUser(email, password);
             localStorage.setItem("token", data.token);
-            navigate("/properties"); // Redirect after login
+            console.log(data.role)
+    
+           
+            if (data.role === "admin") {
+                navigate("/dashboard"); // Redirect admin to dashboard
+            } 
+            else {
+                navigate("/properties"); 
+            }
         } catch (err) {
-            setError("Invalid credentials");
+            setError("Invalid credentials or access denied");
         }
+        
     };
 
     return (
