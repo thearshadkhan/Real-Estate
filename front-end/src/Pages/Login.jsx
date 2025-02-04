@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../services/userService";
 import heroBg from "../assets/Login-Hero.png";
-// import { FaRegUser } from "react-icons/fa";
+import { FaRegUser } from "react-icons/fa";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -28,10 +28,10 @@ const Login = () => {
         borderBottomLeftRadius:20,}}>
             <div className="w-80 h-90 flex flex-col mx-auto my-100 text-white p-4 gap-5 bg-gradient-to-r from-white/20 to-white/5 backdrop-blur-sm border border-white/10 rounded-2xl shadow-lg">
 
-            <h2 className="text-3xl text-center font-semibold mt-2 mb-8">Login</h2>
+            <h2 className="flex ml-23 text-3xl text-center font-semibold mt-2 mb-8">Login<FaRegUser className="ml-1"/></h2>
             
              {/* <div>
-             <FaRegUser/>  
+              
             <h2 className="text-3xl text-center font-semibold mt-2 mb-8">Login</h2>
              </div> */}
             {error && <p style={{ color: "red" }}>{error}</p>}
