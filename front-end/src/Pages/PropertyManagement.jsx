@@ -8,20 +8,59 @@ const PropertyManagement = () => {
     const fetchProperties = async () => {
       try {
         const response = await fetch("http://localhost:5000/api/properties");
-        const text = await response.text(); // Get response as text for debugging
-
-        console.log("Raw Response:", text); // 🔍 Log full response to see what's wrong
-
-        const data = JSON.parse(text); // Parse it as JSON
+        const data = await response.json();
         setProperties(data);
       } catch (err) {
-        console.error("Error fetching properties:", err);
-        setError("Failed to load properties. Please try again.");
+        setError("Failed to load properties.");
+        console.error(err);
       }
     };
 
     fetchProperties();
   }, []);
+
+  const handleApproval = async (id, status) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/properties/${id}/approve`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ status }),
+      });
+
+      if (response.ok) {
+        const updatedProperties = properties.map((property) =>
+          property._id === id ? { ...property, approvalStatus: status } : property
+        );
+        setProperties(updatedProperties);
+      } else {
+        setError("Failed to approve/reject property.");
+      }
+    } catch (err) {
+      setError("Error updating property status.");
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/properties/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (response.ok) {
+        setProperties(properties.filter((property) => property._id !== id));
+      } else {
+        setError("Failed to delete property.");
+      }
+    } catch (err) {
+      setError("Error deleting property.");
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto p-6">
@@ -39,7 +78,7 @@ const PropertyManagement = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {properties.map((property) => (
             <div
-              key={property.id || property._id}
+              key={property._id}
               className="bg-white shadow-xl rounded-lg overflow-hidden hover:shadow-2xl transition duration-300 p-5"
             >
               {property.photos && property.photos.length > 0 && (
@@ -57,6 +96,27 @@ const PropertyManagement = () => {
                     <span className="font-bold">City:</span> {property.city}
                   </p>
                   <p className="text-green-600 font-bold text-lg">${property.price}</p>
+                </div>
+                <p className="text-gray-500 text-sm mt-2">Status: {property.approvalStatus}</p>
+                <div className="flex space-x-2 mt-4">
+                  <button
+                    onClick={() => handleApproval(property._id, "approved")}
+                    className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                  >
+                    Approve
+                  </button>
+                  <button
+                    onClick={() => handleApproval(property._id, "rejected")}
+                    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                  >
+                    Reject
+                  </button>
+                  <button
+                    onClick={() => handleDelete(property._id)}
+                    className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
             </div>

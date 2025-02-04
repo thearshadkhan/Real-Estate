@@ -7,71 +7,61 @@ const UserManagement = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          setError("Unauthorized: No token found.");
-          return;
-        }
-
         const response = await fetch("http://localhost:5000/api/admin/users", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` },
         });
-
-        if (!response.ok) {
-          throw new Error(`HTTP Error ${response.status}: ${response.statusText}`);
-        }
-
         const data = await response.json();
-        console.log("API Response Data:", data);
-
-        if (!Array.isArray(data)) {
-          throw new Error("Invalid response format. Expected an array.");
-        }
-
         setUsers(data);
       } catch (err) {
-        console.error("Error fetching users:", err.message);
-        setError(err.message);
+        setError("Failed to load users.");
+        console.error(err);
       }
     };
 
     fetchUsers();
   }, []);
 
+  const handleBanUser = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/users/${id}/ban`, {
+        method: "PUT",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (response.ok) {
+        const updatedUsers = users.map((user) =>
+          user._id === id ? { ...user, status: "suspended" } : user
+        );
+        setUsers(updatedUsers);
+      } else {
+        setError("Failed to ban user.");
+      }
+    } catch (err) {
+      setError("Error banning user.");
+    }
+  };
+
   return (
-    <div className="max-w-7xl mx-auto p-6">
-      <h2 className="text-4xl font-bold text-gray-800 mb-6 text-center">User Management</h2>
-
-      {error && (
-        <p className="text-red-600 bg-red-100 border border-red-400 px-4 py-2 rounded-md mb-4 text-center">
-          Error: {error}
-        </p>
-      )}
-
-      {users.length === 0 ? (
-        <p className="text-center text-gray-500">No users found.</p>
-      ) : (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {users.map((user) => (
-            <div
-              key={user.id || user._id}
-              className="bg-white shadow-xl rounded-lg overflow-hidden hover:shadow-2xl transition duration-300 p-5"
+    <div className="p-6">
+      <h2 className="text-3xl font-bold mb-4">User Management</h2>
+      {error && <p className="text-red-600">{error}</p>}
+      <div className="space-y-4">
+        {users.map((user) => (
+          <div key={user._id} className="p-4 border border-gray-200 rounded-lg shadow-sm">
+            <h3 className="text-xl font-semibold">{user.username}</h3>
+            <p>{user.email}</p>
+            <p>Status: {user.status}</p>
+            <button
+              onClick={() => handleBanUser(user._id)}
+              className="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700"
             >
-              <h3 className="text-2xl font-semibold text-gray-900">{user.username}</h3>
-              <p className="text-gray-600 text-sm mt-2">
-                <span className="font-bold">Email:</span> {user.email}
-              </p>
-              <p className="text-gray-700 font-medium mt-2">
-                <span className="font-bold">Role:</span> {user.role}
-              </p>
-            </div>
-          ))}
-        </div>
-      )}
+              Ban User
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
