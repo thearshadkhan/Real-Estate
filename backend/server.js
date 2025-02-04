@@ -24,7 +24,9 @@ mongoose
 // Routes
 const userRoutes = require("./routes/userRoutes");
 const propertyRoutes = require("./routes/propertyRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
+app.use("/api/admin", adminRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/properties", propertyRoutes);
 
