@@ -25,7 +25,7 @@ const NavBar = () => {
 
       {/* Right Section */}
       <div className="flex gap-4 items-center">
-        <Link to="/addProperty" className="px-4 py-2  rounded-full cursor-pointer hover:bg-red-900 transition">Add Property →</Link>
+        <Link to="/properties" className="px-4 py-2  rounded-full cursor-pointer hover:bg-red-900 transition">Add Property →</Link>
         <Link to="/Login" className="px-4 py-2  rounded-full cursor-pointer hover:bg-red-900 transition">Login →</Link>
         <Link to="/Register" className="px-4 py-2  rounded-full cursor-pointer hover:bg-red-900 transition">Register →</Link>
       </div>
