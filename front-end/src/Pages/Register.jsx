@@ -25,32 +25,48 @@ const Register = () => {
   };
 
   return (
-
-    <div className="mx-40 my-40 px-20 py-30 bg-red-200">
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="text"
+    <div className="mx-40 my-40 p-10 bg-red-200 rounded-lg shadow-md">
+      <h2 className="text-xl font-bold mb-4">Register</h2>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+        <input
+          type="text"
           name="name"
           placeholder="Name"
           value={formData.name}
           onChange={handleChange}
+          className="p-2 border rounded"
         />
-        <input type="email"
+        <input
+          type="email"
           name="email"
           placeholder="Email"
           value={formData.email}
           onChange={handleChange}
+          className="p-2 border rounded"
         />
-        <input type="password"
+        <input
+          type="password"
           name="password"
           placeholder="Password"
           value={formData.password}
           onChange={handleChange}
+          className="p-2 border rounded"
         />
+        <select
+          name="role"
+          value={formData.role}
+          onChange={handleChange}
+          className="p-2 border rounded"
+        >
+          <option value="user">User</option>
+          <option value="owner">Owner</option>
+        </select>
 
-        <button type="submit">Register</button>
+        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+          Register
+        </button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className="mt-2 text-sm text-gray-700">{message}</p>}
     </div>
   );
 };
