@@ -21,8 +21,11 @@ const Login = () => {
             if (data.role === "admin") {
                 navigate("/dashboard"); // Redirect admin to dashboard
             } 
+            if (data.role === "user") {
+                navigate("/PropertyPage"); // Redirect user to home
+            } 
             else {
-                navigate("/addProperty"); 
+                navigate("/properties"); 
             }
         } catch (err) {
             setError("Invalid credentials or access denied");
