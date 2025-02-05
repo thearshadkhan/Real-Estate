@@ -10,10 +10,13 @@ const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 
 // Register User
 router.post("/register", async (req, res) => {
-    const { email, password, role } = req.body;
+    const { name, email, password, role } = req.body;
 
     try {
-        
+        if (!name) {
+            return res.status(400).json({ message: "Name is required." });
+        }
+
         if (role === "admin") {
             return res.status(403).json({ message: "Cannot register as admin." });
         }
@@ -27,8 +30,9 @@ router.post("/register", async (req, res) => {
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-       
+        // Create new user
         const newUser = new User({
+            name,
             email,
             password: hashedPassword,
             role: role || "user" // Default role is "user" if not provided
