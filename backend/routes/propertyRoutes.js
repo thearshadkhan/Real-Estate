@@ -3,6 +3,7 @@ const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
 const Property = require("../models/Property");
+const User = require("../models/User");
 const authenticateToken = require("../middleware/authMiddleware");
 
 const router = express.Router();
@@ -130,6 +131,79 @@ router.delete("/:id", authenticateToken, async (req, res) => {
         res.status(200).json({ message: "Property deleted successfully" });
     } catch (error) {
         console.error("🔴 Error:", error);
+        res.status(500).json({ message: error.message });
+    }
+});
+router.post("/like/:id", authenticateToken, async (req, res) => {
+    const propertyId = req.params.id;
+    const userId = req.user.id;
+
+    try {
+        // Find the property
+        const property = await Property.findById(propertyId);
+        if (!property) return res.status(404).json({ message: "Property not found" });
+
+        // Check if user has already liked the property
+        const user = await User.findById(userId);
+        if (user.likedProperties.includes(propertyId)) {
+            return res.status(400).json({ message: "You have already liked this property" });
+        }
+
+        // Add property to liked properties and increment like count
+        user.likedProperties.push(propertyId);
+        property.likes += 1;
+
+        await user.save();
+        await property.save();
+
+        res.status(200).json({ message: "Property liked successfully", likes: property.likes });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// ✅ Save Property (POST)
+router.post("/save/:id", authenticateToken, async (req, res) => {
+    const propertyId = req.params.id;
+    const userId = req.user.id;
+
+    try {
+        // Find the property
+        const property = await Property.findById(propertyId);
+        if (!property) return res.status(404).json({ message: "Property not found" });
+
+        // Check if user has already saved the property
+        const user = await User.findById(userId);
+        if (user.savedProperties.includes(propertyId)) {
+            return res.status(400).json({ message: "You have already saved this property" });
+        }
+
+        // Add property to saved properties
+        user.savedProperties.push(propertyId);
+        await user.save();
+
+        res.status(200).json({ message: "Property saved successfully" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// ✅ Get Liked Properties (GET)
+router.get("/liked", authenticateToken, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).populate("likedProperties");
+        res.status(200).json(user.likedProperties);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// ✅ Get Saved Properties (GET)
+router.get("/saved", authenticateToken, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).populate("savedProperties");
+        res.status(200).json(user.savedProperties);
+    } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });

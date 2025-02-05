@@ -7,6 +7,8 @@ const userSchema = new mongoose.Schema({
     role: { type: String, enum: ["admin", "owner", "user"], default: "user" },
     status: { type: String, enum: ["pending", "approved", "rejected", "suspended"], default: "approved" },
     activityLogs: [{ action: String, timestamp: Date }],
+    likedProperties: [{ type: mongoose.Schema.Types.ObjectId, ref: "Property" }], 
+    savedProperties: [{ type: mongoose.Schema.Types.ObjectId, ref: "Property" }] 
 });
 
 module.exports = mongoose.model("User", userSchema);
