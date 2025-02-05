@@ -81,6 +81,9 @@ const PropertyManagement = () => {
               key={property._id}
               className="bg-white shadow-xl rounded-lg overflow-hidden hover:shadow-2xl transition duration-300 p-5"
             >
+              <p className="text-gray-700 font-medium">
+                <span className="font-bold">Owner:</span> {property.ownerId?.name} <br /><span className="font-bold">Email:</span> {property.ownerId?.email}
+              </p>
               {property.photos && property.photos.length > 0 && (
                 <img
                   src={`http://localhost:5000/${property.photos[0]}`}
