@@ -208,4 +208,15 @@ router.get("/saved", authenticateToken, async (req, res) => {
     }
 });
 
+// Get all saved properties for the user
+router.get("/userDashboard/saved", authenticateToken, async (req, res) => {
+    try {
+      const user = await User.findById(req.user.id).populate("savedProperties");
+      res.status(200).json(user.savedProperties);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+  
+
 module.exports = router;

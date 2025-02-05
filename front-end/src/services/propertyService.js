@@ -103,3 +103,17 @@ export const fetchLikedProperties = async () => {
     throw new Error(error.response?.data?.message || "Failed to fetch liked properties.");
   }
 };
+
+// Fetch saved properties
+export const fetchSavedProperties = async () => {
+  try {
+    const response = await axios.get("http://localhost:5000/api/properties/userDashboard/saved", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`, // assuming you store the token in localStorage
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "Failed to fetch saved properties.");
+  }
+};
