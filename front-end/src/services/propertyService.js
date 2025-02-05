@@ -65,3 +65,41 @@ export const deleteProperty = async (id, token) => {
     throw new Error(error.response?.data?.message || "Property deletion failed");
   }
 };
+export const likeProperty = async (id) => {
+  try {
+    const response = await axios.post(`${API_URL}/like/${id}`, null, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`, // assuming the token is stored in localStorage
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "Like failed");
+  }
+};
+
+// ✅ Save a property
+export const saveProperty = async (id) => {
+  try {
+    const response = await axios.post(`${API_URL}/save/${id}`, null, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`, // assuming the token is stored in localStorage
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "Save failed");
+  }
+};
+export const fetchLikedProperties = async () => {
+  try {
+    const response = await axios.get("http://localhost:5000/api/properties/userDashboard/liked", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`, // assuming you store the token in localStorage
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "Failed to fetch liked properties.");
+  }
+};

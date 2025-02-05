@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchPropertyById } from "../services/propertyService";
-import LikeButton from "./likes";
+import { likeProperty, saveProperty } from "../services/propertyService";
 
 const PropertyDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [property, setProperty] = useState(null);
   const [error, setError] = useState("");
-  const [showMessageBox, setShowMessageBox] = useState(false); // State to toggle message box
+  const [isLiked, setIsLiked] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  const [showMessageBox, setShowMessageBox] = useState(false);
 
   useEffect(() => {
     const getProperty = async () => {
       try {
         const data = await fetchPropertyById(id);
         setProperty(data);
+        setIsLiked(data.isLiked); // Assuming `isLiked` is included in the response
+        setIsSaved(data.isSaved); // Assuming `isSaved` is included in the response
       } catch (err) {
         setError(err.message);
       }
@@ -22,8 +26,26 @@ const PropertyDetails = () => {
     getProperty();
   }, [id]);
 
-  const handleSendClick = () => {
-    setShowMessageBox(!showMessageBox); // Toggle the message box visibility
+  const handleLike = async () => {
+    try {
+      await likeProperty(id); // Call the like API
+      setIsLiked(true);
+      setProperty((prevProperty) => ({
+        ...prevProperty,
+        likes: prevProperty.likes + 1, // Increment the like count
+      }));
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      await saveProperty(id);
+      setIsSaved(true);
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   if (error) {
@@ -78,9 +100,31 @@ const PropertyDetails = () => {
         </p>
       </div>
 
+      {/* Display the number of likes */}
+      <div className="mt-4">
+        <p className="text-gray-700 text-lg">
+          <span className="font-semibold">Likes:</span> {property.likes}
+        </p>
+      </div>
+
+      <div className="mt-6 flex gap-4">
+        <button
+          onClick={handleLike}
+          className={`px-5 py-3 bg-${isLiked ? "green" : "blue"}-600 text-white font-semibold rounded-lg shadow-lg hover:bg-${isLiked ? "green" : "blue"}-700 transition`}
+        >
+          {isLiked ? "Liked" : "Like"}
+        </button>
+        <button
+          onClick={handleSave}
+          className={`px-5 py-3 bg-${isSaved ? "purple" : "yellow"}-600 text-white font-semibold rounded-lg shadow-lg hover:bg-${isSaved ? "purple" : "yellow"}-700 transition`}
+        >
+          {isSaved ? "Saved" : "Save"}
+        </button>
+      </div>
+
       <div className="mt-6">
         <button
-          onClick={handleSendClick}
+          onClick={() => setShowMessageBox(!showMessageBox)}
           className="px-5 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition"
         >
           Send
@@ -102,8 +146,6 @@ const PropertyDetails = () => {
           </div>
         </div>
       )}
-
-      <LikeButton />
     </div>
   );
 };
