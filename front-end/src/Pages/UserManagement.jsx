@@ -23,7 +23,7 @@ const UserManagement = () => {
 
   const handleBanUser = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${id}/ban`, {
+      const response = await fetch(`http://localhost:5000/api/admin/users/${id}/ban`, {
         method: "PUT",
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,

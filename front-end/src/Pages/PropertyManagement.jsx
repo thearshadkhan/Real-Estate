@@ -21,7 +21,7 @@ const PropertyManagement = () => {
 
   const handleApproval = async (id, status) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/properties/${id}/approve`, {
+      const response = await fetch(`http://localhost:5000/api/admin/properties/${id}/approve`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -45,7 +45,7 @@ const PropertyManagement = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/properties/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/admin/properties/${id}`, {
         method: "DELETE",
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,
