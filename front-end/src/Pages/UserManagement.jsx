@@ -48,15 +48,18 @@ const UserManagement = () => {
     <div className="p-6">
       <h2 className="text-3xl font-bold mb-4">User Management</h2>
       {error && <p className="text-red-600">{error}</p>}
-      <div className="space-y-4">
+      
+      {/* Grid layout for user cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {users.map((user) => (
-          <div key={user._id} className="p-4 border border-gray-200 rounded-lg shadow-sm">
-            <h3 className="text-xl font-semibold">{user.username}</h3>
-            <p>{user.email}</p>
-            <p>Status: {user.status}</p>
+          <div key={user._id} className="w-64 p-6 border border-gray-200 rounded-lg shadow-md bg-white">
+            <h3 className="text-xl font-semibold">{user.name}</h3>
+            <p className="text-gray-700">{user.email}</p>
+            <p className="text-gray-700">{user.role}</p>
+            <p className="text-gray-800">Status: <span className="font-medium">{user.status}</span></p>
             <button
               onClick={() => handleBanUser(user._id)}
-              className="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700"
+              className="mt-4 bg-red-700 text-white px-4 py-2 rounded hover:bg-red-800 w-full"
             >
               Ban User
             </button>
@@ -65,6 +68,7 @@ const UserManagement = () => {
       </div>
     </div>
   );
+  
 };
 
 export default UserManagement;

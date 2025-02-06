@@ -10,28 +10,7 @@ const Login = () => {
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
-    // const handleLogin = async (e) => {
-    //     e.preventDefault();
-    //     try {
-    //         const data = await loginUser(email, password);
-    //         localStorage.setItem("token", data.token);
-    //         console.log(data.role)
-
-
-    //         if (data.role === "admin") {
-    //             navigate("/dashboard"); // Redirect admin to dashboard
-    //         } 
-    //         if (data.role === "user") {
-    //             navigate("/PropertyPage"); // Redirect user to home
-    //         } 
-    //         else {
-    //             navigate("/properties"); 
-    //         }
-    //     } catch (err) {
-    //         setError("Invalid credentials or access denied");
-    //     }
-
-    // };
+   
     const handleLogin = async (e) => {
         e.preventDefault();
         try {

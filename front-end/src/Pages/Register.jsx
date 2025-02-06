@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { registerUser } from "../services/userService";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -23,6 +24,7 @@ const Register = () => {
       localStorage.setItem("user", JSON.stringify({ email: formData.email, role: formData.role }));
   
       navigate("/properties");
+      
     } catch (error) {
       setMessage(error);
     }

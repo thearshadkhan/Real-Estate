@@ -55,9 +55,9 @@ const Dashboard = () => {
 
       <nav className="mb-6">
         <ul className="space-y-4 flex flex-col">
-          <li><Link to="properties" className="text-blue-500 text-2xl hover:underline">Property Management</Link></li>
+          <li><Link to="properties" className="text-red-700 text-xl font-bold hover:underline">Property Management</Link></li>
   
-          <li><Link to="users" className="text-blue-500 hover:underline text-2xl">User Management</Link></li>
+          <li><Link to="users" className="text-red-700 hover:underline text-xl font-bold">User Management</Link></li>
         </ul>
       </nav>
       </nav>
