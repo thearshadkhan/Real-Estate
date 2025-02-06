@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { registerUser } from "../services/userService";
 
 const Register = () => {
@@ -18,11 +19,15 @@ const Register = () => {
     e.preventDefault();
     try {
       const response = await registerUser(formData);
-      setMessage(response.message); // "User registered successfully"
+      localStorage.setItem("token", response.token);
+      localStorage.setItem("user", JSON.stringify({ email: formData.email, role: formData.role }));
+  
+      navigate("/properties");
     } catch (error) {
-      setMessage(error); // Error message from backend
+      setMessage(error);
     }
   };
+  
 
   return (
     <div className="mx-40 my-40 p-10 bg-red-200 rounded-lg shadow-md">
@@ -66,6 +71,9 @@ const Register = () => {
           Register
         </button>
       </form>
+      <p className="text-center text-l p-5 text-gray-800">
+            Already have an account? <Link to="/login" className="text-blue-400">Login here</Link>
+           </p>
       {message && <p className="mt-2 text-sm text-gray-700">{message}</p>}
     </div>
   );

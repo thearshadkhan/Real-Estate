@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { loginUser } from "../services/userService";
 import heroBg from "../assets/Login-Hero.png";
 import { FaRegUser } from "react-icons/fa";
@@ -10,29 +10,48 @@ const Login = () => {
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
+    // const handleLogin = async (e) => {
+    //     e.preventDefault();
+    //     try {
+    //         const data = await loginUser(email, password);
+    //         localStorage.setItem("token", data.token);
+    //         console.log(data.role)
+    
+           
+    //         if (data.role === "admin") {
+    //             navigate("/dashboard"); // Redirect admin to dashboard
+    //         } 
+    //         if (data.role === "user") {
+    //             navigate("/PropertyPage"); // Redirect user to home
+    //         } 
+    //         else {
+    //             navigate("/properties"); 
+    //         }
+    //     } catch (err) {
+    //         setError("Invalid credentials or access denied");
+    //     }
+        
+    // };
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const data = await loginUser(email, password);
-            localStorage.setItem("token", data.token);
-            console.log(data.role)
-    
-           
-            if (data.role === "admin") {
-                navigate("/dashboard"); // Redirect admin to dashboard
-            } 
-            if (data.role === "user") {
-                navigate("/PropertyPage"); // Redirect user to home
-            } 
-            else {
-                navigate("/properties"); 
-            }
-        } catch (err) {
-            setError("Invalid credentials or access denied");
+          const data = await loginUser(email, password);
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("user", JSON.stringify({ email: data.email, role: data.role }));
+      
+          if (data.role === "admin") {
+            navigate("/dashboard"); // Redirect admin to dashboard
+        } 
+        if (data.role === "user") {
+            navigate("/"); // Redirect user to home
+        } 
+        else {
+            navigate("/properties"); 
         }
-        
-    };
-
+        } catch (err) {
+          setError("Invalid credentials or access denied");
+        }
+      };
     return (
         <div className="w-full min-h-screen bg-black">
         <div className="flex items-center justify-center w-full h-9/10" style={{backgroundImage:`url(${heroBg})`, backgroundSize: "cover", backgroundPosition: "center", height:"90vh",
@@ -53,6 +72,9 @@ const Login = () => {
                 <button className="bg-gradient-to-r from-white/60 to-white/10 w-full text-xl font-semibold px-6 py-2 rounded-lg text-white hover:bg-gradient-to-l from-white/60 to-white/10" type="submit">Login →</button>
                 
             </form>
+            <p className="text-center text-sm text-gray-400">
+            Don't have an account? <Link to="/register" className="text-blue-400">Register here</Link>
+           </p>
             </div>
         </div>
         </div>
