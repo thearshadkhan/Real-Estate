@@ -29,12 +29,12 @@ const UserManagement = () => {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,
         },
       });
-
+  
       if (response.ok) {
-        const updatedUsers = users.map((user) =>
+        setUsers(users.map((user) =>
           user._id === id ? { ...user, status: "suspended" } : user
-        );
-        setUsers(updatedUsers);
+        ));
+        alert("User has been banned and cannot log in.");
       } else {
         setError("Failed to ban user.");
       }
@@ -42,6 +42,7 @@ const UserManagement = () => {
       setError("Error banning user.");
     }
   };
+  
 
   return (
     <div className="p-6">
