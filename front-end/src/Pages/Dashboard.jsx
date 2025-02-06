@@ -48,13 +48,29 @@ const Dashboard = () => {
           <p className="font-medium">Blocked Users: {metrics.totalBlockedUsers}</p>
         </div>
       </div>
+      <nav className="w-full max-w-auto flex">
+        {/* left sidebar with options */}
+      <nav className="w-3xs border border-gray-200 rounded-lg shadow-sm border-r-2">
+
+
       <nav className="mb-6">
-        <ul className="space-y-4">
-          <li><Link to="properties" className="text-blue-600 hover:underline">Property Management</Link></li>
-          <li><Link to="users" className="text-blue-600 hover:underline">User Management</Link></li>
+        <ul className="space-y-4 flex flex-col">
+          <li><Link to="properties" className="text-blue-500 text-2xl hover:underline">Property Management</Link></li>
+  
+          <li><Link to="users" className="text-blue-500 hover:underline text-2xl">User Management</Link></li>
         </ul>
       </nav>
+      </nav>
+      
+      <nav className="w-7xl ">
       <Outlet />
+      </nav>
+
+
+      </nav>
+      
+      
+      {/* <Outlet /> */}
     </div>
   );
 };
