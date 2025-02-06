@@ -15,6 +15,7 @@ const propertySchema = new mongoose.Schema(
     amenities: { type: [String], default: [] },
     approvalStatus: { type: String, enum: ["pending", "approved", "rejected"], default: "pending" },
     featured: { type: Boolean, default: false },
+    
   },
   { timestamps: true }
 );

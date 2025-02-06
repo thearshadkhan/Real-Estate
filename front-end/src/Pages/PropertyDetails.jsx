@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { fetchPropertyById } from "../services/propertyService";
-import { likeProperty, saveProperty } from "../services/propertyService";
+import { fetchPropertyById, likeProperty, saveProperty } from "../services/propertyService";
+import { FaHeart, FaBookmark, FaCity, FaMapMarkerAlt, FaDollarSign, FaPhoneAlt } from 'react-icons/fa';
 
 const PropertyDetails = () => {
   const { id } = useParams();
@@ -17,8 +17,8 @@ const PropertyDetails = () => {
       try {
         const data = await fetchPropertyById(id);
         setProperty(data);
-        setIsLiked(data.isLiked); // Assuming `isLiked` is included in the response
-        setIsSaved(data.isSaved); // Assuming `isSaved` is included in the response
+        setIsLiked(data.isLiked);
+        setIsSaved(data.isSaved);
       } catch (err) {
         setError(err.message);
       }
@@ -28,11 +28,11 @@ const PropertyDetails = () => {
 
   const handleLike = async () => {
     try {
-      await likeProperty(id); // Call the like API
+      await likeProperty(id);
       setIsLiked(true);
       setProperty((prevProperty) => ({
         ...prevProperty,
-        likes: prevProperty.likes + 1, // Increment the like count
+        likes: prevProperty.likes + 1,
       }));
     } catch (err) {
       setError(err.message);
@@ -89,14 +89,17 @@ const PropertyDetails = () => {
       <p className="text-gray-600 text-lg mt-2">{property.description}</p>
 
       <div className="mt-6 grid md:grid-cols-2 gap-4 bg-white p-5 rounded-lg shadow">
-        <p className="text-gray-700 text-lg">
-          <span className="font-semibold">🏙️ City:</span> {property.city}
+        <p className="text-gray-700 text-lg flex items-center">
+          <FaCity className="mr-2 text-gray-500" /> {property.city}
         </p>
-        <p className="text-gray-700 text-lg">
-          <span className="font-semibold">💰 Price:</span> ${property.price}
+        <p className="text-gray-700 text-lg flex items-center">
+          <FaMapMarkerAlt className="mr-2 text-gray-500" /> {property.locality}
         </p>
-        <p className="text-gray-700 text-lg">
-          <span className="font-semibold">📞 Contact:</span> {property.contact}
+        <p className="text-gray-700 text-lg flex items-center">
+          <FaDollarSign className="mr-2 text-gray-500" /> ${property.price}
+        </p>
+        <p className="text-gray-700 text-lg flex items-center">
+          <FaPhoneAlt className="mr-2 text-gray-500" /> {property.contact}
         </p>
       </div>
 
@@ -110,14 +113,16 @@ const PropertyDetails = () => {
       <div className="mt-6 flex gap-4">
         <button
           onClick={handleLike}
-          className={`px-5 py-3 bg-${isLiked ? "green" : "blue"}-600 text-white font-semibold rounded-lg shadow-lg hover:bg-${isLiked ? "green" : "blue"}-700 transition`}
+          className={`px-5 py-3 bg-${isLiked ? "red" : "gray"}-600 text-white font-semibold rounded-lg shadow-lg hover:bg-${isLiked ? "red" : "gray"}-700 transition`}
         >
+          <FaHeart className={`${isLiked ? "text-red-900" : "text-white"} mr-2`} />
           {isLiked ? "Liked" : "Like"}
         </button>
         <button
           onClick={handleSave}
-          className={`px-5 py-3 bg-${isSaved ? "purple" : "yellow"}-600 text-white font-semibold rounded-lg shadow-lg hover:bg-${isSaved ? "purple" : "yellow"}-700 transition`}
+          className={`px-5 py-3 bg-${isSaved ? "black" : "white"} text-${isSaved ? "white" : "black"} font-semibold rounded-lg shadow-lg hover:bg-${isSaved ? "red" : "blue"}-700 transition`}
         >
+          <FaBookmark className={`${isSaved ? "text-black" : "text-gray-600"} mr-2`} />
           {isSaved ? "Saved" : "Save"}
         </button>
       </div>
@@ -127,7 +132,7 @@ const PropertyDetails = () => {
           onClick={() => setShowMessageBox(!showMessageBox)}
           className="px-5 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition"
         >
-          Send
+          Send Message
         </button>
       </div>
 

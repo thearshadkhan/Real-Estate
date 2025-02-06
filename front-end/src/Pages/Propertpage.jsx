@@ -46,6 +46,9 @@ const PropertyPage = () => {
                   <p className="text-gray-700 font-medium">
                     <span className="font-bold">City:</span> {property.city}
                   </p>
+                  <p className="text-gray-700 font-medium">
+                    <span className="font-bold">Locality:</span> {property.locality}
+                  </p>
                   <p className="text-green-600 font-bold text-lg">${property.price}</p>
                 </div>
               </div>
