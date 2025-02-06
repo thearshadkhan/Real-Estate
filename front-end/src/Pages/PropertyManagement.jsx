@@ -93,9 +93,7 @@ const PropertyManagement = () => {
         <p className="text-center text-gray-500">No properties found.</p>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {properties
-          .filter((property) => property.approvalStatus === "approved")
-          .map((property) => (
+          {properties.map((property) => (
             <div
               key={property._id}
               className="bg-white shadow-xl rounded-lg overflow-hidden hover:shadow-2xl transition duration-300 p-5"
