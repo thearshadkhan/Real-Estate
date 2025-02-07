@@ -13,6 +13,7 @@ import UserManagement from "./Pages/UserManagement";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import UserDashboard from "./Pages/UserDashboard";
+import EditProperty from "./Pages/EditProperty";
 
 const PrivateRoute = ({ element }) => {
   const token = localStorage.getItem("token");
@@ -32,6 +33,7 @@ function App() {
         <Route path="/property/:id" element={<PropertyDetails />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/userDashboard" element={<UserDashboard/>} />
+        <Route path="/edit-property/:id" element={<EditProperty/>} />
 
         {/* Nested Admin Routes */}
         <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />}>
