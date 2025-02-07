@@ -10,13 +10,14 @@ const PropertyPage = () => {
     const fetchProperties = async () => {
       try {
         const data = await fetchAllProperties();
-        setProperties(data);
+        setProperties(data.filter(property => property.approvalStatus === "approved")); // Extra safety
       } catch (err) {
         setError(err.message);
       }
     };
     fetchProperties();
   }, []);
+
 
   return (
     <div className="max-w-7xl mx-auto mt-30 p-6">

@@ -66,13 +66,12 @@ router.post("/", authenticateToken, upload.array("photos", 5), async (req, res) 
 // 📌 Get All Properties (GET - Public)
 router.get("/", async (req, res) => {
     try {
-        const properties = await Property.find().populate("ownerId", "name email");
+        const properties = await Property.find({ approvalStatus: "approved" }).populate("ownerId", "name email");
         res.status(200).json(properties);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
-
 // 📌 Get Property by ID (GET - Public)
 router.get("/:id", async (req, res) => {
     try {

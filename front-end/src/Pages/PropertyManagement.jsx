@@ -7,15 +7,32 @@ const PropertyManagement = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/properties");
+        const response = await fetch("http://localhost:5000/api/admin/all", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("token")}`, // Add token for admin access
+          },
+        });
+  
+        if (!response.ok) {
+          throw new Error("Failed to fetch properties");
+        }
+  
         const data = await response.json();
-        setProperties(data);
+  
+        if (Array.isArray(data)) {
+          setProperties(data); // ✅ Ensure it's an array
+        } else {
+          setProperties([]); // ✅ Prevent .map() errors
+          setError("Unexpected response format.");
+        }
       } catch (err) {
+        console.error("Error fetching properties:", err);
         setError("Failed to load properties.");
-        console.error(err);
       }
     };
-
+  
     fetchProperties();
   }, []);
 

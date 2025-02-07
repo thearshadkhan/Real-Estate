@@ -5,6 +5,15 @@ const authorizeAdmin = require("../middleware/adminMiddleware");
 
 const router = express.Router();
 
+router.get("/all", authorizeAdmin, async (req, res) => {
+  try {
+      const properties = await Property.find().populate("ownerId", "name email");
+      res.status(200).json(properties);
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
+});
+
 // 🏡 Approve or Reject Property Listing
 router.put("/properties/:id/approve", authorizeAdmin, async (req, res) => {
     try {
