@@ -96,10 +96,10 @@ const AddProperty = () => {
           onChange={(e) => setType(e.target.value)}
           className="w-full p-2 border border-white/30 rounded bg-transparent text-white placeholder-white focus:ring-2"
         >
-          <option value="home">Home</option>
-          <option value="apartment">Apartment</option>
-          <option value="office">Office</option>
-          <option value="land">Land</option>
+          <option value="home" className="text-black">Home</option>
+          <option value="apartment" className="text-black">Apartment</option>
+          <option value="office" className="text-black">Office</option>
+          <option value="land" className="text-black">Land</option>
         </select>
         <input
           type="text"
