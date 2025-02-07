@@ -90,7 +90,7 @@ const EditProperty = () => {
 
     try {
       await updateProperty(id, formData, token);
-      navigate(`/properties/${id}`);
+      navigate(`/property/${id}`);
     } catch (err) {
       setError(err.message);
     }

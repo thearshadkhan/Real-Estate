@@ -128,12 +128,18 @@ const PropertyDetails = () => {
       </div>
 
       <div className="mt-6">
-        <button
+      <button
           onClick={() => setShowMessageBox(!showMessageBox)}
-          className="px-5 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition"
+          className="px-4 py-2 m-5 bg-blue-700 text-white rounded"
         >
           Send Message
         </button>
+        <button
+        onClick={() => navigate(`/edit-property/${id}`)}
+        className="px-4 py-2 m-5 bg-red-700 text-white rounded"
+      >
+        Edit Property
+      </button>
       </div>
 
       {showMessageBox && (
@@ -151,12 +157,7 @@ const PropertyDetails = () => {
           </div>
         </div>
       )}
-      <button
-        onClick={() => navigate(`/edit-property/${id}`)}
-        className="px-4 py-2 bg-yellow-500 text-white rounded"
-      >
-        Edit Property
-      </button>
+      
     </div>
   );
 };
