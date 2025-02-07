@@ -37,9 +37,11 @@ function App() {
 
         {/* Nested Admin Routes */}
         <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />}>
-          <Route path="properties" element={<PropertyManagement />} />
-          <Route path="users" element={<UserManagement />} />
-        </Route>
+        <Route index element={<Navigate to="properties" replace />} /> {/* Default to properties */}
+        <Route path="properties" element={<PropertyManagement />} />
+        <Route path="users" element={<UserManagement />} />
+      </Route>
+
       </Routes>
       <Footer />
     </Router>
