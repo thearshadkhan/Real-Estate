@@ -5,7 +5,7 @@ import { fetchPropertyById, updateProperty } from "../services/propertyService";
 const EditProperty = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const token = localStorage.getItem("token"); // Retrieve user token
+  const token = localStorage.getItem("token"); 
 
   const [property, setProperty] = useState({
     title: "",

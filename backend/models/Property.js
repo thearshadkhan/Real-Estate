@@ -10,6 +10,7 @@ const propertySchema = new mongoose.Schema(
     type: { type: String, enum: ["land", "home", "office", "apartment"], required: true },
     size: { type: Number, required: true },
     price: { type: Number, required: true },
+    contact: { type: Number, required: true },
     photos: { type: [String], default: [] },
     likes: { type: Number, default: 0 },
     amenities: { type: [String], default: [] },

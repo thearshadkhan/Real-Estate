@@ -31,13 +31,12 @@ function App() {
         <Route path="/properties" element={<AddProperty />} />
         <Route path="/propertyPage" element={<PropertyPage />} />
         <Route path="/property/:id" element={<PropertyDetails />} />
-        <Route path="/profile" element={<UserProfile />} />
         <Route path="/userDashboard" element={<UserDashboard/>} />
         <Route path="/edit-property/:id" element={<EditProperty/>} />
 
         {/* Nested Admin Routes */}
         <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />}>
-        <Route index element={<Navigate to="properties" replace />} /> {/* Default to properties */}
+        <Route index element={<Navigate to="properties" replace />} /> 
         <Route path="properties" element={<PropertyManagement />} />
         <Route path="users" element={<UserManagement />} />
       </Route>
