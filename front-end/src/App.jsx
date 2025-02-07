@@ -6,7 +6,6 @@ import Register from "./Pages/Register";
 import AddProperty from "./Pages/AddProperty";
 import PropertyPage from "./Pages/Propertpage";
 import PropertyDetails from "./Pages/PropertyDetails";
-import UserProfile from "./Pages/UserProfile";
 import Dashboard from "./Pages/Dashboard";
 import PropertyManagement from "./Pages/PropertyManagement";
 import UserManagement from "./Pages/UserManagement";
