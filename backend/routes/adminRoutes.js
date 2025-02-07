@@ -110,6 +110,22 @@ router.put("/users/:id/ban", authorizeAdmin, async (req, res) => {
       res.status(500).json({ message: error.message });
     }
   });
+
+
+  router.put("/users/:id/unban", authorizeAdmin, async (req, res) => {
+    try {
+      const user = await User.findById(req.params.id);
+      if (!user) return res.status(404).json({ message: "User not found" });
+  
+      user.status = "approved";
+      await user.save();
+  
+      res.status(200).json({ message: "User Unbanned successfully" });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
   // Get Dashboard Metrics
 router.get("/dashboard/metrics", authorizeAdmin, async (req, res) => {
   try {

@@ -42,6 +42,28 @@ const UserManagement = () => {
       setError("Error banning user.");
     }
   };
+
+  const handleUnbanUser = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/admin/users/${id}/unban`, {
+        method: "PUT",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+  
+      if (response.ok) {
+        setUsers(users.map((user) =>
+          user._id === id ? { ...user, status: "approved" } : user
+        ));
+        alert("User has been unbanned and can log in.");
+      } else {
+        setError("Failed to unban user.");
+      }
+    } catch (err) {
+      setError("Error unbanning user.");
+    }
+  };
   
 
   return (
@@ -63,6 +85,14 @@ const UserManagement = () => {
             >
               Ban User
             </button>
+
+            <button
+              onClick={() => handleUnbanUser(user._id)}
+              className="mt-4 bg-red-700 text-white px-4 py-2 rounded hover:bg-red-800 w-full"
+            >
+              Unban User
+            </button>
+            
           </div>
         ))}
       </div>
