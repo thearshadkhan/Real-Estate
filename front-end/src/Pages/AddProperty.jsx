@@ -41,7 +41,7 @@ const AddProperty = () => {
 
       try {
           await addProperty(formData, token);
-          alert("Property added successfully");
+          alert("Property added successfully ,wait for admin approval");
           navigate("/propertyPage");
       } catch (err) {
           alert("Please login first");
