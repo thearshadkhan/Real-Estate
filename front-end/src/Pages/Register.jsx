@@ -23,7 +23,7 @@ const Register = () => {
       localStorage.setItem("token", response.token);
       localStorage.setItem("user", JSON.stringify({ email: formData.email, role: formData.role }));
   
-      navigate("/properties");
+      navigate("/login");
       
     } catch (error) {
       setMessage(error);
