@@ -13,6 +13,8 @@ import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import UserDashboard from "./Pages/UserDashboard";
 import EditProperty from "./Pages/EditProperty";
+import { AuthProvider } from "./context/AuthContext";
+
 
 const PrivateRoute = ({ element }) => {
   const token = localStorage.getItem("token");
@@ -21,6 +23,7 @@ const PrivateRoute = ({ element }) => {
 
 function App() {
   return (
+    <AuthProvider>
     <Router>
       <NavBar />
       <Routes>
@@ -43,6 +46,7 @@ function App() {
       </Routes>
       <Footer />
     </Router>
+    </AuthProvider>
   );
 }
 
