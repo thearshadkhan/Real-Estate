@@ -5,17 +5,17 @@ import { FaSearch } from "react-icons/fa";
 
 const NavBar = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(false);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     setUser(storedUser);
-  }, []);
+  }, [user]);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    setUser(null);
+    setUser(false);
     navigate("/");
   };
 
