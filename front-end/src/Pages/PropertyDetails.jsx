@@ -134,12 +134,6 @@ const PropertyDetails = () => {
         >
           Send Message
         </button>
-        <button
-        onClick={() => navigate(`/edit-property/${id}`)}
-        className="px-4 py-2 m-5 bg-red-700 text-white rounded"
-      >
-        Edit Property
-      </button>
       </div>
 
       {showMessageBox && (
