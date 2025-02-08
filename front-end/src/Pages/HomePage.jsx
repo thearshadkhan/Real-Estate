@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { fetchAllProperties } from "../services/propertyService";
 import heroBg from "../assets/hero-section.jpg";
 import { FaSearch } from "react-icons/fa";
+import errorImage from '../assets/ErrorImage.png'
 
 const HomePage = () => {
   const [properties, setProperties] = useState([]);
@@ -11,7 +12,7 @@ const HomePage = () => {
     const fetchProperties = async () => {
       try {
         const data = await fetchAllProperties();
-        setProperties(data.slice(0, 3)); // Show only the first 3 properties
+        setProperties(data.slice(0, 9)); // Show only the first 3 properties
       } catch (error) {
         console.error("Error fetching properties:", error);
       }
@@ -20,7 +21,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="relative w-full min-h-screen bg-black">
+    <div className="relative w-full min-h-screen bg-white">
       {/* Hero Section */}
       <div
         className="relative flex flex-col justify-center items-center text-center text-white py-32 px-6"
@@ -40,20 +41,23 @@ const HomePage = () => {
         </h2>
 
         {/* Search Filters */}
-        <div className="bg-black bg-opacity-50 rounded-full p-4 mt-6 flex gap-4">
-          <select className="py-2 px-4 bg-black text-white rounded">
+        <div className="bg-white/60 bg-opacity-50 rounded-full p-4 mt-6 flex gap-4">
+          <select className="py-2 px-4 font-semibold text-black rounded outline-none">
             <option>Home</option>
+            <option>Home</option>
+            <option>Home</option>
+
           </select>
-          <select className="py-2 px-4 bg-black text-white rounded">
+          <select className="py-2 px-4 font-semibold text-black rounded outline-none">
             <option>Location</option>
           </select>
-          <select className="py-2 px-4 bg-black text-white rounded">
+          <select className="py-2 px-4 font-semibold text-black rounded outline-none">
             <option>Size</option>
           </select>
-          <select className="py-2 px-4  bg-black text-white rounded">
+          <select className="py-2 px-4 font-semibold text-black rounded outline-none">
             <option>Price</option>
           </select>
-          <button className="flex items-center space-x-2 bg-red-700 hover:bg-red-600 text-white px-4 py-2 rounded-full">
+          <button className="flex items-center space-x-2 font-semibold bg-red-700 hover:bg-red-600 text-white px-4 py-2 rounded-full">
             <FaSearch className="text-lg" />
             <span>Search</span>
           </button>
@@ -67,13 +71,17 @@ const HomePage = () => {
           {properties.map((property) => (
             <Link to={`/property/${property._id}`} key={property._id} className="block transform transition hover:scale-105">
               <div className="bg-white shadow-xl rounded-lg overflow-hidden hover:shadow-2xl transition duration-300">
-                {property.photos.length > 0 && (
+                {property.photos.length > 0 ? (
                   <img
-                    src={`http://localhost:5000/${property.photos[0]}`}
-                    alt={property.title}
-                    className="w-full h-60 object-cover"
-                  />
-                )}
+                  src={`http://localhost:5000/${property.photos[0]}`}
+                  alt={property.title}
+                  className="w-full h-60 object-cover"
+                />
+                ): ( <img
+                  src={errorImage}
+                  alt={property.title}
+                  className="w-full h-60 object-cover"
+                />)}
                 <div className="p-5">
                   <h3 className="text-2xl font-semibold text-gray-900">{property.title}</h3>
                   <p className="text-gray-600 text-sm mt-2">{property.description.slice(0, 80)}...</p>

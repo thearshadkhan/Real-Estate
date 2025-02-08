@@ -114,32 +114,32 @@ const NavBar = () => {
         <input
           type="text"
           placeholder="Search..."
-          className="w-full bg-black pl-10 pr-4 py-2 rounded-full"
+          className="w-full bg-white text-black pl-10 pr-4 py-2 rounded-full outline-none"
         />
-        <FaSearch className="absolute cursor-pointer left-3 top-3 text-gray-400 text-lg" />
+        <FaSearch className="absolute cursor-pointer left-3 top-3 text-gray-800 text-lg" />
       </div>
 
       {/* Right Section */}
       <div className="flex gap-4 items-center">
-        <Link to="/propertyPage" className="px-4 py-2 rounded-full cursor-pointer hover:bg-red-900 transition">
+        <Link to="/propertyPage" className="px-4 py-2 font-bold rounded-full cursor-pointer hover:bg-white hover:text-black transition">
           Properties
         </Link>
 
         {user ? (
           <>
-            <Link to="/userDashboard" className="px-4 py-2 rounded-full cursor-pointer hover:bg-red-900 transition">
+            <Link to="/userDashboard" className="px-4 py-2 font-bold rounded-full cursor-pointer hover:bg-white hover:text-black transition">
               Profile
             </Link>
-            <button onClick={handleLogout} className="px-4 py-2 rounded-full cursor-pointer hover:bg-red-900 transition">
+            <button onClick={handleLogout} className="px-4 py-2 font-bold rounded-full cursor-pointer hover:bg-white hover:text-black transition">
               Logout
             </button>
           </>
         ) : (
           <>
-            <Link to="/login" className="px-4 py-2 rounded-full cursor-pointer hover:bg-red-900 transition">
+            <Link to="/login" className="px-4 py-2 font-bold rounded-full cursor-pointer hover:bg-white hover:text-black transition">
               Login →
             </Link>
-            <Link to="/register" className="px-4 py-2 rounded-full cursor-pointer hover:bg-red-900 transition">
+            <Link to="/register" className="px-4 py-2 font-bold rounded-full cursor-pointer hover:bg-white hover:text-black transition">
               Register →
             </Link>
           </>
