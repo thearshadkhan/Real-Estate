@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { fetchAllProperties } from "../services/propertyService";
 import { Link } from "react-router-dom";
+// import React from "react";
+import errorImage from '../assets/ErrorImage.png';
 
 const PropertyPage = () => {
   const [properties, setProperties] = useState([]);
@@ -33,13 +35,17 @@ const PropertyPage = () => {
         {properties.map((property) => (
           <Link to={`/property/${property._id}`} key={property._id} className="block transform transition hover:scale-105">
             <div className="bg-white shadow-xl rounded-lg overflow-hidden hover:shadow-2xl transition duration-300">
-              {property.photos.length > 0 && (
-                <img
+              {property.photos.length > 0 ? (
+                  <img
                   src={`http://localhost:5000/${property.photos[0]}`}
                   alt={property.title}
                   className="w-full h-60 object-cover"
                 />
-              )}
+                ): ( <img
+                  src={errorImage}
+                  alt={property.title}
+                  className="w-full h-60 object-cover"
+                />)}
               <div className="p-5">
                 <h3 className="text-2xl font-semibold text-gray-900">{property.title}</h3>
                 <p className="text-gray-600 text-sm mt-2">{property.description.slice(0, 80)}...</p>
