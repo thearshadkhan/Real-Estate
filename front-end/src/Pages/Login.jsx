@@ -83,7 +83,7 @@ const Login = () => {
         try {
             const data = await loginUser(email, password);
             const userData = { email: data.email, role: data.role };
-
+            localStorage.setItem("token", data.token);
             login(userData); // ✅ Update global authentication state
 
             if (data.role === "admin") {
