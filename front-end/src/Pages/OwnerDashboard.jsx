@@ -24,12 +24,12 @@ const OwnerDashboard = () => {
   if (loading) return <p className="text-center mt-4">Loading properties...</p>;
 
   return (
-    <div className="container mx-auto p-4 mt-22">
-      <h2 className="text-xl font-bold mb-4">Your Listed Properties</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="mt-20 max-w-7xl mx-auto p-6 bg-gray-100 rounded-lg shadow-lg">
+      <h1 className="text-3xl font-bold mb-6">Your Listed Properties</h1>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {properties.length > 0 ? (
           properties.map((property) => (
-            <div key={property._id} className="border rounded-lg shadow-md p-4 bg-white">
+            <div key={property._id} >
             <img
         src={`http://localhost:5000/${property.photos[0]}`}
         alt={property.title}
@@ -40,7 +40,7 @@ const OwnerDashboard = () => {
       <p className="text-gray-800 font-semibold">${property.price}</p>
       <button
                 onClick={() => navigate(`/details/${property._id}`)}
-                className="mt-3 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
+                className="mt-3 w-full bg-red-700 text-white py-2 rounded-lg hover:bg-red-800"
               >
                 View Details
               </button>
