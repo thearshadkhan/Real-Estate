@@ -47,31 +47,34 @@ const AboutPage = () => {
         </p>
       </div>
 
-      {/* Our Values Section with Slide Transition Effect */}
-      <div className="max-w-4xl mx-auto mb-12">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-6 text-center">Our Values</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {values.map((value, index) => (
-            <div key={index} className="relative overflow-hidden bg-white p-6 rounded-lg shadow-lg group">
-              {/* Sliding Red Background Effect */}
-              <div className="absolute inset-0 bg-red-700 transform translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
+{/* Our Values Section with Slide Transition Effect */}
+<div className="max-w-4xl mx-auto mb-12">
+  <h2 className="text-2xl font-semibold text-gray-900 mb-6 text-center">Our Values</h2>
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {values.map((value, index) => (
+      <div key={index} className="relative overflow-hidden bg-white p-6 rounded-lg shadow-lg group">
+        {/* Sliding Red Background Effect */}
+        <div className="absolute inset-0 bg-red-700 transform translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
 
-              {/* Icon inside Circle */}
-              <div className="relative z-10 flex flex-col items-center text-center">
-                <div className="w-16 h-16 flex items-center justify-center rounded-full border-4 border-red-700 text-red-700 group-hover:text-white group-hover:border-white transition-all duration-500">
-                  {value.icon}
-                </div>
-                <h3 className="mt-4 text-xl font-semibold text-gray-900 group-hover:text-white transition-colors duration-500">
-                  {value.title}
-                </h3>
-                <p className="mt-2 text-gray-700 group-hover:text-white transition-colors duration-500">
-                  {value.desc}
-                </p>
-              </div>
-            </div>
-          ))}
+        {/* Icon inside Circle with 360° Rotation Effect */}
+        <div className="relative z-10 flex flex-col items-center text-center">
+          <div className="w-16 h-16 flex items-center justify-center rounded-full border-4 border-red-700 text-red-700 
+                          group-hover:text-white group-hover:border-white transition-all duration-700 
+                          transform group-hover:rotate-[360deg]">
+            {value.icon}
+          </div>
+          <h3 className="mt-4 text-xl font-semibold text-gray-900 group-hover:text-white transition-colors duration-500">
+            {value.title}
+          </h3>
+          <p className="mt-2 text-gray-700 group-hover:text-white transition-colors duration-500">
+            {value.desc}
+          </p>
         </div>
       </div>
+    ))}
+  </div>
+</div>
+
 
       {/* Our Team Section */}
       <div className="max-w-4xl mx-auto bg-white p-8 shadow-lg rounded-lg">
