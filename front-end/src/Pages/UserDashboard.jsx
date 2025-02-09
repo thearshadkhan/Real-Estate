@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchLikedProperties, fetchSavedProperties,toggleSaveProperty  } from "../services/propertyService"; // Add functions to fetch liked and saved properties
-import PropertyCard from "./PropertyCard"; // A component to display property details
+import PropertyCard from "../components/PropertyCard"; // A component to display property details
 
 const UserDashboard = () => {
   const [likedProperties, setLikedProperties] = useState([]);
