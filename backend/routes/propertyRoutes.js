@@ -227,6 +227,15 @@ router.get("/userDashboard/saved", authenticateToken, async (req, res) => {
       res.status(500).json({ message: error.message });
     }
   });
-  
+  router.get("/owner/dashboard", authenticateToken, async (req, res) => {
+    try {
+        const ownerId = req.user.id; // Get the logged-in user's ID
+        const properties = await Property.find({ ownerId }).populate("ownerId", "name email");
+
+        res.status(200).json(properties);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
 
 module.exports = router;

@@ -15,6 +15,8 @@ import EditProperty from "./Pages/EditProperty";
 import { AuthProvider } from "./context/AuthContext";
 import PropertyPage from "./Pages/Propertpage";
 import "./App.css"
+import OwnerDashboard from "./Pages/OwnerDashboard";
+import Details from "./components/Details";
 
 const PrivateRoute = ({ element }) => {
   const token = localStorage.getItem("token");
@@ -51,8 +53,9 @@ function App() {
           <Route path="/propertyPage" element={<PropertyPage />} />
           <Route path="/property/:id" element={<PropertyDetails />} />
           <Route path="/userDashboard" element={<UserDashboard />} />
+          <Route path="/owner-dashboard" element={<OwnerDashboard />} />
           <Route path="/edit-property/:id" element={<EditProperty />} />
-
+          <Route path="/details/:id" element={<Details />} />
           {/* Nested Admin Routes */}
           <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />}>
             <Route index element={<Navigate to="properties" replace />} />

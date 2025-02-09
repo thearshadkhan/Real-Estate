@@ -3,14 +3,14 @@ import { useParams, useNavigate } from "react-router-dom";
 import { fetchPropertyById, likeProperty, saveProperty } from "../services/propertyService";
 import { FaEdit,FaHeart, FaBookmark, FaCity, FaMapMarkerAlt, FaDollarSign, FaPhoneAlt } from 'react-icons/fa';
 
-const PropertyDetails = () => {
+const Details = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [property, setProperty] = useState(null);
   const [error, setError] = useState("");
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
-  const [showMessageBox, setShowMessageBox] = useState(false);
+ 
 
   useEffect(() => {
     const getProperty = async () => {
@@ -126,35 +126,19 @@ const PropertyDetails = () => {
           {isSaved ? "Saved" : "Save"}
         </button>
       </div>
-  
+      <button
+        onClick={() => navigate(`/edit-property/${property._id}`)}
+        className="px-5 mt-5 py-3 bg-green-600 text-white font-semibold rounded-lg shadow-lg hover:bg-green-700 transition flex items-center"
+      >
+        <FaEdit className="mr-2" /> Edit Property
+      </button>
 
-      <div className="mt-6">
-        <button
-          onClick={() => setShowMessageBox(!showMessageBox)}
-          className="px-4 py-2 m-5 bg-blue-700 text-white rounded"
-        >
-          Send Message
-        </button>
-      </div>
+     
 
-      {showMessageBox && (
-        <div className="mt-6 bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">Send Message</h3>
-          <textarea
-            placeholder="Type your message..."
-            className="w-full p-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
-            rows="4"
-          />
-          <div className="flex justify-end">
-            <button className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
-              Send Message
-            </button>
-          </div>
-        </div>
-      )}
+      
 
     </div>
   );
 };
 
-export default PropertyDetails;
+export default Details;

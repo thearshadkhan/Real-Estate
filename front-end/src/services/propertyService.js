@@ -143,3 +143,16 @@ export const toggleSaveProperty = async (id) => {
       throw new Error(error.response?.data?.message || "Save/Unsave failed");
   }
 };
+
+export const fetchOwnerProperties = async () => {
+  try {
+    const response = await axios.get("http://localhost:5000/api/properties/owner/dashboard", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`, 
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "Failed to fetch owner properties.");
+  }
+};
