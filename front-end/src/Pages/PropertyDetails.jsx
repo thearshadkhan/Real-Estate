@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchPropertyById, likeProperty, saveProperty } from "../services/propertyService";
-import { FaHeart, FaBookmark, FaCity, FaMapMarkerAlt, FaDollarSign, FaPhoneAlt } from 'react-icons/fa';
+import { FaEdit,FaHeart, FaBookmark, FaCity, FaMapMarkerAlt, FaDollarSign, FaPhoneAlt } from 'react-icons/fa';
 
 const PropertyDetails = () => {
   const { id } = useParams();
@@ -126,9 +126,15 @@ const PropertyDetails = () => {
           {isSaved ? "Saved" : "Save"}
         </button>
       </div>
+      <button
+        onClick={() => navigate(`/edit-property/${property._id}`)}
+        className="px-5 mt-5 py-3 bg-green-600 text-white font-semibold rounded-lg shadow-lg hover:bg-green-700 transition flex items-center"
+      >
+        <FaEdit className="mr-2" /> Edit Property
+      </button>
 
       <div className="mt-6">
-      <button
+        <button
           onClick={() => setShowMessageBox(!showMessageBox)}
           className="px-4 py-2 m-5 bg-blue-700 text-white rounded"
         >
@@ -151,7 +157,7 @@ const PropertyDetails = () => {
           </div>
         </div>
       )}
-      
+
     </div>
   );
 };

@@ -1,196 +1,121 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import { FaSearch, FaArrowUp } from "react-icons/fa";
 import { fetchAllProperties } from "../services/propertyService";
 import heroBg from "../assets/hero-section.jpg";
-import { FaSearch } from "react-icons/fa";
 import errorImage from "../assets/ErrorImage.png";
 
 const HomePage = () => {
   const [properties, setProperties] = useState([]);
   const [filteredProperties, setFilteredProperties] = useState([]);
-  const [filters, setFilters] = useState({
-    type: "",
-    location: "",
-    size: "",
-    price: "",
-  });
+  const [filters, setFilters] = useState({ type: "", location: "", size: "", price: "" });
+  const [showScrollButton, setShowScrollButton] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const propertiesSectionRef = useRef(null);
 
   useEffect(() => {
     const fetchProperties = async () => {
       try {
+        setLoading(true);
         const data = await fetchAllProperties();
-        setProperties(data);
-        setFilteredProperties(data.slice(0, 9));
+        setTimeout(() => {
+          setProperties(data);
+          setFilteredProperties(data.slice(0, 9));
+          setLoading(false);
+        }, 300);
       } catch (error) {
         console.error("Error fetching properties:", error);
+        setLoading(false);
       }
     };
     fetchProperties();
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollButton(window.scrollY > 300);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const handleFilterChange = (e) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
   };
 
   const handleSearch = () => {
-  
     let filtered = properties;
-  
-    if (filters.type) {
-      filtered = filtered.filter((prop) => {
-        return prop.type.toLowerCase().trim() === filters.type.toLowerCase().trim();
-      });
-    }
-  
-    if (filters.location) {
-      filtered = filtered.filter((prop) => prop.city.toLowerCase().trim() === filters.location.toLowerCase().trim());
-    }
-    if (filters.size) {
-      filtered = filtered.filter((prop) => prop.size === filters.size);
-    }
-    if (filters.price) {
-      filtered = filtered.filter((prop) => prop.price <= Number(filters.price));
-    }
-  
+    if (filters.type) filtered = filtered.filter((prop) => prop.type.toLowerCase().trim() === filters.type.toLowerCase().trim());
+    if (filters.location) filtered = filtered.filter((prop) => prop.city.toLowerCase().trim() === filters.location.toLowerCase().trim());
+    if (filters.size) filtered = filtered.filter((prop) => prop.size === filters.size);
+    if (filters.price) filtered = filtered.filter((prop) => prop.price <= Number(filters.price));
     setFilteredProperties(filtered.slice(0, 9));
+    propertiesSectionRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-  
 
   return (
     <div className="relative w-full min-h-screen bg-white">
       {/* Hero Section */}
-      <div
-        className="relative flex flex-col justify-center items-center text-center text-white py-32 px-6"
-        style={{
-          backgroundImage: `url(${heroBg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          height: "90vh",
-          borderBottomRightRadius: 20,
-          borderBottomLeftRadius: 20,
-        }}
-      >
-        <h2 className="text-5xl font-bold mb-5">
-          Buying & Selling Property<br /> Made Easy With{" "}
-          <br />
-          <span className="text-red-600 text-7xl">Brick & Beams</span>
-        </h2>
-
-        {/* Search Filters */}
+      <div className="relative flex flex-col justify-center items-center text-center text-white py-32 px-6" style={{ backgroundImage: `url(${heroBg})`, backgroundSize: "cover", backgroundPosition: "center", height: "90vh", borderBottomRightRadius: 20, borderBottomLeftRadius: 20 }}>
+        <h2 className="text-5xl font-bold mb-5">Buying & Selling Property<br /> Made Easy With <br /><span className="text-red-600 text-7xl">Brick & Beams</span></h2>
         <div className="bg-white/60 bg-opacity-50 rounded-full p-4 mt-6 flex gap-4">
-          <select
-            name="type"
-            className="py-2 px-4 font-semibold text-black rounded outline-none"
-            onChange={handleFilterChange}
-          >
-            <option value="">Type</option>
-            <option value="Home">Home</option>
-            <option value="Apartment">Apartment</option>
-            <option value="Villa">Villa</option>
+          <select name="type" className="py-2 px-4 font-semibold text-black rounded outline-none" onChange={handleFilterChange}>
+            <option value="">Type</option><option value="Home">Home</option><option value="Apartment">Apartment</option><option value="Villa">Villa</option>
           </select>
-          <select
-            name="location"
-            className="py-2 px-4 font-semibold text-black rounded outline-none"
-            onChange={handleFilterChange}
-          >
-            <option value="">Location</option>
-            <option value="Agra">Agra</option>
-            <option value="Delhi">Delhi</option>
-            <option value="Mumbai">Mumbai</option>
+          <select name="location" className="py-2 px-4 font-semibold text-black rounded outline-none" onChange={handleFilterChange}>
+            <option value="">Location</option><option value="Agra">Agra</option><option value="Delhi">Delhi</option><option value="Mumbai">Mumbai</option>
           </select>
-          <select
-            name="size"
-            className="py-2 px-4 font-semibold text-black rounded outline-none"
-            onChange={handleFilterChange}
-          >
-            <option value="">Size</option>
-            <option value="1BHK">1 BHK</option>
-            <option value="2BHK">2 BHK</option>
-            <option value="3BHK">3 BHK</option>
+          <select name="size" className="py-2 px-4 font-semibold text-black rounded outline-none" onChange={handleFilterChange}>
+            <option value="">Size</option><option value="1BHK">1 BHK</option><option value="2BHK">2 BHK</option><option value="3BHK">3 BHK</option>
           </select>
-          <select
-            name="price"
-            className="py-2 px-4 font-semibold text-black rounded outline-none"
-            onChange={handleFilterChange}
-          >
-            <option value="">Max Price</option>
-            <option value="100000">$100,000</option>
-            <option value="200000">$200,000</option>
-            <option value="300000">$300,000</option>
+          <select name="price" className="py-2 px-4 font-semibold text-black rounded outline-none" onChange={handleFilterChange}>
+            <option value="">Max Price</option><option value="100000">$100,000</option><option value="200000">$200,000</option><option value="300000">$300,000</option>
           </select>
-          <button
-            onClick={handleSearch}
-            className="flex items-center space-x-2 font-semibold bg-red-700 hover:bg-red-600 text-white px-4 py-2 rounded-full"
-          >
-            <FaSearch className="text-lg" />
-            <span>Search</span>
+          <button onClick={handleSearch} className="flex items-center space-x-2 font-semibold bg-red-700 hover:bg-red-600 text-white px-4 py-2 rounded-full">
+            <FaSearch className="text-lg" /><span>Search</span>
           </button>
         </div>
       </div>
 
       {/* Property Listings */}
-      <div className="max-w-7xl mx-auto p-6">
-        <h2 className="text-4xl font-bold text-red-700 mb-6 text-center">
-          Featured Properties
-        </h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProperties.length > 0 ? (
-            filteredProperties.map((property) => (
-              <Link
-                to={`/property/${property._id}`}
-                key={property._id}
-                className="block transform transition hover:scale-105"
-              >
-                <div className="bg-white shadow-xl rounded-lg overflow-hidden hover:shadow-2xl transition duration-300">
-                  {property.photos.length > 0 ? (
-                    <img
-                      src={`http://localhost:5000/${property.photos[0]}`}
-                      alt={property.title}
-                      className="w-full h-60 object-cover"
-                    />
-                  ) : (
-                    <img
-                      src={errorImage}
-                      alt={property.title}
-                      className="w-full h-60 object-cover"
-                    />
-                  )}
-                  <div className="p-5">
-                    <h3 className="text-2xl font-semibold text-gray-900">
-                      {property.title}
-                    </h3>
-                    <p className="text-gray-600 text-sm mt-2">
-                      {property.description.slice(0, 80)}...
-                    </p>
-                    <div className="mt-4 space-y-2">
-                      <p className="text-gray-700 font-medium">
-                        <span className="font-bold">Type:</span> {property.type}
-                      </p>
-                      <p className="text-gray-700 font-medium">
-                        <span className="font-bold">City:</span> {property.city}
-                      </p>
-                      <p className="text-green-600 font-bold text-lg">
-                        ${property.price}
-                      </p>
+      <div ref={propertiesSectionRef} className="max-w-7xl mx-auto p-6">
+        <h2 className="text-4xl font-bold text-red-700 mb-6 text-center">Featured Properties</h2>
+        {loading ? (
+          <div className="flex justify-center items-center h-40">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-red-700"></div>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredProperties.length > 0 ? (
+              filteredProperties.map((property) => (
+                <Link to={`/property/${property._id}`} key={property._id} className="block transform transition hover:scale-105">
+                  <div className="bg-white shadow-xl rounded-lg overflow-hidden hover:shadow-2xl transition duration-300">
+                    <img src={property.photos.length > 0 ? `http://localhost:5000/${property.photos[0]}` : errorImage} alt={property.title} className="w-full h-60 object-cover" />
+                    <div className="p-5">
+                      <h3 className="text-2xl font-semibold text-gray-900">{property.title}</h3>
+                      <p className="text-gray-600 text-sm mt-2">{property.description.slice(0, 80)}...</p>
+                      <p className="text-green-600 font-bold text-lg">${property.price}</p>
                     </div>
                   </div>
-                </div>
-              </Link>
-            ))
-          ) : (
-            <p className="text-center text-gray-500">No properties found.</p>
-          )}
-        </div>
-
-        {/* View All Button */}
-        <div className="text-center mt-10">
-          <Link to="/propertyPage">
-            <button className="bg-red-700 text-white px-6 py-3 text-lg rounded-lg hover:bg-red-800 transition">
-              View All Properties
-            </button>
-          </Link>
-        </div>
+                </Link>
+              ))
+            ) : (
+              <p className="text-center text-gray-500">No properties found.</p>
+            )}
+          </div>
+        )}
       </div>
+
+      {/* Back to Top Button */}
+      {showScrollButton && (
+        <button onClick={scrollToTop} className="fixed bottom-8 right-8 bg-red-700 text-white p-3 rounded-full shadow-lg hover:bg-red-800 transition">
+          <FaArrowUp className="text-lg" />
+        </button>
+      )}
     </div>
   );
 };
