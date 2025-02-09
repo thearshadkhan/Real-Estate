@@ -1,6 +1,7 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 const Footer = () => {
+ 
   return (
     <footer className="bg-black text-white py-16 px-8">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-lg">
@@ -19,7 +20,7 @@ const Footer = () => {
           <h3 className="text-2xl font-semibold">Quick Links</h3>
           <ul className="mt-4 space-y-3">
             <li><a href="#" className="hover:text-red-500 transition">Home</a></li>
-            <li><a href="#" className="hover:text-red-500 transition">About Us</a></li>
+            <li><Link to="AboutPage" className="hover:text-red-500 transition">About Us</Link></li>
             <li><a href="#" className="hover:text-red-500 transition">Properties</a></li>
             <li><a href="#" className="hover:text-red-500 transition">Contact</a></li>
           </ul>
