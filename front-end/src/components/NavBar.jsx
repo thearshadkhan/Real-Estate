@@ -40,6 +40,14 @@ const NavBar = () => {
     navigate("/");
   };
 
+  // Determine the dashboard link based on user role
+  const getDashboardLink = () => {
+    if (user?.role === "admin") return "/dashboard";
+    if (user?.role === "owner") return "/owner-Dashboard";
+    if (user?.role === "user") return "/userDashboard";
+    return "/";
+  };
+
   return (
     <nav className="fixed top-0 w-9/10 bg-red-700 p-4 text-white flex flex-row justify-between ml-15 mt-2 z-10 rounded-full">
       <Link to="/">
@@ -82,8 +90,8 @@ const NavBar = () => {
 
         {user ? (
           <>
-            <Link to="/userDashboard" className="px-4 py-2 font-bold rounded-full cursor-pointer hover:bg-white hover:text-black transition">
-              Profile
+            <Link to={getDashboardLink()} className="px-4 py-2 font-bold rounded-full cursor-pointer hover:bg-white hover:text-black transition">
+              Dashboard
             </Link>
             <button onClick={handleLogout} className="px-4 py-2 font-bold rounded-full cursor-pointer hover:bg-white hover:text-black transition">
               Logout
