@@ -1,6 +1,14 @@
 import React from "react";
+import { FaShieldAlt, FaStar, FaLightbulb, FaEye, FaUsers } from "react-icons/fa";
 
 const AboutPage = () => {
+  const values = [
+    { title: "Integrity", desc: "Upholding the highest professional and ethical standards.", icon: <FaShieldAlt /> },
+    { title: "Excellence", desc: "Delivering top-tier service in every interaction.", icon: <FaStar /> },
+    { title: "Innovation", desc: "Utilizing the latest technology for better results.", icon: <FaLightbulb /> },
+    { title: "Transparency", desc: "Keeping our clients informed every step of the way.", icon: <FaEye /> },
+    { title: "Community", desc: "Actively contributing to the neighborhoods we serve.", icon: <FaUsers /> },
+  ];
   return (
     <div className="bg-gray-100 text-gray-800 py-16 px-6 lg:px-20">
       {/* Header Section */}
@@ -41,22 +49,19 @@ const AboutPage = () => {
 
       {/* Our Values Section with Slide Transition Effect */}
       <div className="max-w-4xl mx-auto mb-12">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-6">Our Values</h2>
+        <h2 className="text-2xl font-semibold text-gray-900 mb-6 text-center">Our Values</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[
-            { title: "Integrity", desc: "Upholding the highest professional and ethical standards." },
-            { title: "Excellence", desc: "Delivering top-tier service in every interaction." },
-            { title: "Innovation", desc: "Utilizing the latest technology for better results." },
-            { title: "Transparency", desc: "Keeping our clients informed every step of the way." },
-            { title: "Community", desc: "Actively contributing to the neighborhoods we serve." },
-          ].map((value, index) => (
+          {values.map((value, index) => (
             <div key={index} className="relative overflow-hidden bg-white p-6 rounded-lg shadow-lg group">
               {/* Sliding Red Background Effect */}
               <div className="absolute inset-0 bg-red-700 transform translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
 
-              {/* Text Content (Make sure it's above the red background) */}
-              <div className="relative z-10">
-                <h3 className="text-xl font-semibold text-gray-900 group-hover:text-white transition-colors duration-500">
+              {/* Icon inside Circle */}
+              <div className="relative z-10 flex flex-col items-center text-center">
+                <div className="w-16 h-16 flex items-center justify-center rounded-full border-4 border-red-700 text-red-700 group-hover:text-white group-hover:border-white transition-all duration-500">
+                  {value.icon}
+                </div>
+                <h3 className="mt-4 text-xl font-semibold text-gray-900 group-hover:text-white transition-colors duration-500">
                   {value.title}
                 </h3>
                 <p className="mt-2 text-gray-700 group-hover:text-white transition-colors duration-500">
