@@ -18,6 +18,8 @@ import "./App.css"
 import OwnerDashboard from "./Pages/OwnerDashboard";
 import Details from "./components/Details";
 import AboutPage from "./Pages/AboutPage";
+import ContactPage from "./Pages/ContactPage";
+
 
 
 const PrivateRoute = ({ element }) => {
@@ -59,6 +61,9 @@ function App() {
           <Route path="/edit-property/:id" element={<EditProperty />} />
           <Route path="/details/:id" element={<Details />} />
           <Route path="/AboutPage" element={<AboutPage/>}/>
+          <Route path="/contact" element={<ContactPage/>}/>
+
+          
           {/* Nested Admin Routes */}
           <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />}>
             <Route index element={<Navigate to="properties" replace />} />
