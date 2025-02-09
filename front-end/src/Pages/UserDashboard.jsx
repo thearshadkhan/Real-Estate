@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchLikedProperties, fetchSavedProperties,toggleSaveProperty  } from "../services/propertyService"; // Add functions to fetch liked and saved properties
+import { fetchLikedProperties, fetchSavedProperties,toggleLikeProperty,toggleSaveProperty  } from "../services/propertyService"; // Add functions to fetch liked and saved properties
 import PropertyCard from "../components/PropertyCard"; // A component to display property details
 
 const UserDashboard = () => {
@@ -28,6 +28,17 @@ const UserDashboard = () => {
     getSavedProperties();
   }, []);
 
+  // Handle Unlike
+  const handleUnlike = async (id) => {
+    try {
+      await toggleLikeProperty(id);
+      setLikedProperties(likedProperties.filter(property => property._id !== id));
+    } catch (err) {
+      setError("Failed to unlike the property.");
+    }
+  };
+
+
  // Handle Unsave
  const handleUnsave = async (id) => {
   try {
@@ -51,7 +62,7 @@ const UserDashboard = () => {
         {likedProperties.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {likedProperties.map((property) => (
-              <PropertyCard key={property._id} property={property} />
+              <PropertyCard key={property._id} property={property}  onUnlike={() => handleUnlike(property._id)}/>
             ))}
           </div>
         ) : (

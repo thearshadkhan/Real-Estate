@@ -138,20 +138,22 @@ router.post("/like/:id", authenticateToken, async (req, res) => {
     const userId = req.user.id;
 
     try {
-        // Find the property
         const property = await Property.findById(propertyId);
         if (!property) return res.status(404).json({ message: "Property not found" });
 
-        // Check if user has already liked the property
         const user = await User.findById(userId);
-        if (user.likedProperties.includes(propertyId)) {
-            return res.status(400).json({ message: "You have already liked this property" });
+        const index = user.likedProperties.indexOf(propertyId);
+
+        if (index !== -1) {
+            user.likedProperties.splice(index, 1);
+            property.likes -= 1;
+            await user.save();
+            await property.save();
+            return res.status(200).json({ message: "Property unliked successfully", likes: property.likes });
         }
 
-        // Add property to liked properties and increment like count
         user.likedProperties.push(propertyId);
         property.likes += 1;
-
         await user.save();
         await property.save();
 

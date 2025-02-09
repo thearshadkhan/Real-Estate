@@ -117,7 +117,18 @@ export const fetchSavedProperties = async () => {
     throw new Error(error.response?.data?.message || "Failed to fetch saved properties.");
   }
 };
-
+export const toggleLikeProperty = async (id) => {
+  try {
+      const response = await axios.post(`${API_URL}/like/${id}`, null, {
+          headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+      });
+      return response.data;
+  } catch (error) {
+      throw new Error(error.response?.data?.message || "Like/Unlike failed");
+  }
+};
 
 // ✅ Save/Unsave Property (Frontend)
 export const toggleSaveProperty = async (id) => {
