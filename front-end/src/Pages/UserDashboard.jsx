@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchLikedProperties, fetchSavedProperties } from "../services/propertyService"; // Add functions to fetch liked and saved properties
+import { fetchLikedProperties, fetchSavedProperties,toggleSaveProperty  } from "../services/propertyService"; // Add functions to fetch liked and saved properties
 import PropertyCard from "./PropertyCard"; // A component to display property details
 
 const UserDashboard = () => {
@@ -28,6 +28,16 @@ const UserDashboard = () => {
     getSavedProperties();
   }, []);
 
+ // Handle Unsave
+ const handleUnsave = async (id) => {
+  try {
+    await toggleSaveProperty(id);
+    setSavedProperties(savedProperties.filter(property => property._id !== id));
+  } catch (err) {
+    setError("Failed to unsave the property.");
+  }
+};
+
   if (error) {
     return <div>{error}</div>;
   }
@@ -54,8 +64,9 @@ const UserDashboard = () => {
         {savedProperties.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {savedProperties.map((property) => (
-              <PropertyCard key={property._id} property={property} />
+              <PropertyCard key={property._id} property={property} onUnsave={() => handleUnsave(property._id)}/>
             ))}
+            
           </div>
         ) : (
           <p>No saved properties yet.</p>

@@ -167,17 +167,18 @@ router.post("/save/:id", authenticateToken, async (req, res) => {
     const userId = req.user.id;
 
     try {
-        // Find the property
         const property = await Property.findById(propertyId);
         if (!property) return res.status(404).json({ message: "Property not found" });
 
-        // Check if user has already saved the property
         const user = await User.findById(userId);
-        if (user.savedProperties.includes(propertyId)) {
-            return res.status(400).json({ message: "You have already saved this property" });
+        const index = user.savedProperties.indexOf(propertyId);
+
+        if (index !== -1) {
+            user.savedProperties.splice(index, 1);
+            await user.save();
+            return res.status(200).json({ message: "Property unsaved successfully" });
         }
 
-        // Add property to saved properties
         user.savedProperties.push(propertyId);
         await user.save();
 

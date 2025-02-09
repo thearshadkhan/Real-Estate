@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const PropertyCard = ({ property }) => {
+const PropertyCard = ({ property , onUnsave}) => {
   return (
     <div className="bg-white p-4 rounded-lg shadow-md">
       <img
@@ -12,12 +12,23 @@ const PropertyCard = ({ property }) => {
       <h3 className="text-xl font-semibold">{property.title}</h3>
       <p className="text-gray-600">{property.city}</p>
       <p className="text-gray-800 font-semibold">${property.price}</p>
-      <Link
+      <div className="mt-4 flex justify-between">
+       
+        {onUnsave && (
+          <button 
+            className="bg-blue-500 text-white px-4 py-2 rounded" 
+            onClick={() => onUnsave(property._id)}
+          >
+            Unsave
+          </button>
+        )}
+      </div>
+      {/* <Link
         to={`/property/${property._id}`} key={property._id}
         className="text-blue-500 underline mt-4 block"
       >
         View Details
-      </Link>
+      </Link> */}
     </div>
   );
 };
