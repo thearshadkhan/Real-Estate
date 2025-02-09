@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { fetchPropertyById, likeProperty, saveProperty } from "../services/propertyService";
+import { fetchPropertyById, likeProperty, saveProperty,deleteProperty } from "../services/propertyService";
 import { FaEdit,FaHeart, FaBookmark, FaCity, FaMapMarkerAlt, FaDollarSign, FaPhoneAlt } from 'react-icons/fa';
 
 const Details = () => {
@@ -47,6 +47,19 @@ const Details = () => {
       setError(err.message);
     }
   };
+  const handleDelete = async () => {
+    if (window.confirm("Are you sure you want to delete this property?")) {
+      try {
+        const token = localStorage.getItem("token"); // Adjust based on where you store the token
+        await deleteProperty(id, token);
+        alert("Property deleted successfully!");
+        navigate("/owner-dashboard");
+      } catch (err) {
+        setError(err.message);
+      }
+    }
+  };
+  
 
   if (error) {
     return (
@@ -133,7 +146,12 @@ const Details = () => {
         <FaEdit className="mr-2" /> Edit Property
       </button>
 
-     
+      <button
+      onClick={handleDelete}
+      className="px-5 mt-5 py-3 bg-red-600 text-white font-semibold rounded-lg shadow-lg hover:bg-red-700 transition"
+    >
+      Delete Property
+    </button>
 
       
 
