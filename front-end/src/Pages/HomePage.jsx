@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { FaSearch, FaArrowUp } from "react-icons/fa";
 import { fetchAllProperties } from "../services/propertyService";
-import heroBg from "../assets/hero-section.jpg";
+import heroBg from "../assets/hero-section.png";
 import errorImage from "../assets/ErrorImage.png";
 
 const HomePage = () => {
@@ -60,9 +60,9 @@ const HomePage = () => {
   return (
     <div className="relative w-full min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="relative flex flex-col justify-center items-center text-center text-white py-32 px-6" style={{ backgroundImage: `url(${heroBg})`, backgroundSize: "cover", backgroundPosition: "center", height: "90vh", borderBottomRightRadius: 20, borderBottomLeftRadius: 20 }}>
-        <h2 className="text-5xl font-bold mb-5">Buying & Selling Property<br /> Made Easy With <br /><span className="text-red-600 text-7xl">Brick & Beams</span></h2>
-        <div className="bg-white/60 bg-opacity-50 rounded-full p-4 mt-6 flex gap-4">
+      <div className="relative flex flex-col justify-center items-center text-center text-white mt-18 py-32 px-6" style={{ backgroundImage: `url(${heroBg})`, backgroundSize: "cover", backgroundPosition: "center", height: "70vh"}}>
+        <h2 className="text-4xl  mb-5 text-gray-100 drop-shadow-md shadow stroke-1"><span className="text-white text-7xl font-bold">Brick & Beams</span><br></br> Made Easy to<br></br>Buy & Sell Property</h2>
+        <div className="bg-white bg-opacity-50 rounded-full p-4 mt-6 flex gap-4">
           <select name="type" className="py-2 px-4 font-semibold text-black rounded outline-none" onChange={handleFilterChange}>
             <option value="">Type</option><option value="Home">Home</option><option value="Apartment">Apartment</option><option value="Villa">Villa</option>
           </select>

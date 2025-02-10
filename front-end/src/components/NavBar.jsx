@@ -87,6 +87,13 @@ const NavBar = () => {
         <Link to="/propertyPage" className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-black transition">
           Properties
         </Link>
+        <Link to="/AboutPage" className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-black transition">
+          About Us
+        </Link>
+        <Link to="/contact" className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-black transition">
+          Contact us
+        </Link>
+
         {user ? (
           <>
             <Link to={getDashboardLink()} className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-black transition">
@@ -115,10 +122,16 @@ const NavBar = () => {
 
       {/* Mobile Dropdown Menu */}
       {menuOpen && (
-        <div className="absolute top-full left-0 w-full bg-red-800 shadow-lg flex flex-col items-center py-4 md:hidden">
+        <div className="absolute top-full left-0 w-full z-500 bg-red-800 shadow-lg flex flex-col items-center py-4 md:hidden">
           <Link to="/propertyPage" className="py-2 w-full text-center hover:bg-red-600" onClick={() => setMenuOpen(false)}>
             Properties
           </Link>
+          <Link to="/AboutPage" className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-black transition" onClick={() => setMenuOpen(false)}>
+          About Us
+        </Link>
+        <Link to="/contact" className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-black transition" onClick={() => setMenuOpen(false)}>
+          Contact us
+        </Link>
 
           {user ? (
             <>
