@@ -1,0 +1,71 @@
+const express = require("express");
+const Message = require("../models/Message");
+const Property = require("../models/Property");
+const authenticateToken = require("../middleware/authMiddleware");
+
+const router = express.Router();
+
+// 📩 Get messages for a property owner
+router.get("/", authenticateToken, async (req, res) => {
+    try {
+        const properties = await Property.find({ ownerId: req.user.id }).select("_id");
+        const propertyIds = properties.map((property) => property._id);
+
+        const messages = await Message.find({ propertyId: { $in: propertyIds } })
+            .populate("senderId", "name email")
+            .populate("propertyId", "title");
+
+        res.status(200).json(messages);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// 📩 Send a message to a property owner
+router.post("/", authenticateToken, async (req, res) => {
+    const { propertyId, message } = req.body;
+
+    try {
+        const property = await Property.findById(propertyId);
+        if (!property) return res.status(404).json({ message: "Property not found" });
+
+        const newMessage = new Message({
+            propertyId,
+            senderId: req.user.id,
+            message,
+        });
+
+        await newMessage.save();
+        res.status(201).json({ message: "Message sent successfully" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// 📩 Reply to a message
+router.post("/reply/:messageId", authenticateToken, async (req, res) => {
+    const { replyMessage } = req.body;
+    const messageId = req.params.messageId;
+
+    try {
+        const originalMessage = await Message.findById(messageId).populate("propertyId");
+        if (!originalMessage) return res.status(404).json({ message: "Message not found" });
+
+        const property = await Property.findById(originalMessage.propertyId);
+        if (property.ownerId.toString() !== req.user.id)
+            return res.status(403).json({ message: "Unauthorized to reply to this message" });
+
+        const reply = new Message({
+            propertyId: originalMessage.propertyId,
+            senderId: req.user.id,
+            message: `Reply: ${replyMessage}`,
+        });
+
+        await reply.save();
+        res.status(201).json({ message: "Reply sent successfully" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+module.exports = router;
