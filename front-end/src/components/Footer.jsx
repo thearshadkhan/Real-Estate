@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 const Footer = () => {
- 
   return (
     <footer className="bg-black text-white py-16 px-8">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-lg">
@@ -19,10 +19,26 @@ const Footer = () => {
         <div className="text-center">
           <h3 className="text-2xl font-semibold">Quick Links</h3>
           <ul className="mt-4 space-y-3">
-            <li><Link to="/" className="hover:text-red-500 transition">Home</Link></li>
-            <li><Link to="AboutPage" className="hover:text-red-500 transition">About Us</Link></li>
-            <li><Link to="propertyPage" className="hover:text-red-500 transition">Properties</Link></li>
-            <li><Link to="Contact" className="hover:text-red-500 transition">Contact</Link></li>
+            <li>
+              <Link to="/" className="hover:text-red-500 transition" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/AboutPage" className="hover:text-red-500 transition" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+                About Us
+              </Link>
+            </li>
+            <li>
+              <Link to="/propertyPage" className="hover:text-red-500 transition" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+                Properties
+              </Link>
+            </li>
+            <li>
+              <Link to="/Contact" className="hover:text-red-500 transition" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+                Contact
+              </Link>
+            </li>
           </ul>
         </div>
 
@@ -33,7 +49,6 @@ const Footer = () => {
           <p className="text-gray-400 mt-2">📞 +1 234 567 890</p>
           <p className="text-gray-400 mt-2">📧 support@brickandbeams.com</p>
         </div>
-
       </div>
 
       {/* Social Media & Copyright */}
