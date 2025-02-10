@@ -6,6 +6,7 @@ const authenticateToken = require("../middleware/authMiddleware");
 const router = express.Router();
 
 // 📩 Get messages for a property owner
+// 📩 Get messages grouped by property for a property owner
 router.get("/", authenticateToken, async (req, res) => {
     try {
         const properties = await Property.find({ ownerId: req.user.id }).select("_id");
@@ -15,11 +16,29 @@ router.get("/", authenticateToken, async (req, res) => {
             .populate("senderId", "name email")
             .populate("propertyId", "title");
 
-        res.status(200).json(messages);
+        // Group messages by propertyId
+        const groupedMessages = {};
+        messages.forEach((msg) => {
+            const propId = msg.propertyId._id.toString();
+            if (!groupedMessages[propId]) {
+                groupedMessages[propId] = [];
+            }
+            groupedMessages[propId].push({
+                _id: msg._id,
+                sender: msg.senderId.name,
+                email: msg.senderId.email,
+                message: msg.message,
+                propertyTitle: msg.propertyId.title,
+                timestamp: msg.createdAt,
+            });
+        });
+
+        res.status(200).json(groupedMessages);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
+
 
 // 📩 Send a message to a property owner
 router.post("/", authenticateToken, async (req, res) => {

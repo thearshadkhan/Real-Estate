@@ -156,3 +156,10 @@ export const fetchOwnerProperties = async () => {
     throw new Error(error.response?.data?.message || "Failed to fetch owner properties.");
   }
 };
+export const fetchMessagesByPropertyId = async (propertyId) => {
+  const token = localStorage.getItem("token");
+  const response = await axios.get(`http://localhost:5000/api/messages/${propertyId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+};
