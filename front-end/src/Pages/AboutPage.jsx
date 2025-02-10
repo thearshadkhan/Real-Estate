@@ -22,7 +22,7 @@ const AboutPage = () => {
     </svg>
   </div>
   
-  <div className="relative z-10 py-32">
+  <div className="relative py-32">
     <h1 className="text-5xl font-bold text-white">About Us</h1>
     <p className="mt-4 text-lg text-gray-200">
       Connecting people with properties in meaningful ways.
@@ -57,7 +57,7 @@ const AboutPage = () => {
         <div className="absolute inset-0 bg-red-700 transform translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
 
         {/* Icon inside Circle with 360° Rotation Effect */}
-        <div className="relative z-10 flex flex-col items-center text-center">
+        <div className="relative flex flex-col items-center text-center">
           <div className="w-16 h-16 flex items-center justify-center rounded-full border-4 border-red-700 text-red-700 
                           group-hover:text-white group-hover:border-white transition-all duration-700 
                           transform group-hover:rotate-[360deg]">
