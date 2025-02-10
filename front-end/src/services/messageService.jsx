@@ -16,17 +16,20 @@ export const fetchMessages = async (token) => {
 
 // 🔹 Send a Message to Property Owner
 export const sendMessage = async (propertyId, message, token) => {
-  try {
-    const response = await axios.post(
-      API_URL,
-      { propertyId, message },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    return response.data;
-  } catch (error) {
-    throw error.response?.data?.message || error.message;
-  }
-};
+    try {
+      console.log("Sending Message:", { propertyId, message }); // Debug log
+      const response = await axios.post(
+        API_URL,
+        { propertyId, message },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Message Error:", error.response?.data || error.message);
+      throw error.response?.data?.message || error.message;
+    }
+  };
+  
 
 // 🔹 Reply to a Message
 export const replyToMessage = async (messageId, replyMessage, token) => {
