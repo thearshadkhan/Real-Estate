@@ -100,7 +100,7 @@ const EditProperty = () => {
   if (error) return <p className="text-red-600">Error: {error}</p>;
 
   return (
-    <div className="max-w-3xl mx-auto p-6 mt-10 bg-white shadow-lg rounded-lg">
+    <div className="max-w-3xl mx-auto p-6 mt-20 bg-white shadow-lg rounded-lg">
       <h2 className="text-3xl font-bold text-gray-800 mb-6">Edit Property</h2>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <label className="block mb-2">Title:</label>
