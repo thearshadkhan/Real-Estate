@@ -91,7 +91,7 @@ const Login = () => {
             } else if (data.role === "user") {
                 navigate("/"); // Redirect user to home
             } else {
-                navigate("/properties");
+                navigate("/");
             }
         } catch (err) {
             setError("Invalid credentials or access denied");

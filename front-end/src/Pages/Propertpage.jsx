@@ -27,7 +27,7 @@ const PropertyPage = () => {
           setProperties(approvedProperties);
           setFilteredProperties(approvedProperties);
           setLoading(false);
-        }, 300); // Simulating loading delay
+        }, 100); // Simulating loading delay
       } catch (err) {
         setError(err.message);
         setLoading(false);

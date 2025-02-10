@@ -22,7 +22,7 @@ const HomePage = () => {
           setProperties(data);
           setFilteredProperties(data.slice(0, 9));
           setLoading(false);
-        }, 300);
+        }, 100);
       } catch (error) {
         console.error("Error fetching properties:", error);
         setLoading(false);
