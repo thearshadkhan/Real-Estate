@@ -9,7 +9,14 @@ const app = express();
 
 // Middleware
 app.use(express.json()); // ✅ Correctly using express.json()
-app.use(cors());
+
+app.use(cors({
+    origin: "http://localhost:5173", // ✅ Allow only your frontend origin
+    credentials: true,               // ✅ Allow credentials (cookies, tokens)
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
 app.use("/uploads", express.static("uploads"));
 
 // Connect to MongoDB
