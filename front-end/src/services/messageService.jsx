@@ -72,3 +72,20 @@ export const replyToMessage = async (messageId, replyMessage) => {
       throw new Error(error.response?.data?.message || "Error sending reply");
   }
 };
+
+export const fetchUserMessages = async () => {
+  try {
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("User not authenticated");
+
+      const response = await axios.get(`${API_URL}/user`, {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+      });
+
+      return response.data; // Messages with replies
+  } catch (error) {
+      console.error("Error fetching user messages:", error.response?.data || error.message);
+      throw new Error(error.response?.data?.message || "Error fetching user messages");
+  }
+};
