@@ -67,12 +67,13 @@
 
 import React, { useEffect, useState } from "react";
 import { fetchOwnerProperties } from "../services/propertyService";
-import { fetchOwnerMessages } from "../services/messageService"; // Import the function
+import { fetchOwnerMessages, replyToMessage } from "../services/messageService"; // Import the function
 import { useNavigate } from "react-router-dom";
 
 const OwnerDashboard = () => {
   const [properties, setProperties] = useState([]);
   const [messages, setMessages] = useState({});
+  const [replyText, setReplyText] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -91,6 +92,30 @@ const OwnerDashboard = () => {
 
     getData();
   }, []);
+
+  const handleReplyChange = (messageId, text) => {
+    setReplyText((prev) => ({ ...prev, [messageId]: text }));
+};
+
+// Handle sending a reply
+const handleReplySubmit = async (messageId) => {
+    if (!replyText[messageId]) return;
+
+    try {
+        await replyToMessage(messageId, replyText[messageId]);
+
+        // Clear input after sending
+        setReplyText((prev) => ({ ...prev, [messageId]: "" }));
+
+        // Refresh messages after reply
+        const updatedMessages = await fetchOwnerMessages();
+        setMessages(updatedMessages);
+    } catch (error) {
+        console.error("Error sending reply:", error.message);
+    }
+};
+
+
 
   return (
     <div className="mt-20 mb-10 max-w-7xl mx-auto p-6 bg-gray-100 rounded-lg shadow-lg">
@@ -126,18 +151,36 @@ const OwnerDashboard = () => {
               </button>
 
               {/* Messages Section */}
-              {messages[property._id] && messages[property._id].length > 0 && (
-                <div className="mt-4 p-3 bg-gray-200 rounded">
-                  <h4 className="text-lg font-semibold">Messages:</h4>
-                  {messages[property._id].map((msg) => (
-                    <div key={msg._id} className="mt-2 p-2 bg-white rounded shadow">
-                      <p className="font-semibold">{msg.sender} ({msg.email})</p>
-                      <p>{msg.message}</p>
-                      {/* <p className="text-sm text-gray-500">{new Date(msg.timestamp).toLocaleString()}</p> */}
-                    </div>
-                  ))}
-                </div>
-              )}
+            
+              <h2 className="text-2xl font-semibold mb-4">Messages from Interested Users</h2>
+              {messages[property._id] && messages[property._id].length > 0 ? (
+                            messages[property._id].map((msg) => (
+                                <div key={msg._id} className="border p-3 my-2 rounded-lg">
+                                    <p><strong>{msg.sender}</strong> ({msg.email}):</p>
+                                    <p className="text-gray-700">{msg.message}</p>
+                                    <p className="text-sm text-gray-500">Sent: {new Date(msg.timestamp).toLocaleString()}</p>
+
+                                    {/* Reply Input and Button */}
+                                    <div className="mt-2 flex">
+                                        <input
+                                            type="text"
+                                            placeholder="Type your reply..."
+                                            value={replyText[msg._id] || ""}
+                                            onChange={(e) => handleReplyChange(msg._id, e.target.value)}
+                                            className="border p-2 flex-grow rounded-l-lg"
+                                        />
+                                        <button
+                                            onClick={() => handleReplySubmit(msg._id)}
+                                            className="bg-blue-600 text-white px-4 py-2 rounded-r-lg hover:bg-blue-700"
+                                        >
+                                            Reply
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-gray-500 text-center">No messages for this property.</p>
+                        )}
             </div>
           ))
         ) : (

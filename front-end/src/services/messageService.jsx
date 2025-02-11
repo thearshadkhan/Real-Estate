@@ -14,24 +14,6 @@ export const fetchMessages = async (token) => {
   }
 };
 
-// Fetch messages for the logged-in owner
-export const fetchOwnerMessages = async () => {
-  try {
-      const token = localStorage.getItem("token"); // Retrieve token from storage
-      if (!token) throw new Error("User not authenticated");
-
-      const response = await axios.get(API_URL, {
-          headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true, // Include credentials if using cookies
-      });
-
-      return response.data; // Returns grouped messages by propertyId
-  } catch (error) {
-      console.error("Error fetching messages:", error.response?.data || error.message);
-      throw new Error(error.response?.data?.message || "Error fetching messages");
-  }
-};
-
 
 // 🔹 Send a Message to Property Owner
 export const sendMessage = async (propertyId, message, token) => {
@@ -50,16 +32,43 @@ export const sendMessage = async (propertyId, message, token) => {
   };
   
 
-// 🔹 Reply to a Message
-export const replyToMessage = async (messageId, replyMessage, token) => {
+
+// Fetch messages for owner's properties
+export const fetchOwnerMessages = async () => {
   try {
-    const response = await axios.post(
-      `${API_URL}/reply/${messageId}`,
-      { replyMessage },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    return response.data;
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("User not authenticated");
+
+      const response = await axios.get(API_URL, {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+      });
+
+      return response.data; // Returns messages grouped by propertyId
   } catch (error) {
-    throw error.response?.data?.message || error.message;
+      console.error("Error fetching messages:", error.response?.data || error.message);
+      throw new Error(error.response?.data?.message || "Error fetching messages");
+  }
+};
+
+// Reply to a message
+export const replyToMessage = async (messageId, replyMessage) => {
+  try {
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("User not authenticated");
+
+      const response = await axios.post(
+          `${API_URL}/reply/${messageId}`,
+          { replyMessage },
+          {
+              headers: { Authorization: `Bearer ${token}` },
+              withCredentials: true,
+          }
+      );
+
+      return response.data;
+  } catch (error) {
+      console.error("Error sending reply:", error.response?.data || error.message);
+      throw new Error(error.response?.data?.message || "Error sending reply");
   }
 };
