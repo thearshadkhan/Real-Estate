@@ -11,7 +11,7 @@ const Details = () => {
   const [error, setError] = useState("");
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
- 
+  const [mainImage, setMainImage] = useState("");
 
   useEffect(() => {
     const getProperty = async () => {
@@ -20,12 +20,24 @@ const Details = () => {
         setProperty(data);
         setIsLiked(data.isLiked);
         setIsSaved(data.isSaved);
+        if (data.photos.length > 0) {
+          setMainImage(`http://localhost:5000/${data.photos[0]}`); // Set first image as main
+        }
       } catch (err) {
         setError(err.message);
       }
     };
     getProperty();
   }, [id]);
+
+  const handleImageClick = (clickedImage) => {
+    setProperty((prevProperty) => {
+      const updatedPhotos = prevProperty.photos.filter(photo => `http://localhost:5000/${photo}` !== mainImage);
+      return { ...prevProperty, photos: [`${mainImage.replace("http://localhost:5000/", "")}`, ...updatedPhotos] };
+    });
+    setMainImage(clickedImage);
+  };
+
 
   const handleLike = async () => {
     try {
@@ -91,12 +103,30 @@ const Details = () => {
         ← Back to Listings
       </button>
 
-      {property.photos.length > 0 && (
+      {mainImage && (
         <img
-          src={`http://localhost:5000/${property.photos[0]}`}
-          alt={property.title}
-          className="w-full h-130 object-cover rounded-md shadow-md"
+          src={mainImage}
+          alt="Main Property"
+          className="w-full h-130 object-cover rounded-md shadow-md cursor-pointer transition-transform transform hover:scale-105"
         />
+      )}
+
+      {/* Image Gallery */}
+      {property?.photos.length > 1 && (
+        <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {property.photos.map((photo, index) => {
+            const photoUrl = `http://localhost:5000/${photo}`;
+            return (
+              <img
+                key={index}
+                src={photoUrl}
+                alt={`Property ${index + 1}`}
+                className="w-full h-32 object-cover rounded-md shadow-md cursor-pointer transition-transform transform hover:scale-110"
+                onClick={() => handleImageClick(photoUrl)}
+              />
+            );
+          })}
+        </div>
       )}
 
       <h2 className="text-4xl font-bold text-gray-800 mt-6">{property.title}</h2>
