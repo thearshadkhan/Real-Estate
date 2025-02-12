@@ -81,11 +81,11 @@ const Details = () => {
           Error: {error}
         </p>
         <button
-          onClick={() => navigate(-1)}
-          className="text-blue-500 underline mt-4 inline-block"
-        >
-          ← Back to Listings
-        </button>
+        onClick={() => navigate(-1)}
+        className="text-red-700 mb-2 inline-block text-5xl hover:text-red-800 hover:scale-110"
+      >
+        ←
+      </button>
       </div>
     );
   }
@@ -98,16 +98,16 @@ const Details = () => {
     <div className="mt-20 max-w-5xl mx-auto p-6 bg-gray-100 rounded-lg shadow-lg">
       <button
         onClick={() => navigate(-1)}
-        className="text-blue-500 underline mb-4 inline-block"
+        className="text-red-700 mb-2 inline-block text-5xl hover:text-red-800 hover:scale-110"
       >
-        ← Back to Listings
+        ←
       </button>
 
       {mainImage && (
         <img
           src={mainImage}
           alt="Main Property"
-          className="w-full h-130 object-cover rounded-md shadow-md cursor-pointer transition-transform transform hover:scale-105"
+          className="w-full h-130 object-cover rounded-md shadow-md cursor-pointer"
         />
       )}
 
