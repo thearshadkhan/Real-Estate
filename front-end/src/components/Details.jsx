@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchPropertyById, likeProperty, saveProperty,deleteProperty } from "../services/propertyService";
-import { FaEdit,FaHeart, FaBookmark, FaCity, FaMapMarkerAlt, FaDollarSign, FaPhoneAlt } from 'react-icons/fa';
+import { FaEdit,FaHeart, FaBookmark, FaCity, FaMapMarkerAlt, FaDollarSign} from 'react-icons/fa';
+import { FaHouseChimneyWindow } from "react-icons/fa6";
 
 const Details = () => {
   const { id } = useParams();
@@ -112,8 +113,8 @@ const Details = () => {
           <FaDollarSign className="mr-2 text-gray-500" /> ${property.price}
         </p>
         <p className="text-gray-700 text-lg flex items-center">
-          <FaPhoneAlt className="mr-2 text-gray-500" /> {property.contact}
-        </p>
+        <FaHouseChimneyWindow className="mr-2 text-gray-500" /> {property.size} sqft
+      </p>
       </div>
 
       {/* Display the number of likes */}

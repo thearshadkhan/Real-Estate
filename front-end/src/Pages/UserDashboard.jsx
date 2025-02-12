@@ -51,15 +51,26 @@ const UserDashboard = () => {
   }
 };
 
+// useEffect(() => {
+//   const getMessages = async () => {
+//     try {
+//       const messagesData = await fetchUserMessages();
+//       if (Array.isArray(messagesData)) {
+//         setMessages(messagesData);
+//       } else {
+//         setMessages([]); // Ensure messages is always an array
+//       }
+//     } catch (err) {
+//       setError("Failed to fetch messages.");
+//     }
+//   };
+//   getMessages();
+// }, []);
 useEffect(() => {
   const getMessages = async () => {
     try {
       const messagesData = await fetchUserMessages();
-      if (Array.isArray(messagesData)) {
-        setMessages(messagesData);
-      } else {
-        setMessages([]); // Ensure messages is always an array
-      }
+      setMessages(Array.isArray(messagesData) ? messagesData : []);
     } catch (err) {
       setError("Failed to fetch messages.");
     }
@@ -100,7 +111,7 @@ useEffect(() => {
           <p>No saved properties yet.</p>
         )}
       </div>
-      <div className="mt-20 max-w-7xl mx-auto p-6 bg-gray-100 rounded-lg shadow-lg">
+      {/* <div className="mt-20 max-w-7xl mx-auto p-6 bg-gray-100 rounded-lg shadow-lg">
       <h1 className="text-3xl font-bold mb-6">User Messages</h1>
 
       {messages.length > 0 ? (
@@ -127,9 +138,41 @@ useEffect(() => {
       ) : (
         <p>No messages found.</p>
       )}
+    </div> */}
+    <div className="mt-20 max-w-7xl mx-auto p-6 bg-gray-100 rounded-lg shadow-lg">
+      <h1 className="text-3xl font-bold mb-6">User Messages</h1>
+
+      {messages.length > 0 ? (
+        <ul>
+          {messages.map((msg) => (
+            <li key={msg._id} className="bg-white p-4 mb-3 shadow rounded">
+              <p><strong>Property:</strong> {msg.propertyId?.title || "Unknown"}</p>
+              <p><strong>Your Message:</strong> {msg.message}</p>
+
+              {msg.replies?.length > 0 && (
+                <div className="mt-2 bg-gray-200 p-3 rounded">
+                  <strong>Owner Replies:</strong>
+                  <ul className="ml-4 mt-1">
+                    {msg.replies.map((reply, index) => (
+                      <li key={index} className="text-gray-700">
+                        - {reply.message} <span className="text-sm text-gray-500">({new Date(reply.createdAt).toLocaleString()})</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No messages found.</p>
+      )}
     </div>
     </div>
   );
 };
 
 export default UserDashboard;
+
+
+

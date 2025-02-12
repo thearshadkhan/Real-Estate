@@ -6,7 +6,6 @@ const authenticateToken = require("../middleware/authMiddleware");
 const router = express.Router();
 
 // 📩 Get messages for a property owner
-// 📩 Get messages grouped by property for a property owner
 router.get("/", authenticateToken, async (req, res) => {
     try {
         const properties = await Property.find({ ownerId: req.user.id }).select("_id");
@@ -109,6 +108,7 @@ router.get("/user", authenticateToken, async (req, res) => {
         res.status(500).json({ message: "Error fetching user messages", error: error.message });
     }
 });
+
 
 
 module.exports = router;
