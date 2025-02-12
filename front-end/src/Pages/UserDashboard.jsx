@@ -83,7 +83,7 @@ useEffect(() => {
 
   return (
     <div className="mt-20 max-w-7xl mx-auto p-6 bg-gray-100 rounded-lg shadow-lg">
-      <h1 className="text-3xl font-bold mb-6">User Dashboard</h1>
+      <h1 className="text-3xl font-bold mb-6">user Dashboard</h1>
 
       <div>
         <h2 className="text-2xl font-semibold mb-4">Liked Properties</h2>

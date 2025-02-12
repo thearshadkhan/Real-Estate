@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { fetchAllProperties } from "../services/propertyService";
 import { Link } from "react-router-dom";
 import errorImage from "../assets/ErrorImage.png";
+import LandscapeCard from '../components/LandscapeCard'
 
 const PropertyPage = () => {
   const [properties, setProperties] = useState([]);
@@ -191,7 +192,7 @@ const PropertyPage = () => {
         </div>
       ) : (
         <div>
-          <div className="mt-6 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* <div className="mt-6 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {currentProperties.length > 0 ? (
               currentProperties.map((property) => (
                 <Link
@@ -241,8 +242,41 @@ const PropertyPage = () => {
             ) : (
               <p className="text-center text-gray-500">No properties found.</p>
             )}
-          </div>
+          </div> */}
+          <div>
+          {/* <div className="mt-6 grid md:grid-cols-2 lg:grid-cols-3 gap-6"> */}
+            {currentProperties.length > 0 ? (
+              currentProperties.map((property) => (
+                <Link
+                  to={`/property/${property._id}`}
+                  key={property._id}
+                  className="transform transition"
+                >
+                <LandscapeCard
+                  key={property._id}
+                  property={property}
+                /></Link>
+              ))
+            ) : (
+              <p className="text-center text-gray-500">No properties found.</p>
+            )}
+          {/* </div> */}
 
+          {/* Pagination */}
+          {/* <div className="flex justify-center mt-6">
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i}
+                className={`mx-1 px-4 py-2 rounded ${
+                  currentPage === i + 1 ? "bg-red-600 text-white" : "bg-gray-200"
+                }`}
+                onClick={() => setCurrentPage(i + 1)}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div> */}
+        </div>  
           {/* Pagination */}
           <div className="flex justify-center mt-6">
             {Array.from({ length: totalPages }, (_, i) => (
@@ -263,3 +297,98 @@ const PropertyPage = () => {
 };
 
 export default PropertyPage;
+
+
+
+// import React, { useEffect, useState } from "react";
+// import { fetchAllProperties } from "../services/propertyService";
+// import LandscapeCard from "../components/LandscapeCard";
+
+// const PropertyPage = () => {
+//   const [properties, setProperties] = useState([]);
+//   const [filteredProperties, setFilteredProperties] = useState([]);
+//   const [error, setError] = useState("");
+//   const [loading, setLoading] = useState(true);
+//   const [currentPage, setCurrentPage] = useState(1);
+//   const propertiesPerPage = 9;
+
+//   useEffect(() => {
+//     const fetchProperties = async () => {
+//       try {
+//         setLoading(true);
+//         const data = await fetchAllProperties();
+//         const approvedProperties = data.filter(
+//           (property) => property.approvalStatus === "approved"
+//         );
+//         setProperties(approvedProperties);
+//         setFilteredProperties(approvedProperties);
+//         setLoading(false);
+//       } catch (err) {
+//         setError(err.message);
+//         setLoading(false);
+//       }
+//     };
+//     fetchProperties();
+//   }, []);
+
+//   const indexOfLastProperty = currentPage * propertiesPerPage;
+//   const indexOfFirstProperty = indexOfLastProperty - propertiesPerPage;
+//   const currentProperties = filteredProperties.slice(
+//     indexOfFirstProperty,
+//     indexOfLastProperty
+//   );
+
+//   const totalPages = Math.ceil(filteredProperties.length / propertiesPerPage);
+
+//   return (
+//     <div className="max-w-7xl mx-auto mt-20 p-6">
+//       <h2 className="text-4xl font-bold text-gray-800 mb-6 text-center">
+//         Property Listings
+//       </h2>
+
+//       {error && (
+//         <p className="text-red-600 bg-red-100 border border-red-400 px-4 py-2 rounded-md mb-4 text-center">
+//           Error: {error}
+//         </p>
+//       )}
+
+//       {loading ? (
+//         <div className="flex justify-center items-center h-40">
+//           <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-red-700"></div>
+//         </div>
+//       ) : (
+//         <div>
+//           {/* <div className="mt-6 grid md:grid-cols-2 lg:grid-cols-3 gap-6"> */}
+//             {currentProperties.length > 0 ? (
+//               currentProperties.map((property) => (
+//                 <LandscapeCard
+//                   key={property._id}
+//                   property={property}
+//                 />
+//               ))
+//             ) : (
+//               <p className="text-center text-gray-500">No properties found.</p>
+//             )}
+//           {/* </div> */}
+
+//           {/* Pagination */}
+//           <div className="flex justify-center mt-6">
+//             {Array.from({ length: totalPages }, (_, i) => (
+//               <button
+//                 key={i}
+//                 className={`mx-1 px-4 py-2 rounded ${
+//                   currentPage === i + 1 ? "bg-red-600 text-white" : "bg-gray-200"
+//                 }`}
+//                 onClick={() => setCurrentPage(i + 1)}
+//               >
+//                 {i + 1}
+//               </button>
+//             ))}
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default PropertyPage;

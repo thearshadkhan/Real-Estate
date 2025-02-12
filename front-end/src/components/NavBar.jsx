@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthContext"; // Import the context
 import { fetchAllProperties } from "../services/propertyService";
 import logo from "../assets/logo.png";
 import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
+import { MdHomeWork } from "react-icons/md";
 
 const NavBar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -84,8 +85,8 @@ const NavBar = () => {
 
       {/* Desktop Menu */}
       <div className="hidden md:flex gap-6 items-center">
-        <Link to="/propertyPage" className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-black transition">
-          Properties
+        <Link to="/propertyPage" className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-red-700 transition flex gap-2">
+        <MdHomeWork className="w-6 h-6 "/>Properties
         </Link>
         <Link to="/AboutPage" className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-black transition">
           About Us
