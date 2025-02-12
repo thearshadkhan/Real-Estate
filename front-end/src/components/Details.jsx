@@ -95,7 +95,7 @@ const Details = () => {
         <img
           src={`http://localhost:5000/${property.photos[0]}`}
           alt={property.title}
-          className="w-full h-72 object-cover rounded-md shadow-md"
+          className="w-full h-130 object-cover rounded-md shadow-md"
         />
       )}
 
