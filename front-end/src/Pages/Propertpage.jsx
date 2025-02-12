@@ -180,7 +180,7 @@ const PropertyPage = () => {
           onClick={handleResetFilters}
           className="px-6 py-2 bg-red-700 text-white font-semibold rounded-lg hover:bg-red-800 shadow-md transition transform hover:scale-105"
         >
-          Show All
+          Reset values
         </button>
       </div>
 
