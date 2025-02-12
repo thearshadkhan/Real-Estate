@@ -196,7 +196,7 @@ const HomePage = () => {
                     {/* Property Details */}
                     <div className="p-5 relative">
                       <h3 className="text-2xl font-semibold text-gray-900">{property.title}</h3>
-                      <p className="text-gray-600 text-sm mt-2">{property.description.slice(0, 80)}...</p>
+                      <h3 className="text-lg font-semibold text-gray-900">{property.city}</h3>
                       <p className="text-green-600 font-bold text-lg">${property.price.toLocaleString()}</p>
                       <p className="text-gray-600 text-sm mt-1">Size: {property.size.toLocaleString()} sq ft</p>
 
