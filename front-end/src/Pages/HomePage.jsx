@@ -5,6 +5,10 @@ import { fetchAllProperties } from "../services/propertyService";
 import heroBg from "../assets/hero-section.png";
 import errorImage from "../assets/ErrorImage.png";
 import { FaShieldAlt, FaStar, FaLightbulb, FaEye, FaUsers } from "react-icons/fa";
+import { BiArea } from "react-icons/bi";
+import { RiRoadMapLine } from "react-icons/ri";
+import { TbListDetails } from "react-icons/tb";
+
 
 const HomePage = () => {
   const [properties, setProperties] = useState([]);
@@ -190,21 +194,20 @@ const HomePage = () => {
                     <img
                       src={property.photos.length > 0 ? `http://localhost:5000/${property.photos[0]}` : errorImage}
                       alt={property.title}
-                      className="w-full h-60 object-cover"
+                      className="w-full h-60 object-cover hover:scale-110 transition-all"
                     />
 
                     {/* Property Details */}
                     <div className="p-5 relative">
-                      <h3 className="text-2xl font-semibold text-gray-900">{property.title}</h3>
-                      <h3 className="text-lg font-semibold text-gray-900">{property.city}</h3>
-                      <p className="text-green-600 font-bold text-lg">${property.price.toLocaleString()}</p>
-                      <p className="text-gray-600 text-sm mt-1">Size: {property.size.toLocaleString()} sq ft</p>
+                      <h4 className="text-xl text-red-700 flex"><BiArea className="w-7 h-7 text-red" /> {property.size}sqft</h4>
+                      <h3 className="text-2xl mt-2 font-semibold text-gray-900">${property.price.toLocaleString()}</h3>
+                      <p className="mt-3 text-gray-600 font-semibold text-lg flex "><RiRoadMapLine className="w-7 h-7  mr-1"/>{property.city}</p>
 
 
                       {/* View Details Button (Hidden by default, appears on hover at bottom-right) */}
                       <Link to={`/property/${property._id}`} key={property._id} className="absolute bottom-5 right-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <button className="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold shadow-lg hover:bg-red-700 transition">
-                          View Details
+                        <button className="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold shadow-lg hover:bg-red-700 transition flex gap-2">
+                          View Details <TbListDetails className="w-5 h-5"/>
                         </button>
                       </Link>
                     </div>
