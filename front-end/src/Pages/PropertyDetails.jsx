@@ -56,7 +56,7 @@
 //       setError("Invalid property data.");
 //       return;
 //     }
-  
+
 //     try {
 //       const token = localStorage.getItem("token"); // Adjust based on auth method
 //       await sendMessage(property._id, message, token);
@@ -65,7 +65,7 @@
 //       setError(err);
 //     }
 //   };
-  
+
 
 //   if (error) {
 //     return (
@@ -191,69 +191,37 @@ const PropertyDetails = () => {
   const [message, setMessage] = useState("");
   const [showMessageBox, setShowMessageBox] = useState(false);
   const [mainImage, setMainImage] = useState("");
+  const [loading, setLoading] = useState(true); // Added loading state
 
   useEffect(() => {
     const getProperty = async () => {
       try {
-        const data = await fetchPropertyById(id);
-        setProperty(data);
-        setIsLiked(data.isLiked);
-        setIsSaved(data.isSaved);
-        if (data.photos.length > 0) {
-          setMainImage(`http://localhost:5000/${data.photos[0]}`); // Set first image as main
-        }
+        setTimeout(async () => {
+          const data = await fetchPropertyById(id);
+          setProperty(data);
+          setIsLiked(data.isLiked);
+          setIsSaved(data.isSaved);
+          if (data.photos.length > 0) {
+            setMainImage(`http://localhost:5000/${data.photos[0]}`);
+          }
+          setLoading(false);
+        }, 1000); // Simulating 1-second loading delay
       } catch (err) {
         setError(err.message);
+        setLoading(false);
       }
     };
+
     getProperty();
   }, [id]);
 
-  const handleImageClick = (clickedImage) => {
-    setProperty((prevProperty) => {
-      const updatedPhotos = prevProperty.photos.filter(photo => `http://localhost:5000/${photo}` !== mainImage);
-      return { ...prevProperty, photos: [`${mainImage.replace("http://localhost:5000/", "")}`, ...updatedPhotos] };
-    });
-    setMainImage(clickedImage);
-  };
-
-
-  const handleLike = async () => {
-    try {
-      await likeProperty(id);
-      setIsLiked(true);
-      setProperty((prevProperty) => ({
-        ...prevProperty,
-        likes: prevProperty.likes + 1,
-      }));
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  const handleSave = async () => {
-    try {
-      await saveProperty(id);
-      setIsSaved(true);
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  const handleSendMessage = async () => {
-    if (!property || !property._id) {
-      setError("Invalid property data.");
-      return;
-    }
-
-    try {
-      const token = localStorage.getItem("token"); // Adjust based on auth method
-      await sendMessage(property._id, message, token);
-      alert("Message sent successfully!");
-    } catch (err) {
-      setError(err.message);
-    }
-  };
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-red-600"></div>
+      </div>
+    );
+  }
 
   if (error) {
     return (
@@ -263,25 +231,21 @@ const PropertyDetails = () => {
         </p>
         <button
           onClick={() => navigate(-1)}
-          className="text-blue-500 underline mt-4 inline-block"
+          className="text-red-700 mb-2 inline-block text-5xl hover:text-red-800 hover:scale-110"
         >
-          ← Back to Listings
+          ←
         </button>
       </div>
     );
-  }
-
-  if (!property) {
-    return <p className="text-center text-gray-700 text-lg mt-10">Loading property details...</p>;
   }
 
   return (
     <div className="mt-20 max-w-5xl mx-auto p-6 bg-gray-100 rounded-lg shadow-lg">
       <button
         onClick={() => navigate(-1)}
-        className="text-blue-500 underline mb-4 inline-block"
+        className="text-red-700 mb-2 inline-block text-5xl hover:text-red-800 hover:scale-110"
       >
-        ← Back to Listings
+        ←
       </button>
 
       {/* Main Image */}
@@ -289,7 +253,7 @@ const PropertyDetails = () => {
         <img
           src={mainImage}
           alt="Main Property"
-          className="w-full h-130 object-cover rounded-md shadow-md cursor-pointer transition-transform transform hover:scale-105"
+          className="w-full h-130 object-cover rounded-md shadow-md cursor-pointer"
         />
       )}
 
@@ -304,7 +268,7 @@ const PropertyDetails = () => {
                 src={photoUrl}
                 alt={`Property ${index + 1}`}
                 className="w-full h-32 object-cover rounded-md shadow-md cursor-pointer transition-transform transform hover:scale-110"
-                onClick={() => handleImageClick(photoUrl)}
+                onClick={() => setMainImage(photoUrl)}
               />
             );
           })}
@@ -337,14 +301,21 @@ const PropertyDetails = () => {
 
       <div className="mt-6 flex gap-4">
         <button
-          onClick={handleLike}
+          onClick={async () => {
+            await likeProperty(id);
+            setIsLiked(true);
+            setProperty((prev) => ({ ...prev, likes: prev.likes + 1 }));
+          }}
           className={`px-5 py-3 bg-${isLiked ? "red" : "gray"}-600 text-white font-semibold rounded-lg shadow-lg hover:bg-${isLiked ? "red" : "gray"}-700 transition`}
         >
           <FaHeart className={`${isLiked ? "text-red-900" : "text-white"} mr-2`} />
           {isLiked ? "Liked" : "Like"}
         </button>
         <button
-          onClick={handleSave}
+          onClick={async () => {
+            await saveProperty(id);
+            setIsSaved(true);
+          }}
           className={`px-5 py-3 bg-${isSaved ? "black" : "white"} text-${isSaved ? "white" : "black"} font-semibold rounded-lg shadow-lg hover:bg-${isSaved ? "red" : "blue"}-700 transition`}
         >
           <FaBookmark className={`${isSaved ? "text-black" : "text-gray-600"} mr-2`} />
@@ -353,7 +324,10 @@ const PropertyDetails = () => {
       </div>
 
       <div className="mt-6">
-        <button onClick={() => setShowMessageBox(true)} className="px-5 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition flex items-center">
+        <button
+          onClick={() => setShowMessageBox(true)}
+          className="px-5 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition flex items-center"
+        >
           <FaEnvelope className="mr-2" /> Send Message
         </button>
       </div>
@@ -368,7 +342,10 @@ const PropertyDetails = () => {
             onChange={(e) => setMessage(e.target.value)}
           ></textarea>
           <button
-            onClick={handleSendMessage}
+            onClick={async () => {
+              await sendMessage(property._id, message);
+              alert("Message sent!");
+            }}
             className="mt-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
           >
             Send
@@ -380,3 +357,4 @@ const PropertyDetails = () => {
 };
 
 export default PropertyDetails;
+
