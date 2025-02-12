@@ -31,7 +31,7 @@ const ContactPage = () => {
             </path>
           </svg>
         </div>
-        <div className="relative z-10 py-32">
+        <div className="relative py-32">
           <h1 className="text-5xl font-bold text-white">Get in Touch</h1>
           <p className="mt-4 text-lg text-gray-200">
             Ready to start your real estate journey? Our team is here to help you every step of the way.
