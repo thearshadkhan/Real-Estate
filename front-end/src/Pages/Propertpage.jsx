@@ -14,8 +14,8 @@ const PropertyPage = () => {
   const [filters, setFilters] = useState({
     type: "",
     location: "",
-    size: "",
-    price: "",
+    size: 0,
+    price: 0,
   });
 
   useEffect(() => {
@@ -23,14 +23,12 @@ const PropertyPage = () => {
       try {
         setLoading(true);
         const data = await fetchAllProperties();
-        setTimeout(() => {
-          const approvedProperties = data.filter(
-            (property) => property.approvalStatus === "approved"
-          );
-          setProperties(approvedProperties);
-          setFilteredProperties(approvedProperties);
-          setLoading(false);
-        }, 100);
+        const approvedProperties = data.filter(
+          (property) => property.approvalStatus === "approved"
+        );
+        setProperties(approvedProperties);
+        setFilteredProperties(approvedProperties);
+        setLoading(false);
       } catch (err) {
         setError(err.message);
         setLoading(false);
@@ -51,14 +49,14 @@ const PropertyPage = () => {
         (prop) => prop.city.toLowerCase() === filters.location.toLowerCase()
       );
     }
-    if (filters.size) {
-      filtered = filtered.filter((prop) => prop.size === filters.size);
+    if (filters.size > 0) {
+      filtered = filtered.filter((prop) => prop.size >= filters.size);
     }
-    if (filters.price) {
-      filtered = filtered.filter((prop) => prop.price <= Number(filters.price));
+    if (filters.price > 0) {
+      filtered = filtered.filter((prop) => prop.price <= filters.price);
     }
     setFilteredProperties(filtered);
-    setCurrentPage(1); // Reset to first page on filter change
+    setCurrentPage(1);
   }, [filters, properties]);
 
   const handleFilterChange = (e) => {
@@ -69,11 +67,28 @@ const PropertyPage = () => {
     }));
   };
 
+  const handlePriceChange = (e) => {
+    setFilters({ ...filters, price: Number(e.target.value) });
+  };
+
+  const handleSizeChange = (e) => {
+    setFilters({ ...filters, size: Number(e.target.value) });
+  };
+
+  const handleResetFilters = () => {
+    setFilters({
+      type: "",
+      location: "",
+      size: 0,
+      price: 0,
+    });
+    setFilteredProperties(properties);
+  };
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
 
-  // Pagination Logic
   const indexOfLastProperty = currentPage * propertiesPerPage;
   const indexOfFirstProperty = indexOfLastProperty - propertiesPerPage;
   const currentProperties = filteredProperties.slice(
@@ -95,52 +110,80 @@ const PropertyPage = () => {
         </p>
       )}
 
-      <div className="bg-white shadow-lg p-4 rounded-lg flex flex-wrap gap-4 justify-center">
-        <select
-          name="type"
-          className="p-2 border rounded"
-          onChange={handleFilterChange}
-          value={filters.type}
+      <div className="bg-white shadow-xl p-6 rounded-2xl flex flex-wrap gap-6 justify-center items-center border border-gray-200">
+        {/* Property Type */}
+        <div className="flex flex-col">
+          <select
+            name="type"
+            className="p-3 rounded-lg bg-white transition cursor-pointer outline-none"
+            onChange={handleFilterChange}
+            value={filters.type}
+          >
+            <option value="">All Types</option>
+            <option value="Home">Home</option>
+            <option value="Apartment">Apartment</option>
+            <option value="Villa">Villa</option>
+          </select>
+        </div>
+
+        {/* Location Filter */}
+        <div className="flex flex-col">
+          <select
+            name="location"
+            className="p-3 rounded-lg bg-white transition cursor-pointer outline-none"
+            onChange={handleFilterChange}
+            value={filters.location}
+          >
+            <option value="">All Locations</option>
+            <option value="Agra">Agra</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Mumbai">Mumbai</option>
+          </select>
+        </div>
+
+        {/* Size Range */}
+        <div className="flex flex-col">
+          <label className="text-gray-700 font-semibold">Min Size: <span className="font-semibold text-red-700">{filters.size} sq ft</span></label>
+          <div className="flex items-center gap-3">
+            <input
+              type="range"
+              name="size"
+              min="500"
+              max="5000"
+              step="100"
+              value={filters.size}
+              onChange={handleSizeChange}
+              className="w-40 accent-red-700"
+            />
+          </div>
+        </div>
+
+        {/* Price Range */}
+        <div className="flex flex-col">
+          <label className="text-gray-700 font-semibold">Max Price: <span className="font-semibold text-green-700">${filters.price}</span></label>
+          <div className="flex items-center gap-3">
+            <input
+              type="range"
+              name="price"
+              min="50000"
+              max="1000000"
+              step="50000"
+              value={filters.price}
+              onChange={handlePriceChange}
+              className="w-40 accent-red-700"
+            />
+          </div>
+        </div>
+
+        {/* Reset Filters Button */}
+        <button
+          onClick={handleResetFilters}
+          className="px-6 py-2 bg-red-700 text-white font-semibold rounded-lg hover:bg-red-800 shadow-md transition transform hover:scale-105"
         >
-          <option value="">All Types</option>
-          <option value="Home">Home</option>
-          <option value="Apartment">Apartment</option>
-          <option value="Villa">Villa</option>
-        </select>
-        <select
-          name="location"
-          className="p-2 border rounded"
-          onChange={handleFilterChange}
-          value={filters.location}
-        >
-          <option value="">All Locations</option>
-          <option value="Agra">Agra</option>
-          <option value="Delhi">Delhi</option>
-          <option value="Mumbai">Mumbai</option>
-        </select>
-        <select
-          name="size"
-          className="p-2 border rounded"
-          onChange={handleFilterChange}
-          value={filters.size}
-        >
-          <option value="">All Sizes</option>
-          <option value="1BHK">1 BHK</option>
-          <option value="2BHK">2 BHK</option>
-          <option value="3BHK">3 BHK</option>
-        </select>
-        <select
-          name="price"
-          className="p-2 border rounded"
-          onChange={handleFilterChange}
-          value={filters.price}
-        >
-          <option value="">No Price Limit</option>
-          <option value="100000">Up to $100,000</option>
-          <option value="200000">Up to $200,000</option>
-          <option value="300000">Up to $300,000</option>
-        </select>
+          Show All
+        </button>
       </div>
+
 
       {loading ? (
         <div className="flex justify-center items-center h-40">
@@ -179,16 +222,13 @@ const PropertyPage = () => {
                       </p>
                       <div className="mt-4 space-y-2">
                         <p className="text-gray-700 font-medium">
-                          <span className="font-bold">Type:</span>{" "}
-                          {property.type}
+                          <span className="font-bold">Type:</span> {property.type}
                         </p>
                         <p className="text-gray-700 font-medium">
-                          <span className="font-bold">City:</span>{" "}
-                          {property.city}
+                          <span className="font-bold">City:</span> {property.city}
                         </p>
                         <p className="text-gray-700 font-medium">
-                          <span className="font-bold">Locality:</span>{" "}
-                          {property.locality}
+                          <span className="font-bold">Size:</span> {property.size} sq ft
                         </p>
                         <p className="text-green-600 font-bold text-lg">
                           ${property.price}
@@ -203,40 +243,19 @@ const PropertyPage = () => {
             )}
           </div>
 
-          {/* Pagination Controls */}
-          {totalPages > 1 && (
-            <div className="flex justify-center mt-6 space-x-2">
+          {/* Pagination */}
+          <div className="flex justify-center mt-6">
+            {Array.from({ length: totalPages }, (_, i) => (
               <button
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-                className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 disabled:opacity-50"
-              >
-                Prev
-              </button>
-              {[...Array(totalPages)].map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentPage(index + 1)}
-                  className={`px-4 py-2 rounded ${
-                    currentPage === index + 1
-                      ? "bg-red-700 text-white"
-                      : "bg-gray-300 text-gray-700 hover:bg-gray-400"
+                key={i}
+                className={`mx-1 px-4 py-2 rounded ${currentPage === i + 1 ? "bg-red-600 text-white" : "bg-gray-200"
                   }`}
-                >
-                  {index + 1}
-                </button>
-              ))}
-              <button
-                onClick={() =>
-                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                }
-                disabled={currentPage === totalPages}
-                className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 disabled:opacity-50"
+                onClick={() => setCurrentPage(i + 1)}
               >
-                Next
+                {i + 1}
               </button>
-            </div>
-          )}
+            ))}
+          </div>
         </div>
       )}
     </div>

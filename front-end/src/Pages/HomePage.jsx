@@ -112,7 +112,7 @@ const HomePage = () => {
               step="100"
               value={filters.size}
               onChange={handleSizeChange}
-              className="w-full cursor-pointer"
+              className="w-full accent-red-700 cursor-pointer"
             />
           </div>
           {/* Price Range Slider */}
@@ -126,7 +126,7 @@ const HomePage = () => {
               step="10000"
               value={filters.price}
               onChange={handlePriceChange}
-              className="w-full cursor-pointer"
+              className="w-full accent-red-700 cursor-pointer"
             />
           </div>
 
@@ -217,9 +217,8 @@ const HomePage = () => {
             )}
           </div>
         )}
-        <button className="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold shadow-lg mt-10 ml-120 hover:bg-white hover:text-red-700">View All Properties</button>
+        <Link to={"/propertyPage"}><button className="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold shadow-lg mt-10 ml-130 hover:bg-white hover:text-red-700">View All Properties</button></Link>
       </div>
-
 
       {/* Back to Top Button */}
       {showScrollButton && (
