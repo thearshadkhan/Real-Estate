@@ -124,27 +124,33 @@ const PropertyDetails = () => {
       </div>
 
       <div className="mt-6 flex gap-4">
-        <button
-          onClick={async () => {
-            await likeProperty(id);
-            setIsLiked(true);
-            setProperty((prev) => ({ ...prev, likes: prev.likes + 1 }));
-          }}
-          className={`px-5 py-3 bg-${isLiked ? "red" : "gray"}-600 text-white font-semibold rounded-lg shadow-lg hover:bg-${isLiked ? "red" : "gray"}-700 transition`}
-        >
-          <FaHeart className={`${isLiked ? "text-red-900" : "text-white"} mr-2`} />
-          {isLiked ? "Liked" : "Like"}
-        </button>
-        <button
-          onClick={async () => {
-            await saveProperty(id);
-            setIsSaved(true);
-          }}
-          className={`px-5 py-3 bg-${isSaved ? "black" : "white"} text-${isSaved ? "white" : "black"} font-semibold rounded-lg shadow-lg hover:bg-${isSaved ? "red" : "blue"}-700 transition`}
-        >
-          <FaBookmark className={`${isSaved ? "text-black" : "text-gray-600"} mr-2`} />
-          {isSaved ? "Saved" : "Save"}
-        </button>
+
+      <button
+        onClick={async () => {
+          await likeProperty(id);
+          setIsLiked((prev) => !prev); // Toggle isLiked state
+          setProperty((prev) => ({
+            ...prev,
+            likes: prev.likes + (isLiked ? -1 : 1), // Increase or decrease likes count
+          }));
+        }}
+        className={`px-5 py-3 ${isLiked ? "bg-red-600" : "bg-gray-600"} text-white font-semibold rounded-lg shadow-lg hover:bg-${isLiked ? "red-700" : "gray-700"} transition flex items-center`}
+      >
+        <FaHeart className={`${isLiked ? "text-red-900" : "text-white"} mr-2`} />
+        {isLiked ? "Liked" : "Like"}
+      </button>
+
+       <button
+        onClick={async () => {
+          await saveProperty(id);
+          setIsSaved((prev) => !prev); // Toggle isSaved state
+        }}
+        className={`px-5 py-3 ${isSaved ? "bg-black text-white" : "bg-gray-600 text-black"} font-semibold rounded-lg shadow-lg hover:${isSaved ? "bg-gray-800" : "bg-blue-700 text-white"} transition flex items-center`}
+      >
+        <FaBookmark className={`${isSaved ? "text-white" : "text-white"} mr-2`} />
+        {isSaved ? "Saved" : "Save"}
+      </button>
+
       </div>
 
       <div className="mt-6">
