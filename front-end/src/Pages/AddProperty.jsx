@@ -106,12 +106,12 @@ const AddProperty = () => {
           >
             <option value="home" className="text-black">Home</option>
             <option value="apartment" className="text-black">Apartment</option>
-            <option value="office" className="text-black">Office</option>
+            <option value="villa" className="text-black">Villa</option>
             <option value="land" className="text-black">Land</option>
           </select>
           <input
             type="text"
-            placeholder="Size (sqft)"
+            placeholder="Size (sq ft)"
             value={size}
             onChange={(e) => setSize(e.target.value)}
             required

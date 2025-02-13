@@ -2,6 +2,7 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5000/api/messages";
 
+
 // 🔹 Fetch Messages for Property Owner
 export const fetchMessages = async (token) => {
   try {
@@ -18,6 +19,7 @@ export const fetchMessages = async (token) => {
 // 🔹 Send a Message to Property Owner
 export const sendMessage = async (propertyId, message, token) => {
     try {
+      const token = localStorage.getItem("token");
       console.log("Sending Message:", { propertyId, message }); // Debug log
       const response = await axios.post(
         API_URL,

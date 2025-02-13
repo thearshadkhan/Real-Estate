@@ -1,7 +1,17 @@
+import { useState } from "react";
 import React from "react";
-import { FaShieldAlt, FaStar, FaLightbulb, FaEye, FaUsers } from "react-icons/fa";
+import { FaShieldAlt, FaStar, FaLightbulb, FaEye, FaUsers, FaArrowAltCircleDown } from "react-icons/fa";
 
 const AboutPage = () => {
+  const [showTeam, setShowTeam] = useState(false);
+  
+  const teamMembers = [
+    { name: "Divyanshi", role: "Developer", img: "https://via.placeholder.com/150", desc: "Visionary leader with 20+ years in real estate." },
+    { name: "Shivam", role: "Developer", img: "https://via.placeholder.com/150", desc: "Expert in digital marketing and client engagement." },
+    { name: "Arshad", role: "Developer", img: "https://via.placeholder.com/150", desc: "Connecting buyers and sellers for seamless transactions." },
+    { name: "Yash", role: "Developer", img: "https://via.placeholder.com/150", desc: "Helping clients make smart investment decisions." },
+    { name: "Krishna", role: "Developer", img: "https://via.placeholder.com/150", desc: "Ensuring properties are maintained to the highest standards." }
+  ];
   const values = [
     { title: "Integrity", desc: "Upholding the highest professional and ethical standards.", icon: <FaShieldAlt /> },
     { title: "Excellence", desc: "Delivering top-tier service in every interaction.", icon: <FaStar /> },
@@ -77,12 +87,30 @@ const AboutPage = () => {
 
 
       {/* Our Team Section */}
-      <div className="max-w-4xl mx-auto bg-white p-8 shadow-lg rounded-lg">
+      <div className="bg-gray-100 text-gray-800 py-16 px-6 lg:px-20">
+      {/* Our Team Section */}
+      <div className="max-w-4xl mx-auto bg-white p-8 shadow-lg rounded-lg cursor-pointer" onClick={() => setShowTeam(!showTeam)}>
         <h2 className="text-2xl font-semibold text-gray-900">Our Team</h2>
         <p className="mt-4 text-gray-700">
-          Our diverse team of real estate, finance, and property management experts has decades of combined experience. We are passionate about guiding our clients through every step of their real estate journey.
+          Our diverse team of real estate, finance, and property management experts has decades of combined experience.
+          Click below to learn more about them!
         </p>
+        <FaArrowAltCircleDown className="w-7 h-7 mt-2 hover:scale-105 hover:shadow-2xl text-red-700"/>
       </div>
+      
+      {showTeam && (
+        <div className="max-w-4xl mx-auto mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {teamMembers.map((member, index) => (
+            <div key={index} className="bg-white p-6 rounded-lg shadow-lg text-center">
+              <img src={member.img} alt={member.name} className="w-32 h-32 mx-auto rounded-full mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900">{member.name}</h3>
+              <p className="text-red-700 font-medium">{member.role}</p>
+              <p className="mt-2 text-gray-700">{member.desc}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
     </div>
   );
 };
