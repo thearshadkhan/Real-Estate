@@ -21,8 +21,13 @@ const Details = () => {
         setIsLiked(data.isLiked);
         setIsSaved(data.isSaved);
         if (data.photos.length > 0) {
-          setMainImage(`http://localhost:5000/${data.photos[0]}`); // Set first image as main
+          setMainImage(
+            data.photos[0].startsWith("http") 
+              ? data.photos[0] 
+              : `http://localhost:5000/uploads/${data.photos[0]}`
+          ); // Set first image as main
         }
+        
       } catch (err) {
         setError(err.message);
       }
@@ -32,11 +37,22 @@ const Details = () => {
 
   const handleImageClick = (clickedImage) => {
     setProperty((prevProperty) => {
-      const updatedPhotos = prevProperty.photos.filter(photo => `http://localhost:5000/${photo}` !== mainImage);
-      return { ...prevProperty, photos: [`${mainImage.replace("http://localhost:5000/", "")}`, ...updatedPhotos] };
+      const updatedPhotos = prevProperty.photos.filter(
+        (photo) =>
+          (photo.startsWith("http") ? photo : `http://localhost:5000/uploads/${photo}`) !== mainImage
+      );
+  
+      return {
+        ...prevProperty,
+        photos: [mainImage, ...updatedPhotos.map((photo) =>
+          photo.startsWith("http") ? photo.replace("http://localhost:5000/uploads/", "") : photo
+        )],
+      };
     });
+  
     setMainImage(clickedImage);
   };
+  
 
 
   const handleLike = async () => {
@@ -114,7 +130,7 @@ const Details = () => {
       {/* Image Gallery */}
       {property?.photos.length > 1 && (
         <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {property.photos.map((photo, index) => {
+          {/* {property.photos.map((photo, index) => {
             const photoUrl = `http://localhost:5000/${photo}`;
             return (
               <img
@@ -125,7 +141,26 @@ const Details = () => {
                 onClick={() => handleImageClick(photoUrl)}
               />
             );
-          })}
+          })} */}
+          {property.photos && property.photos.length > 0 && (
+  property.photos.map((photo, index) => {
+    const photoUrl = photo.startsWith("http") 
+      ? photo 
+      : `http://localhost:5000/uploads/${photo}`; // Ensuring correct URL structure
+
+    return (
+      <img
+        key={index}
+        src={photoUrl}
+        alt={`Property ${index + 1}`}
+        className="w-full h-32 object-cover rounded-md shadow-md cursor-pointer transition-transform hover:scale-110"
+        onClick={() => handleImageClick(photoUrl)}
+        onError={(e) => e.target.src = errorImage} // Fallback if the image fails
+      />
+    );
+  })
+)}
+
         </div>
       )}
 

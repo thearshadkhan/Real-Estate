@@ -39,7 +39,8 @@ router.post("/", authenticateToken, upload.array("photos", 5), async (req, res) 
     logRequestData(req); // Debugging
 
     const { title, description, city, locality, type, size, price, amenities } = req.body;
-    const photos = req.files ? req.files.map((file) => file.path) : [];
+    const photos = req.files.map(file => `${req.protocol}://${req.get("host")}/uploads/${file.filename}`);
+
 
     try {
         const newProperty = new Property({
@@ -89,7 +90,8 @@ router.put("/:id", authenticateToken, upload.array("photos", 5), async (req, res
     logRequestData(req); // Debugging
 
     const { title, description, city, locality, type, size, price, amenities } = req.body;
-    const photos = req.files ? req.files.map((file) => file.path) : [];
+    const photos = req.files.map(file => `${req.protocol}://${req.get("host")}/uploads/${file.filename}`);
+
 
     try {
         const property = await Property.findById(req.params.id);

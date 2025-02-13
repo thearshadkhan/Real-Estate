@@ -105,12 +105,14 @@ const PropertyManagement = () => {
                 <span className="font-bold">Owner:</span> {property.ownerId?.name} <br /><span className="font-bold">Email:</span> {property.ownerId?.email}
               </p>
               {property.photos && property.photos.length > 0 && (
-                <img
-                  src={`http://localhost:5000/${property.photos[0]}`}
-                  alt={property.name}
-                  className="w-full h-60 object-cover"
-                />
-              )}
+  <img
+    src={property.photos[0].startsWith("http") ? property.photos[0] : `http://localhost:5000/uploads/${property.photos[0]}`}
+    alt={property.name}
+    className="w-full h-60 object-cover"
+    onError={(e) => e.target.src = errorImage} // Fallback for broken images
+  />
+)}
+
               <div className="p-5">
                 <h3 className="text-2xl font-semibold text-gray-900">{property.name}</h3>
                 <p className="text-gray-600 text-sm mt-2">{property.description?.slice(0, 80)}...</p>

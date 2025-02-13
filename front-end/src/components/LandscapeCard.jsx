@@ -9,19 +9,21 @@ const LandscapeCard = ({ property }) => {
   return (
     <div className="grid grid-cols-3 rounded-lg w-full my-5 h-full p-4 border-[0.1px] gap-5 border-red-300 shadow-[0px_2px_4px_2px_rgba(0,_0,_0,_0.35)]  hover:shadow-[0px_8px_9px_2px_rgba(0,_0,_0,_0.35)]">
       <div className="rounded-md w-90">
-        {property.photos.length > 0 ? (
-          <img
-            src={`http://localhost:5000/${property.photos[0]}`}
-            alt={property.title}
-            className="rounded-md object-fill w-90 h-60 hover:scale-105 transition"
-          />
-        ) : (
-          <img
-            src={errorImage}
-            alt={property.title}
-            className="rounded-md object-fill w-90 h-60"
-          />
-        )}
+      {property.photos.length > 0 ? (
+  <img
+    src={property.photos[0].startsWith("http") ? property.photos[0] : `http://localhost:5000/uploads/${property.photos[0]}`}
+    alt={property.title}
+    className="rounded-md object-fill w-90 h-60 hover:scale-105 transition"
+    onError={(e) => e.target.src = errorImage} // Handle broken image links
+  />
+) : (
+  <img
+    src={errorImage}
+    alt={property.title}
+    className="rounded-md object-fill w-90 h-60"
+  />
+)}
+
       </div>
 
       <div className="flex flex-col justify-between p-2">

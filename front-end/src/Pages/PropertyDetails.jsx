@@ -30,8 +30,11 @@ const PropertyDetails = () => {
           setIsLiked(data.isLiked);
           setIsSaved(data.isSaved);
           if (data.photos.length > 0) {
-            setMainImage(`http://localhost:5000/${data.photos[0]}`);
+            setMainImage(
+              data.photos[0].startsWith("http") ? data.photos[0] : `http://localhost:5000/uploads/${data.photos[0]}`
+            );
           }
+          
           setLoading(false);
         }, 1000); // Simulating 1-second loading delay
       } catch (err) {
@@ -76,32 +79,31 @@ const PropertyDetails = () => {
         ←
       </button>
 
-      {/* Main Image */}
-      {mainImage && (
-        <img
-          src={mainImage}
-          alt="Main Property"
-          className="w-full h-130 object-cover rounded-md shadow-md cursor-pointer"
-        />
-      )}
+     
 
-      {/* Image Gallery */}
-      {property?.photos.length > 1 && (
-        <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {property.photos.map((photo, index) => {
-            const photoUrl = `http://localhost:5000/${photo}`;
-            return (
-              <img
-                key={index}
-                src={photoUrl}
-                alt={`Property ${index + 1}`}
-                className="w-full h-32 object-cover rounded-md shadow-md cursor-pointer transition-transform transform hover:scale-110"
-                onClick={() => setMainImage(photoUrl)}
-              />
-            );
-          })}
-        </div>
-      )}
+      {mainImage && (
+  <img
+    src={mainImage}
+    alt="Main Property"
+    className="w-full h-130 object-cover rounded-md shadow-md cursor-pointer"
+  />
+)}
+
+{property?.photos.length > 0 && (
+  <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    {property.photos.map((photo, index) => (
+      <img
+        key={index}
+        src={photo.startsWith("http") ? photo : `http://localhost:5000/uploads/${photo}`}
+ // Directly use the backend-provided URL
+        alt={`Property ${index + 1}`}
+        className="w-full h-32 object-cover rounded-md shadow-md cursor-pointer transition-transform transform hover:scale-110"
+        onClick={() => setMainImage(photo)}
+        onError={(e) => e.target.src = errorImage} // Fallback if image fails
+      />
+    ))}
+  </div>
+)}
 
       <h2 className="text-4xl font-bold text-gray-800 mt-6">{property.title}</h2>
       <p className="text-gray-600 text-lg mt-2">{property.description}</p>
