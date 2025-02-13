@@ -27,16 +27,23 @@ const PropertyPage = () => {
         const approvedProperties = data.filter(
           (property) => property.approvalStatus === "approved"
         );
-        setProperties(approvedProperties);
-        setFilteredProperties(approvedProperties);
-        setLoading(false);
+  
+        setTimeout(() => {
+          setProperties(approvedProperties);
+          setFilteredProperties(approvedProperties);
+          setLoading(false);
+        }, 300); // 1-second delay
       } catch (err) {
-        setError(err.message);
-        setLoading(false);
+        setTimeout(() => {
+          setError(err.message);
+          setLoading(false);
+        }, 1000);
       }
     };
+  
     fetchProperties();
   }, []);
+  
 
   useEffect(() => {
     let filtered = properties;

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchPropertyById, updateProperty } from "../services/propertyService";
+import editBg from "../assets/editProp.jpg"
 
 const EditProperty = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const token = localStorage.getItem("token"); 
+  const token = localStorage.getItem("token");
 
   const [property, setProperty] = useState({
     title: "",
@@ -100,35 +101,47 @@ const EditProperty = () => {
   if (error) return <p className="text-red-600">Error: {error}</p>;
 
   return (
-    <div className="max-w-3xl mx-auto p-6 mt-20 bg-white shadow-lg rounded-lg">
-      <h2 className="text-3xl font-bold text-gray-800 mb-6">Edit Property</h2>
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <label className="block mb-2">Title:</label>
-        <input type="text" name="title" value={property.title} onChange={handleChange} className="w-full p-2 border rounded mb-4" />
+    <div
+      className="min-h-screen flex items-center justify-center bg-cover bg-center"
+      style={{
+        backgroundImage: `url(${editBg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: "150vh",
+        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 20,
+      }}
+    >
+      <div className="relative mt-15 w-full max-w-lg p-8 rounded-2xl bg-gradient-to-r from-white/20 to-white/5 backdrop-blur-sm border border-white/10">
+        <h2 className="text-2xl font-bold text-white text-center mb-4">Edit Property</h2>
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
+          <label className="block text-white mt-2">Title:</label>
+          <input type="text" name="title" value={property.title} onChange={handleChange} className="w-full p-2 border border-white/30 rounded bg-transparent text-white placeholder-white focus:ring-2" />
 
-        <label className="block mb-2">Description:</label>
-        <textarea name="description" value={property.description} onChange={handleChange} className="w-full p-2 border rounded mb-4" />
+          <label className="block text-white mt-2">Description:</label>
+          <textarea name="description" value={property.description} onChange={handleChange} className="w-full p-2 border border-white/30 rounded bg-transparent text-white placeholder-white focus:ring-2" />
 
-        <label className="block mb-2">Price:</label>
-        <input type="number" name="price" value={property.price} onChange={handleChange} className="w-full p-2 border rounded mb-4" />
+          <label className="block text-white mt-2">Price:</label>
+          <input type="number" name="price" value={property.price} onChange={handleChange} className="w-full p-2 border border-white/30 rounded bg-transparent text-white placeholder-white focus:ring-2" />
 
-        <label className="block mb-2">City:</label>
-        <input type="text" name="city" value={property.city} onChange={handleChange} className="w-full p-2 border rounded mb-4" />
+          <label className="block text-white mt-2">City:</label>
+          <input type="text" name="city" value={property.city} onChange={handleChange} className="w-full p-2 border border-white/30 rounded bg-transparent text-white placeholder-white focus:ring-2" />
 
-        <label className="block mb-2">Locality:</label>
-        <input type="text" name="locality" value={property.locality} onChange={handleChange} className="w-full p-2 border rounded mb-4" />
+          <label className="block text-white mt-2">Locality:</label>
+          <input type="text" name="locality" value={property.locality} onChange={handleChange} className="w-full p-2 border border-white/30 rounded bg-transparent text-white placeholder-white focus:ring-2" />
 
-        <label className="block mb-2">Contact:</label>
-        <input type="text" name="contact" value={property.contact} onChange={handleChange} className="w-full p-2 border rounded mb-4" />
+          <label className="block text-white mt-2">Contact:</label>
+          <input type="text" name="contact" value={property.contact} onChange={handleChange} className="w-full p-2 border border-white/30 rounded bg-transparent text-white placeholder-white focus:ring-2" />
 
-        <label className="block mb-2">Amenities (comma-separated):</label>
-        <input type="text" name="amenities" value={property.amenities.join(",")} onChange={handleChange} className="w-full p-2 border rounded mb-4" />
+          <label className="block text-white mt-2">Amenities (comma-separated):</label>
+          <input type="text" name="amenities" value={property.amenities.join(",")} onChange={handleChange} className="w-full p-2 border border-white/30 rounded bg-transparent text-white placeholder-white focus:ring-2" />
 
-        <label className="block mb-2">Upload Photos:</label>
-        <input type="file" multiple name="photos" onChange={handleFileChange} className="w-full p-2 border rounded mb-4" />
+          <label className="block text-white mt-2">Upload Photos:</label>
+          <input type="file" multiple name="photos" onChange={handleFileChange} className="w-full p-2 border border-white/30 rounded bg-transparent text-white placeholder-white focus:ring-2" />
 
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Update Property</button>
-      </form>
+          <button type="submit" className="bg-gradient-to-r from-white/60 to-white/10 w-full text-xl font-semibold px-6 py-2 rounded-lg text-white hover:bg-gradient-to-l from-white/60 to-white/10">Update Property</button>
+        </form>
+      </div>
     </div>
   );
 };

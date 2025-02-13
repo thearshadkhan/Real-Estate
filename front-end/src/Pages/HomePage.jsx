@@ -200,7 +200,7 @@ const HomePage = () => {
                     {/* Property Details */}
                     <div className="p-5 relative">
                       <h4 className="text-xl text-red-700 flex"><BiArea className="w-7 h-7 text-red" /> {property.size}sqft</h4>
-                      <h3 className="text-2xl mt-2 font-semibold text-gray-900">${property.price.toLocaleString()}</h3>
+                      <h3 className="text-xl mt-2 font-semibold text-gray-900">${property.price.toLocaleString()}</h3>
                       <p className="mt-3 text-gray-600 font-semibold text-lg flex "><RiRoadMapLine className="w-7 h-7  mr-1"/>{property.city}</p>
 
 

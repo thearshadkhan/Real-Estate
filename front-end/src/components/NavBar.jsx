@@ -88,28 +88,28 @@ const NavBar = () => {
         <Link to="/propertyPage" className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-red-700 transition flex gap-2">
         <MdHomeWork className="w-6 h-6 "/>Properties
         </Link>
-        <Link to="/AboutPage" className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-black transition">
+        <Link to="/AboutPage" className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-red-700 transition">
           About Us
         </Link>
-        <Link to="/contact" className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-black transition">
+        <Link to="/contact" className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-red-700 transition">
           Contact us
         </Link>
 
         {user ? (
           <>
-            <Link to={getDashboardLink()} className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-black transition">
+            <Link to={getDashboardLink()} className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-red-700 transition">
               Dashboard
             </Link>
-            <button onClick={handleLogout} className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-black transition">
+            <button onClick={handleLogout} className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-red-700 transition">
               Logout
             </button>
           </>
         ) : (
           <>
-            <Link to="/login" className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-black transition">
+            <Link to="/login" className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-red-700 transition">
               Login →
             </Link>
-            <Link to="/register" className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-black transition">
+            <Link to="/register" className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-red-700 transition">
               Register →
             </Link>
           </>
@@ -127,10 +127,10 @@ const NavBar = () => {
           <Link to="/propertyPage" className="py-2 w-full text-center hover:bg-red-600" onClick={() => setMenuOpen(false)}>
             Properties
           </Link>
-          <Link to="/AboutPage" className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-black transition" onClick={() => setMenuOpen(false)}>
+          <Link to="/AboutPage" className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-red-700 transition" onClick={() => setMenuOpen(false)}>
           About Us
         </Link>
-        <Link to="/contact" className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-black transition" onClick={() => setMenuOpen(false)}>
+        <Link to="/contact" className="px-4 py-2 font-bold rounded-full hover:bg-white hover:text-red-700 transition" onClick={() => setMenuOpen(false)}>
           Contact us
         </Link>
 
