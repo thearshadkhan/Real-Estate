@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const PropertyManagement = () => {
   const [properties, setProperties] = useState([]);
   const [error, setError] = useState("");
+  const location = useLocation();
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -11,30 +13,32 @@ const PropertyManagement = () => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem("token")}`, // Add token for admin access
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
           },
         });
-  
-        if (!response.ok) {
-          throw new Error("Failed to fetch properties");
-        }
-  
+
+        if (!response.ok) throw new Error("Failed to fetch properties");
+
         const data = await response.json();
-  
-        if (Array.isArray(data)) {
-          setProperties(data); // ✅ Ensure it's an array
-        } else {
-          setProperties([]); // ✅ Prevent .map() errors
-          setError("Unexpected response format.");
-        }
+        if (!Array.isArray(data)) throw new Error("Unexpected response format");
+
+        // ✅ Check if user clicked "Active Properties"
+        const queryParams = new URLSearchParams(location.search);
+        const isActive = queryParams.get("active") === "true";
+
+        const filteredProperties = isActive 
+          ? data.filter(property => property.approvalStatus === "approved") 
+          : data;
+
+        setProperties(filteredProperties);
       } catch (err) {
         console.error("Error fetching properties:", err);
         setError("Failed to load properties.");
       }
     };
-  
+
     fetchProperties();
-  }, []);
+  }, [location.search]);
 
   const handleApproval = async (id, status) => {
     try {
@@ -81,7 +85,6 @@ const PropertyManagement = () => {
 
   return (
     <div className="max-w-7xl mx-auto p-6">
-      <h2 className="text-4xl font-bold text-gray-800 mb-6 text-center">Property Management</h2>
 
       {error && (
         <p className="text-red-600 bg-red-100 border border-red-400 px-4 py-2 rounded-md mb-4 text-center">
