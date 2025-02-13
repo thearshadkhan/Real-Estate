@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const path = require("path");
 
 dotenv.config(); // Load environment variables
 
@@ -17,7 +18,8 @@ app.use(cors({
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-app.use("/uploads", express.static("uploads"));
+// app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Connect to MongoDB
 mongoose

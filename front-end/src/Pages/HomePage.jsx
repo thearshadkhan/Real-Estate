@@ -106,7 +106,7 @@ const HomePage = () => {
             <option value="Mumbai">Mumbai</option>
           </select>
 
-          <div className="flex flex-col items-center px-4">
+          {/* <div className="flex flex-col items-center px-4">
             <label className="text-sm font-semibold text-gray-800">Min Size: {filters.size.toLocaleString()} sq ft</label>
             <input
               type="range"
@@ -118,7 +118,32 @@ const HomePage = () => {
               onChange={handleSizeChange}
               className="w-full accent-red-700 cursor-pointer"
             />
+          </div> */}
+          {filters.type === "Apartment" ? (
+          <select name="size" className="py-2 px-4 font-semibold text-black rounded outline-none" onChange={handleSizeChange}>
+            <option value="">Select BHK</option>
+            <option value="1BHK">1 BHK</option>
+            <option value="2BHK">2 BHK</option>
+            <option value="3BHK">3 BHK</option>
+            <option value="4BHK">4 BHK</option>
+          </select>
+        ) : (
+          <div className="flex flex-col items-center px-4">
+            <label className="text-sm font-semibold text-gray-800">Min Size: {filters.size.toLocaleString()} sq ft</label>
+            <input
+              type="range"
+              name="size"
+              min="0"
+              max="5000"
+              step="100"
+              value={filters.size}
+              onChange={handleSizeChange}
+              className="w-full accent-red-700 cursor-pointer"
+            />
           </div>
+        )}
+
+
           {/* Price Range Slider */}
           <div className="flex flex-col items-center px-4">
             <label className="text-sm font-semibold text-gray-800">Max Price: ${filters.price.toLocaleString()}</label>
