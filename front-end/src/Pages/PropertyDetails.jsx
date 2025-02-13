@@ -4,6 +4,9 @@ import { fetchPropertyById, likeProperty, saveProperty } from "../services/prope
 import { sendMessage } from "../services/messageService";
 import { FaHeart, FaBookmark, FaCity, FaMapMarkerAlt, FaDollarSign, FaEnvelope } from 'react-icons/fa';
 import { FaHouseChimneyWindow } from "react-icons/fa6";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext"; // Assuming you have an AuthContext
+
 
 const PropertyDetails = () => {
   const { id } = useParams();
@@ -16,6 +19,7 @@ const PropertyDetails = () => {
   const [showMessageBox, setShowMessageBox] = useState(false);
   const [mainImage, setMainImage] = useState("");
   const [loading, setLoading] = useState(true); // Added loading state
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const getProperty = async () => {
@@ -126,30 +130,40 @@ const PropertyDetails = () => {
       <div className="mt-6 flex gap-4">
 
       <button
-        onClick={async () => {
-          await likeProperty(id);
-          setIsLiked((prev) => !prev); // Toggle isLiked state
-          setProperty((prev) => ({
-            ...prev,
-            likes: prev.likes + (isLiked ? -1 : 1), // Increase or decrease likes count
-          }));
-        }}
-        className={`px-5 py-3 ${isLiked ? "bg-red-600" : "bg-gray-600"} text-white font-semibold rounded-lg shadow-lg hover:bg-${isLiked ? "red-700" : "gray-700"} transition flex items-center`}
-      >
-        <FaHeart className={`${isLiked ? "text-red-900" : "text-white"} mr-2`} />
-        {isLiked ? "Liked" : "Like"}
-      </button>
+  onClick={async () => {
+    if (!user) {
+      alert("You must be logged in to like this property.");
+      return;
+    }
+    await likeProperty(id);
+    setIsLiked((prev) => !prev);
+    setProperty((prev) => ({
+      ...prev,
+      likes: prev.likes + (isLiked ? -1 : 1),
+    }));
+    alert(isLiked ? "You unliked this property." : "You liked this property!");
+  }}
+  className={`px-5 py-3 ${isLiked ? "bg-red-600" : "bg-gray-600"} text-white font-semibold rounded-lg shadow-lg hover:bg-${isLiked ? "red-700" : "gray-700"} transition flex items-center`}
+>
+  <FaHeart className={`${isLiked ? "text-red-900" : "text-white"} mr-2`} />
+  {isLiked ? "Liked" : "Like"}
+</button>
 
-       <button
-        onClick={async () => {
-          await saveProperty(id);
-          setIsSaved((prev) => !prev); // Toggle isSaved state
-        }}
-        className={`px-5 py-3 ${isSaved ? "bg-black text-white" : "bg-gray-600 text-black"} font-semibold rounded-lg shadow-lg hover:${isSaved ? "bg-gray-800" : "bg-blue-700 text-white"} transition flex items-center`}
-      >
-        <FaBookmark className={`${isSaved ? "text-white" : "text-white"} mr-2`} />
-        {isSaved ? "Saved" : "Save"}
-      </button>
+<button
+  onClick={async () => {
+    if (!user) {
+      alert("You must be logged in to save this property.");
+      return;
+    }
+    await saveProperty(id);
+    setIsSaved((prev) => !prev);
+    alert(isSaved ? "Property unsaved." : "Property saved successfully!");
+  }}
+  className={`px-5 py-3 ${isSaved ? "bg-black text-white" : "bg-gray-600 text-black"} font-semibold rounded-lg shadow-lg hover:${isSaved ? "bg-gray-800" : "bg-blue-700 text-white"} transition flex items-center`}
+>
+  <FaBookmark className={`${isSaved ? "text-white" : "text-white"} mr-2`} />
+  {isSaved ? "Saved" : "Save"}
+</button>
 
       </div>
 
