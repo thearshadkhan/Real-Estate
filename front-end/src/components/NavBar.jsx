@@ -52,7 +52,7 @@ const NavBar = () => {
   return (
     <nav className="fixed top-0 w-full bg-red-700 p-4 text-white flex justify-between items-center z-10 shadow-lg">
       {/* Logo */}
-      <Link to="/" className="flex items-center space-x-2">
+      <Link to="/" className="flex items-center space-x-2 hover:scale-105 transition">
         <img src={logo} alt="Logo" className="w-8 h-8" />
         <h1 className="text-xl font-bold">Brick & Beams</h1>
       </Link>
