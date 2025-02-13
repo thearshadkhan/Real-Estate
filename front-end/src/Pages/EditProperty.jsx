@@ -139,7 +139,7 @@ const EditProperty = () => {
           <label className="block text-white mt-2">Upload Photos:</label>
           <input type="file" multiple name="photos" onChange={handleFileChange} className="w-full p-2 border border-white/30 rounded bg-transparent text-white placeholder-white focus:ring-2" />
 
-          <button type="submit" className="bg-gradient-to-r from-white/60 to-white/10 w-full text-xl font-semibold px-6 py-2 rounded-lg text-white hover:bg-gradient-to-l from-white/60 to-white/10">Update Property</button>
+          <button type="submit" className="bg-gradient-to-r from-white/60 to-white/10 w-full text-xl font-semibold px-6 py-2 rounded-lg text-white hover:bg-gradient-to-l ">Update Property</button>
         </form>
       </div>
     </div>

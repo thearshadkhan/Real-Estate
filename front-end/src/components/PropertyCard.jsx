@@ -1,5 +1,5 @@
 import React from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const PropertyCard = ({ property ,onUnlike, onUnsave}) => {
   return (
@@ -15,7 +15,7 @@ const PropertyCard = ({ property ,onUnlike, onUnsave}) => {
       <div className="mt-4 flex justify-between">
       {onUnlike && (
           <button 
-            className="bg-red-500 text-white px-4 py-2 rounded" 
+            className="bg-red-700 text-white px-4 py-2 rounded" 
             onClick={() => onUnlike(property._id)}
           >
             Unlike
@@ -23,19 +23,19 @@ const PropertyCard = ({ property ,onUnlike, onUnsave}) => {
         )}
         {onUnsave && (
           <button 
-            className="bg-blue-500 text-white px-4 py-2 rounded" 
+            className="bg-red-700 text-white px-4 py-2 rounded" 
             onClick={() => onUnsave(property._id)}
           >
             Unsave
           </button>
         )}
       </div>
-      {/* <Link
+      <Link
         to={`/property/${property._id}`} key={property._id}
-        className="text-blue-500 underline mt-4 block"
+        className="text-red-500 underline mt-4 block"
       >
         View Details
-      </Link> */}
+      </Link>
     </div>
   );
 };

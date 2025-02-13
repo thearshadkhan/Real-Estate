@@ -51,21 +51,6 @@ const UserDashboard = () => {
   }
 };
 
-// useEffect(() => {
-//   const getMessages = async () => {
-//     try {
-//       const messagesData = await fetchUserMessages();
-//       if (Array.isArray(messagesData)) {
-//         setMessages(messagesData);
-//       } else {
-//         setMessages([]); // Ensure messages is always an array
-//       }
-//     } catch (err) {
-//       setError("Failed to fetch messages.");
-//     }
-//   };
-//   getMessages();
-// }, []);
 useEffect(() => {
   const getMessages = async () => {
     try {

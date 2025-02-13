@@ -9,7 +9,6 @@ const LandscapeCard = ({ property }) => {
   return (
     <div className="grid grid-cols-3 rounded-lg w-full my-5 h-full p-4 border-[0.1px] gap-5 border-red-300 shadow-[0px_2px_4px_2px_rgba(0,_0,_0,_0.35)]  hover:shadow-[0px_8px_9px_2px_rgba(0,_0,_0,_0.35)]">
       <div className="rounded-md w-90">
-        {/* <img className="rounded-md h-full w-full object-cover" src={hero} alt={property.title} /> */}
         {property.photos.length > 0 ? (
           <img
             src={`http://localhost:5000/${property.photos[0]}`}
@@ -47,7 +46,7 @@ const LandscapeCard = ({ property }) => {
         </button>
       </div>
     </div>
-    // </div>
+   
   );
 };
 
