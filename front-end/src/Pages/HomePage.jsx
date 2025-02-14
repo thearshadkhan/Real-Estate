@@ -35,7 +35,7 @@ const HomePage = () => {
         const data = await fetchAllProperties();
         setTimeout(() => {
           setProperties(data);
-          setFilteredProperties(data.slice(0, 9));
+          setFilteredProperties(data.slice(0, 6));
           setLoading(false);
         }, 100);
       } catch (error) {

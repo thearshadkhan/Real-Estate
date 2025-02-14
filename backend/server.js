@@ -41,8 +41,12 @@ app.use("/api/users", userRoutes);
 app.use("/api/properties", propertyRoutes);
 app.use("/api/messages", messageRoutes);
 
-// Start the server
+//Start the server
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
+
+  
+  module.exports = app;
