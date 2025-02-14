@@ -4,11 +4,18 @@ import { Link } from "react-router-dom";
 const PropertyCard = ({ property ,onUnlike, onUnsave}) => {
   return (
     <div className="bg-white p-4 rounded-lg shadow-md">
-      <img
-        src={`http://localhost:5000/${property.photos[0]}`}
-        alt={property.title}
-        className="w-full h-40 object-cover rounded-md mb-4"
-      />
+     <img
+  src={
+    property.photos.length > 0
+      ? property.photos[0].startsWith("http")
+        ? property.photos[0] // Use directly if already a full URL
+        : `http://localhost:5000/uploads/${property.photos[0]}` // Add correct prefix
+      : errorImage
+  }
+  alt={property.title}
+  className="w-full h-40 object-cover rounded-md mb-4"
+/>
+
       <h3 className="text-xl font-semibold">{property.title}</h3>
       <p className="text-gray-600">{property.city}</p>
       <p className="text-gray-800 font-semibold">${property.price}</p>
