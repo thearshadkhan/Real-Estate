@@ -217,10 +217,17 @@ const HomePage = () => {
 
                     {/* Property Image */}
                     <img
-                      src={property.photos.length > 0 ? `http://localhost:5000/${property.photos[0]}` : errorImage}
-                      alt={property.title}
-                      className="w-full h-60 object-cover hover:scale-110 transition-all"
-                    />
+                    src={
+                      property.photos.length > 0
+                        ? property.photos[0].startsWith("http")
+                          ? property.photos[0] // Use directly if already a full URL
+                          : `http://localhost:5000/uploads/${property.photos[0]}` // Add correct prefix
+                        : errorImage
+                    }
+                    alt={property.title}
+                    className="w-full h-60 object-cover hover:scale-110 transition-all"
+                  />
+
 
                     {/* Property Details */}
                     <div className="p-5 relative">
