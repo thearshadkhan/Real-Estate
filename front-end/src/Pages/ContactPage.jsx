@@ -44,9 +44,9 @@ const ContactPage = () => {
         <h2 className="text-2xl font-semibold text-gray-900">Contact Information</h2>
         <p className="mt-4 text-gray-700">Feel free to reach out to us anytime.</p>
         <ul className="mt-4 text-gray-700 space-y-2">
-          <li><strong>Phone:</strong> [Your Phone Number]</li>
+          <li><strong>Phone:</strong> +1 234 567 890</li>
           <li><strong>Email:</strong> info@brickandbeams.com</li>
-          <li><strong>Address:</strong> [Your Office Address]</li>
+          <li><strong>Address:</strong> 123 Real Estate St, City, Country</li>
         </ul>
       </div>
 

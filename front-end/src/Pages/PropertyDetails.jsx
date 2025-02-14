@@ -143,7 +143,6 @@ const PropertyDetails = () => {
       ...prev,
       likes: prev.likes + (isLiked ? -1 : 1),
     }));
-    alert(isLiked ? "You unliked this property." : "You liked this property!");
   }}
   className={`px-5 py-3 ${isLiked ? "bg-red-600" : "bg-gray-600"} text-white font-semibold rounded-lg shadow-lg hover:bg-${isLiked ? "red-700" : "gray-700"} transition flex items-center`}
 >
@@ -159,7 +158,6 @@ const PropertyDetails = () => {
     }
     await saveProperty(id);
     setIsSaved((prev) => !prev);
-    alert(isSaved ? "Property unsaved." : "Property saved successfully!");
   }}
   className={`px-5 py-3 ${isSaved ? "bg-black text-white" : "bg-gray-600 text-black"} font-semibold rounded-lg shadow-lg hover:${isSaved ? "bg-gray-800" : "bg-blue-700 text-white"} transition flex items-center`}
 >

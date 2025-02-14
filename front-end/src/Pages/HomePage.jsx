@@ -253,7 +253,7 @@ const HomePage = () => {
             )}
           </div>
         )}
-        <Link to={"/propertyPage"}><button className="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold shadow-lg mt-10 ml-130 hover:bg-white hover:text-red-700">View All Properties</button></Link>
+        <Link to={"/propertyPage"}><button className="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold shadow-lg mt-10 ml-130 hover:bg-white hover:scale-105 hover:shadow-2xl transition hover:text-red-700">View All Properties</button></Link>
       </div>
 
       {/* Back to Top Button */}
