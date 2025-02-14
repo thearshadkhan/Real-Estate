@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { fetchPropertyById, likeProperty, saveProperty,deleteProperty } from "../services/propertyService";
-import { FaEdit,FaHeart, FaBookmark, FaCity, FaMapMarkerAlt, FaDollarSign} from 'react-icons/fa';
+import { fetchPropertyById, likeProperty, saveProperty, deleteProperty } from "../services/propertyService";
+import { FaEdit, FaHeart, FaBookmark, FaCity, FaMapMarkerAlt, FaDollarSign } from 'react-icons/fa';
 import { FaHouseChimneyWindow } from "react-icons/fa6";
 
 const Details = () => {
@@ -12,9 +12,11 @@ const Details = () => {
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [mainImage, setMainImage] = useState("");
+  const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
-    const getProperty = async () => {
+    setLoading(true); // Start loading
+    setTimeout(async () => {
       try {
         const data = await fetchPropertyById(id);
         setProperty(data);
@@ -25,70 +27,23 @@ const Details = () => {
             data.photos[0].startsWith("http") 
               ? data.photos[0] 
               : `http://localhost:5000/uploads/${data.photos[0]}`
-          ); // Set first image as main
+          );
         }
-        
       } catch (err) {
         setError(err.message);
+      } finally {
+        setLoading(false); // End loading after 1 sec
       }
-    };
-    getProperty();
+    }, 1000);
   }, [id]);
 
-  const handleImageClick = (clickedImage) => {
-    setProperty((prevProperty) => {
-      const updatedPhotos = prevProperty.photos.filter(
-        (photo) =>
-          (photo.startsWith("http") ? photo : `http://localhost:5000/uploads/${photo}`) !== mainImage
-      );
-  
-      return {
-        ...prevProperty,
-        photos: [mainImage, ...updatedPhotos.map((photo) =>
-          photo.startsWith("http") ? photo.replace("http://localhost:5000/uploads/", "") : photo
-        )],
-      };
-    });
-  
-    setMainImage(clickedImage);
-  };
-  
-
-
-  const handleLike = async () => {
-    try {
-      await likeProperty(id);
-      setIsLiked(true);
-      setProperty((prevProperty) => ({
-        ...prevProperty,
-        likes: prevProperty.likes + 1,
-      }));
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  const handleSave = async () => {
-    try {
-      await saveProperty(id);
-      setIsSaved(true);
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-  const handleDelete = async () => {
-    if (window.confirm("Are you sure you want to delete this property?")) {
-      try {
-        const token = localStorage.getItem("token"); // Adjust based on where you store the token
-        await deleteProperty(id, token);
-        alert("Property deleted successfully!");
-        navigate("/owner-dashboard");
-      } catch (err) {
-        setError(err.message);
-      }
-    }
-  };
-  
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+         <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-red-700"></div>
+      </div>
+    );
+  }
 
   if (error) {
     return (
@@ -97,11 +52,11 @@ const Details = () => {
           Error: {error}
         </p>
         <button
-        onClick={() => navigate(-1)}
-        className="text-red-700 mb-2 inline-block text-5xl hover:text-red-800 hover:scale-110"
-      >
-        ←
-      </button>
+          onClick={() => navigate(-1)}
+          className="text-red-700 mb-2 inline-block text-5xl hover:text-red-800 hover:scale-110"
+        >
+          ←
+        </button>
       </div>
     );
   }
@@ -127,43 +82,6 @@ const Details = () => {
         />
       )}
 
-      {/* Image Gallery */}
-      {property?.photos.length > 1 && (
-        <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {/* {property.photos.map((photo, index) => {
-            const photoUrl = `http://localhost:5000/${photo}`;
-            return (
-              <img
-                key={index}
-                src={photoUrl}
-                alt={`Property ${index + 1}`}
-                className="w-full h-32 object-cover rounded-md shadow-md cursor-pointer transition-transform transform hover:scale-110"
-                onClick={() => handleImageClick(photoUrl)}
-              />
-            );
-          })} */}
-          {property.photos && property.photos.length > 0 && (
-  property.photos.map((photo, index) => {
-    const photoUrl = photo.startsWith("http") 
-      ? photo 
-      : `http://localhost:5000/uploads/${photo}`; // Ensuring correct URL structure
-
-    return (
-      <img
-        key={index}
-        src={photoUrl}
-        alt={`Property ${index + 1}`}
-        className="w-full h-32 object-cover rounded-md shadow-md cursor-pointer transition-transform hover:scale-110"
-        onClick={() => handleImageClick(photoUrl)}
-        onError={(e) => e.target.src = errorImage} // Fallback if the image fails
-      />
-    );
-  })
-)}
-
-        </div>
-      )}
-
       <h2 className="text-4xl font-bold text-gray-800 mt-6">{property.title}</h2>
       <p className="text-gray-600 text-lg mt-2">{property.description}</p>
 
@@ -178,11 +96,10 @@ const Details = () => {
           <FaDollarSign className="mr-2 text-gray-500" /> ${property.price}
         </p>
         <p className="text-gray-700 text-lg flex items-center">
-        <FaHouseChimneyWindow className="mr-2 text-gray-500" /> {property.size} sqft
-      </p>
+          <FaHouseChimneyWindow className="mr-2 text-gray-500" /> {property.size} sqft
+        </p>
       </div>
 
-      {/* Display the number of likes */}
       <div className="mt-4">
         <p className="text-gray-700 text-lg">
           <span className="font-semibold">Likes:</span> {property.likes}
@@ -191,14 +108,14 @@ const Details = () => {
 
       <div className="mt-6 flex gap-4">
         <button
-          onClick={handleLike}
+          onClick={() => setIsLiked(!isLiked)}
           className={`px-5 py-3 bg-${isLiked ? "red" : "gray"}-600 text-white font-semibold rounded-lg shadow-lg hover:bg-${isLiked ? "red" : "gray"}-700 transition`}
         >
           <FaHeart className={`${isLiked ? "text-red-900" : "text-white"} mr-2`} />
           {isLiked ? "Liked" : "Like"}
         </button>
         <button
-          onClick={handleSave}
+          onClick={() => setIsSaved(!isSaved)}
           className={`px-5 py-3 bg-${isSaved ? "black" : "white"} text-${isSaved ? "white" : "black"} font-semibold rounded-lg shadow-lg hover:bg-${isSaved ? "red" : "blue"}-700 transition`}
         >
           <FaBookmark className={`${isSaved ? "text-black" : "text-gray-600"} mr-2`} />
@@ -213,14 +130,11 @@ const Details = () => {
       </button>
 
       <button
-      onClick={handleDelete}
-      className="px-5 mt-5 py-3 bg-red-600 text-white font-semibold rounded-lg shadow-lg hover:bg-red-700 transition"
-    >
-      Delete Property
-    </button>
-
-      
-
+        onClick={() => alert("Delete function here")}
+        className="px-5 mt-5 py-3 bg-red-600 text-white font-semibold rounded-lg shadow-lg hover:bg-red-700 transition"
+      >
+        Delete Property
+      </button>
     </div>
   );
 };

@@ -24,9 +24,10 @@ const EditProperty = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    let isMounted = true; // Prevent memory leaks
 
+  useEffect(() => {
+    let isMounted = true;
+  
     const getProperty = async () => {
       try {
         const data = await fetchPropertyById(id);
@@ -43,21 +44,29 @@ const EditProperty = () => {
             amenities: data.amenities || [],
             photos: data.photos || []
           });
-          setLoading(false);
         }
       } catch (err) {
         if (isMounted) {
           setError(err.message);
-          setLoading(false);
         }
       }
+      setTimeout(() => {
+        if (isMounted) setLoading(false);
+      }, 1000);
     };
-
+  
     getProperty();
-    return () => {
-      isMounted = false;
-    };
+    return () => { isMounted = false; };
   }, [id]);
+  
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-red-700"></div>
+      </div>
+    );
+  }
+  
 
   // Handle input changes
   const handleChange = (e) => {
@@ -107,12 +116,12 @@ const EditProperty = () => {
         backgroundImage: `url(${editBg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        height: "150vh",
+        height: "130vh",
         borderBottomRightRadius: 20,
         borderBottomLeftRadius: 20,
       }}
     >
-      <div className="relative mt-15 w-full max-w-lg p-8 rounded-2xl bg-gradient-to-r from-white/20 to-white/5 backdrop-blur-sm border border-white/10">
+      <div className="relative mt-5 w-full max-w-lg p-8 rounded-2xl bg-gradient-to-r from-white/20 to-white/5 backdrop-blur-sm border border-white/10">
         <h2 className="text-2xl font-bold text-white text-center mb-4">Edit Property</h2>
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <label className="block text-white mt-2">Title:</label>

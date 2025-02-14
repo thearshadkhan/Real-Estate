@@ -230,7 +230,7 @@ const HomePage = () => {
                         : errorImage
                     }
                     alt={property.title}
-                    className="w-full h-60 object-cover hover:scale-110 transition-all"
+                    className="w-full h-60 object-cover hover:scale-105 transition-all"
                   />
 
 
