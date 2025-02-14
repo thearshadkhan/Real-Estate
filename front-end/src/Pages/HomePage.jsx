@@ -104,6 +104,11 @@ const HomePage = () => {
             <option value="Agra">Agra</option>
             <option value="Delhi">Delhi</option>
             <option value="Mumbai">Mumbai</option>
+            <option value="Jaipur">Jaipur</option>
+            <option value="Bangalore">Bangalore</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Pune">Pune</option>
+            <option value="Gurgaon">Gurgaon</option>
           </select>
 
           {/* <div className="flex flex-col items-center px-4">
