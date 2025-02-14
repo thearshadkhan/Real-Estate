@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchPropertyById, likeProperty, saveProperty } from "../services/propertyService";
 import { sendMessage } from "../services/messageService";
-import { FaHeart, FaBookmark, FaCity, FaMapMarkerAlt, FaDollarSign, FaEnvelope } from 'react-icons/fa';
-import { FaHouseChimneyWindow } from "react-icons/fa6";
+import { FaHeart, FaBookmark, FaCity, FaMapMarkerAlt, FaDollarSign, FaEnvelope, FaPhone, FaPhoneAlt } from 'react-icons/fa';
+import { FaHouseChimneyWindow, FaPhoneFlip } from "react-icons/fa6";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext"; // Assuming you have an AuthContext
 
@@ -34,7 +34,7 @@ const PropertyDetails = () => {
               data.photos[0].startsWith("http") ? data.photos[0] : `http://localhost:5000/uploads/${data.photos[0]}`
             );
           }
-          
+
           setLoading(false);
         }, 1000); // Simulating 1-second loading delay
       } catch (err) {
@@ -79,31 +79,31 @@ const PropertyDetails = () => {
         ←
       </button>
 
-     
+
 
       {mainImage && (
-  <img
-    src={mainImage}
-    alt="Main Property"
-    className="w-full h-130 object-cover rounded-md shadow-md cursor-pointer"
-  />
-)}
+        <img
+          src={mainImage}
+          alt="Main Property"
+          className="w-full h-130 object-cover rounded-md shadow-md cursor-pointer"
+        />
+      )}
 
-{property?.photos.length > 0 && (
-  <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-    {property.photos.map((photo, index) => (
-      <img
-        key={index}
-        src={photo.startsWith("http") ? photo : `http://localhost:5000/uploads/${photo}`}
- // Directly use the backend-provided URL
-        alt={`Property ${index + 1}`}
-        className="w-full h-32 object-cover rounded-md shadow-md cursor-pointer transition-transform transform hover:scale-110"
-        onClick={() => setMainImage(photo)}
-        onError={(e) => e.target.src = errorImage} // Fallback if image fails
-      />
-    ))}
-  </div>
-)}
+      {property?.photos.length > 0 && (
+        <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {property.photos.map((photo, index) => (
+            <img
+              key={index}
+              src={photo.startsWith("http") ? photo : `http://localhost:5000/uploads/${photo}`}
+              // Directly use the backend-provided URL
+              alt={`Property ${index + 1}`}
+              className="w-full h-32 object-cover rounded-md shadow-md cursor-pointer transition-transform transform hover:scale-110"
+              onClick={() => setMainImage(photo)}
+              onError={(e) => e.target.src = errorImage} // Fallback if image fails
+            />
+          ))}
+        </div>
+      )}
 
       <h2 className="text-4xl font-bold text-gray-800 mt-6">{property.title}</h2>
       <p className="text-gray-600 text-lg mt-2">{property.description}</p>
@@ -131,49 +131,56 @@ const PropertyDetails = () => {
 
       <div className="mt-6 flex gap-4">
 
-      <button
-  onClick={async () => {
-    if (!user) {
-      alert("You must be logged in to like this property.");
-      return;
-    }
-    await likeProperty(id);
-    setIsLiked((prev) => !prev);
-    setProperty((prev) => ({
-      ...prev,
-      likes: prev.likes + (isLiked ? -1 : 1),
-    }));
-  }}
-  className={`px-5 py-3 ${isLiked ? "bg-red-600" : "bg-gray-600"} text-white font-semibold rounded-lg shadow-lg hover:bg-${isLiked ? "red-700" : "gray-700"} transition flex items-center`}
->
-  <FaHeart className={`${isLiked ? "text-red-900" : "text-white"} mr-2`} />
-  {isLiked ? "Liked" : "Like"}
-</button>
+        <button
+          onClick={async () => {
+            if (!user) {
+              alert("You must be logged in to like this property.");
+              return;
+            }
+            await likeProperty(id);
+            setIsLiked((prev) => !prev);
+            setProperty((prev) => ({
+              ...prev,
+              likes: prev.likes + (isLiked ? -1 : 1),
+            }));
+          }}
+          className={`px-5 py-3 ${isLiked ? "bg-red-600" : "bg-gray-600"} text-white font-semibold rounded-lg shadow-lg hover:bg-${isLiked ? "red-700" : "gray-700"} transition flex items-center`}
+        >
+          <FaHeart className={`${isLiked ? "text-red-900" : "text-white"} mr-2`} />
+          {isLiked ? "Liked" : "Like"}
+        </button>
 
-<button
-  onClick={async () => {
-    if (!user) {
-      alert("You must be logged in to save this property.");
-      return;
-    }
-    await saveProperty(id);
-    setIsSaved((prev) => !prev);
-  }}
-  className={`px-5 py-3 ${isSaved ? "bg-black text-white" : "bg-gray-600 text-black"} font-semibold rounded-lg shadow-lg hover:${isSaved ? "bg-gray-800" : "bg-blue-700 text-white"} transition flex items-center`}
->
-  <FaBookmark className={`${isSaved ? "text-white" : "text-white"} mr-2`} />
-  {isSaved ? "Saved" : "Save"}
-</button>
+        <button
+          onClick={async () => {
+            if (!user) {
+              alert("You must be logged in to save this property.");
+              return;
+            }
+            await saveProperty(id);
+            setIsSaved((prev) => !prev);
+          }}
+          className={`px-5 py-3 ${isSaved ? "bg-black text-white" : "bg-gray-600 text-black"} font-semibold rounded-lg shadow-lg hover:${isSaved ? "bg-gray-800" : "bg-blue-700 text-white"} transition flex items-center`}
+        >
+          <FaBookmark className={`${isSaved ? "text-white" : "text-white"} mr-2`} />
+          {isSaved ? "Saved" : "Save"}
+        </button>
 
       </div>
 
-      <div className="mt-6">
+      <div className="mt-6 flex justify-between">
         <button
           onClick={() => setShowMessageBox(true)}
           className="px-5 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition flex items-center"
         >
           <FaEnvelope className="mr-2" /> Send Message
         </button>
+        <button
+          onClick={() => navigate('/contact')}
+          className="px-5 py-3 bg-white text-red-700 font-semibold rounded-lg shadow-lg hover:bg-red-600 hover:text-white transition flex items-center"
+        >
+           Contact Owner <FaPhoneAlt className="ml-1 w-4 h-4"/>
+        </button>
+
       </div>
 
       {showMessageBox && (
