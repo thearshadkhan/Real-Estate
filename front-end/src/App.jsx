@@ -58,6 +58,7 @@ function App() {
           <Route path="/property/:id" element={<PropertyDetails />} />
           <Route path="/userDashboard" element={<UserDashboard />} />
           <Route path="/owner-dashboard" element={<OwnerDashboard />} />
+          
           <Route path="/edit-property/:id" element={<EditProperty />} />
           <Route path="/details/:id" element={<Details />} />
           <Route path="/AboutPage" element={<AboutPage/>}/>
@@ -69,6 +70,7 @@ function App() {
             <Route index element={<Navigate to="properties" replace />} />
             <Route path="properties" element={<PropertyManagement />} />
             <Route path="users" element={<UserManagement />} />
+            
           </Route>
         </Routes>
         <Footer />

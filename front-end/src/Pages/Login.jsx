@@ -18,20 +18,35 @@ const Login = () => {
             const data = await loginUser(email, password);
             const userData = { email: data.email, role: data.role };
             localStorage.setItem("token", data.token);
-            login(userData); // ✅ Update global authentication state
-
+            login(userData);
+    
             if (data.role === "admin") {
-                navigate("/dashboard"); // Redirect admin to dashboard
-            } else if (data.role === "user") {
-                navigate("/"); // Redirect user to home
+                navigate("/dashboard");
             } else {
                 navigate("/");
             }
         } catch (err) {
-            setError("Invalid credentials or access denied");
+        
+            if (err.response) {
+        
+                if (err.response.status === 403) {
+                    setError("Your account has been banned due to some unusual activities.");
+                } else if (err.response.status === 400) {
+                    setError("Invalid credentials.");
+                } else if (err.response.status === 404) {
+                    setError("User not found.");
+                } else {
+                    setError("Something went wrong. Please try again.");
+                }
+            } else if (err.request) {
+                setError("Could not connect to the server. Please try again.");
+            } else {
+                setError("Network error. Please check your connection.");
+            }
         }
+        
     };
-
+    
     return (
         <div className="w-full min-h-screen bg-black">
             <div className="flex items-center justify-center w-full h-9/10" style={{

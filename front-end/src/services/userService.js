@@ -33,12 +33,10 @@ export const fetchUserById = async (id) => {
 };
 export const loginUser = async (email, password) => {
   try {
-    const response = await axios.post(`${API_URL}/login`, {
-      email,
-      password,
-    });
+    const response = await axios.post(`${API_URL}/login`, { email, password });
     return response.data;
   } catch (error) {
-    throw error.response?.data?.message || "Login failed";
+    console.error("Login Error:", error.response); 
+    throw error; 
   }
 };
