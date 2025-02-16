@@ -75,22 +75,104 @@ export const replyToMessage = async (messageId, replyMessage) => {
   }
 };
 
+// export const fetchUserMessages = async () => {
+//   try {
+//       const token = localStorage.getItem("token");
+//       if (!token) throw new Error("User not authenticated");
+
+//       const response = await axios.get(`${API_URL}/user`, {
+//           headers: { Authorization: `Bearer ${token}` },
+//           withCredentials: true,
+//       });
+
+//       return response.data; // Messages with replies
+//   } catch (error) {
+//       console.error("Error fetching user messages:", error.response?.data || error.message);
+//       throw new Error(error.response?.data?.message || "Error fetching user messages");
+//   }
+// };
+
+
+// const fetchReplies = async (messageId) => {
+//   try {
+//       const token = localStorage.getItem("token");
+//       const response = await axios.get(`${API_URL}/replies/${messageId}`, {
+//           headers: { Authorization: `Bearer ${token}` },
+//       });
+//       return response.data;
+//   } catch (error) {
+//       console.error("Error fetching replies:", error.response?.data?.message || error.message);
+//       return [];
+//   }
+// };
+
 export const fetchUserMessages = async () => {
   try {
       const token = localStorage.getItem("token");
-      if (!token) throw new Error("User not authenticated");
-
       const response = await axios.get(`${API_URL}/user`, {
           headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true,
       });
 
-      return response.data; // Messages with replies
+      return response.data;
   } catch (error) {
-      console.error("Error fetching user messages:", error.response?.data || error.message);
-      throw new Error(error.response?.data?.message || "Error fetching user messages");
+      console.error("Error fetching messages:", error.response?.data?.message || error.message);
+      return [];
+  }
+};
+// export const fetchUserMessages = async () => {
+//   try {
+//       const token = localStorage.getItem("token");
+//       const response = await axios.get(`${API_URL}/user/messages`, {
+//           headers: { Authorization: `Bearer ${token}` },
+//       });
+
+//       return response.data;
+//   } catch (error) {
+//       console.error("Error fetching user messages:", error.response?.data?.message || error.message);
+//       return [];
+//   }
+// };
+
+
+export const fetchReplies = async (messageId) => {
+  try {
+      const token = localStorage.getItem("token");
+      console.log(`Fetching replies from: ${API_URL}/replies/${messageId}`);
+
+      const response = await axios.get(`${API_URL}/replies/${messageId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+      });
+
+      return response.data;
+  } catch (error) {
+      console.error("Error fetching replies:", error.response?.data?.message || error.message);
+      return [];
   }
 };
 
 
+// {messages.length > 0 ? (
+//   <ul>
+//     {messages.map((msg) => (
+//       <li key={msg._id} className="bg-white p-4 mb-3 shadow rounded">
+//         <p><strong>Property:</strong> {msg.propertyId?.title || "Unknown"}</p>
+//         <p><strong>Your Message:</strong> {msg.message}</p>
 
+//         {msg.replies?.length > 0 && (
+//           <div className="mt-2 bg-gray-200 p-3 rounded">
+//             <strong>Owner Replies:</strong>
+//             <ul className="ml-4 mt-1">
+//               {msg.replies.map((reply, index) => (
+//                 <li key={index} className="text-gray-700">
+//                   - {reply.message} <span className="text-sm text-gray-500">({new Date(reply.createdAt).toLocaleString()})</span>
+//                 </li>
+//               ))}
+//             </ul>
+//           </div>
+//         )}
+//       </li>
+//     ))}
+//   </ul>
+// ) : (
+//   <p>No messages found.</p>
+// )}

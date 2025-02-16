@@ -61,30 +61,75 @@ router.post("/", authenticateToken, async (req, res) => {
 });
 
 // 📩 Reply to a message
+// router.post("/reply/:messageId", authenticateToken, async (req, res) => {
+//     const { replyMessage } = req.body;
+//     const messageId = req.params.messageId;
+
+//     try {
+//         const originalMessage = await Message.findById(messageId).populate("propertyId");
+//         if (!originalMessage) return res.status(404).json({ message: "Message not found" });
+
+//         const property = await Property.findById(originalMessage.propertyId);
+//         if (property.ownerId.toString() !== req.user.id)
+//             return res.status(403).json({ message: "Unauthorized to reply to this message" });
+
+//         const reply = new Message({
+//             propertyId: originalMessage.propertyId,
+//             senderId: req.user.id,
+//             message: `Reply: ${replyMessage}`,
+//         });
+
+//         await reply.save();
+//         res.status(201).json({ message: "Reply sent successfully" });
+//     } catch (error) {
+//         res.status(500).json({ message: error.message });
+//     }
+// });
 router.post("/reply/:messageId", authenticateToken, async (req, res) => {
     const { replyMessage } = req.body;
-    const messageId = req.params.messageId;
+    const { messageId } = req.params;
 
     try {
-        const originalMessage = await Message.findById(messageId).populate("propertyId");
-        if (!originalMessage) return res.status(404).json({ message: "Message not found" });
+        const originalMessage = await Message.findById(messageId);
 
-        const property = await Property.findById(originalMessage.propertyId);
-        if (property.ownerId.toString() !== req.user.id)
-            return res.status(403).json({ message: "Unauthorized to reply to this message" });
+        if (!originalMessage) {
+            return res.status(404).json({ message: "Message not found" });
+        }
 
+        if (!originalMessage.senderId) {
+            return res.status(400).json({ message: "Original message does not have a senderId" });
+        }
+
+        // Ensure replies array exists
+        if (!originalMessage.replies) {
+            originalMessage.replies = [];
+        }
+
+        // Create the reply message with receiverId
         const reply = new Message({
             propertyId: originalMessage.propertyId,
-            senderId: req.user.id,
+            senderId: req.user.id, // Owner replying
+            receiverId: originalMessage.senderId, // Reply goes to original sender
             message: `Reply: ${replyMessage}`,
+            isReply: true,
+            parentMessage: messageId,
         });
 
         await reply.save();
-        res.status(201).json({ message: "Reply sent successfully" });
+
+        // Store reply reference in the original message
+        originalMessage.replies.push(reply._id);
+        await originalMessage.save();
+
+        res.status(201).json({ message: "Reply sent successfully", reply });
     } catch (error) {
+        console.error("Error in reply API:", error);
         res.status(500).json({ message: error.message });
     }
 });
+
+
+
 
 router.get("/user", authenticateToken, async (req, res) => {
     try {
@@ -109,6 +154,31 @@ router.get("/user", authenticateToken, async (req, res) => {
     }
 });
 
+router.get("/replies/:messageId", authenticateToken, async (req, res) => {
+    const { messageId } = req.params;
 
+    try {
+        const replies = await Message.find({ parentMessage: messageId });
+
+        if (!replies || replies.length === 0) {
+            return res.status(404).json({ message: "No replies found for this message." });
+        }
+
+        res.status(200).json(replies);
+    } catch (error) {
+        console.error("Error fetching replies:", error);
+        res.status(500).json({ message: error.message });
+    }
+});
+
+
+router.get("/user/messages", authenticateToken, async (req, res) => {
+    try {
+        const messages = await Message.find({ receiverId: req.user.id }).populate("replies");
+        res.json(messages);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
 
 module.exports = router;
