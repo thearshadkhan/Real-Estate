@@ -6,14 +6,50 @@ const authenticateToken = require("../middleware/authMiddleware");
 const router = express.Router();
 
 // 📩 Get messages for a property owner
+// router.get("/", authenticateToken, async (req, res) => {
+//     try {
+//         const properties = await Property.find({ ownerId: req.user.id }).select("_id");
+//         const propertyIds = properties.map((property) => property._id);
+
+//         const messages = await Message.find({ propertyId: { $in: propertyIds } })
+//             .populate("senderId", "name email")
+//             .populate("propertyId", "title");
+
+//         // Group messages by propertyId
+//         const groupedMessages = {};
+//         messages.forEach((msg) => {
+//             const propId = msg.propertyId._id.toString();
+//             if (!groupedMessages[propId]) {
+//                 groupedMessages[propId] = [];
+//             }
+//             groupedMessages[propId].push({
+//                 _id: msg._id,
+//                 sender: msg.senderId.name,
+//                 email: msg.senderId.email,
+//                 message: msg.message,
+//                 propertyTitle: msg.propertyId.title,
+//                 timestamp: msg.createdAt,
+//             });
+//         });
+
+//         res.status(200).json(groupedMessages);
+//     } catch (error) {
+//         res.status(500).json({ message: error.message });
+//     }
+// });
+
 router.get("/", authenticateToken, async (req, res) => {
     try {
         const properties = await Property.find({ ownerId: req.user.id }).select("_id");
         const propertyIds = properties.map((property) => property._id);
 
-        const messages = await Message.find({ propertyId: { $in: propertyIds } })
-            .populate("senderId", "name email")
-            .populate("propertyId", "title");
+        // Fetch messages but exclude replies (isReply: true)
+        const messages = await Message.find({ 
+            propertyId: { $in: propertyIds },
+            isReply: { $ne: true }  // Exclude replies
+        })
+        .populate("senderId", "name email")
+        .populate("propertyId", "title");
 
         // Group messages by propertyId
         const groupedMessages = {};
@@ -37,7 +73,6 @@ router.get("/", authenticateToken, async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
-
 
 // 📩 Send a message to a property owner
 router.post("/", authenticateToken, async (req, res) => {
@@ -113,6 +148,7 @@ router.post("/reply/:messageId", authenticateToken, async (req, res) => {
             message: `Reply: ${replyMessage}`,
             isReply: true,
             parentMessage: messageId,
+            
         });
 
         await reply.save();
