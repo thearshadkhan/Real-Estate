@@ -42,6 +42,26 @@ router.get("/", authenticateToken, async (req, res) => {
     }
 });
 
+// 📩 Send a message to a property owner
+router.post("/", authenticateToken, async (req, res) => {
+    const { propertyId, message } = req.body;
+
+    try {
+        const property = await Property.findById(propertyId);
+        if (!property) return res.status(404).json({ message: "Property not found" });
+
+        const newMessage = new Message({
+            propertyId,
+            senderId: req.user.id,
+            message,
+        });
+
+        await newMessage.save();
+        res.status(201).json({ message: "Message sent successfully" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
 
 router.post("/reply/:messageId", authenticateToken, async (req, res) => {
     const { replyMessage } = req.body;
@@ -141,7 +161,9 @@ router.get("/user", authenticateToken, async (req, res) => {
 
         // Find replies where the logged-in user is the receiver
         const messageIds = userMessages.map(msg => msg._id);
-        const replies = await Message.find({ parentMessage: { $in: messageIds } }).lean();
+        const replies = await Message.find({ parentMessage: { $in: messageIds } })
+            .populate("senderId", "name email")  // ✅ Populate sender info
+            .lean();
 
         // Attach replies to their corresponding messages
         const messagesWithReplies = userMessages.map(msg => ({
@@ -156,11 +178,15 @@ router.get("/user", authenticateToken, async (req, res) => {
 });
 
 
+
+
 router.get("/replies/:messageId", authenticateToken, async (req, res) => {
     const { messageId } = req.params;
 
     try {
-        const replies = await Message.find({ parentMessage: messageId });
+        const replies = await Message.find({ parentMessage: messageId })
+            .populate("senderId", "name email")  // ✅ Populate sender info
+            .lean();
 
         if (!replies || replies.length === 0) {
             return res.status(404).json({ message: "No replies found for this message." });
@@ -172,7 +198,6 @@ router.get("/replies/:messageId", authenticateToken, async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
-
 
 
 module.exports = router;

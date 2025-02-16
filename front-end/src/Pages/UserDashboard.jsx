@@ -112,9 +112,9 @@ useEffect(() => {
       {messages.length > 0 ? (
   messages.map((msg) => (
     <div key={msg._id} className="border p-3 my-2 rounded-lg bg-gray-50">
-    <p><strong>Property:</strong> {msg.propertyId?.title || "Unknown"}</p>
-      <p><strong>{msg.sender}</strong> ({msg.email}):</p>
-      <p className="text-gray-700">{msg.message}</p>
+      <p><strong>Property:</strong> {msg.propertyId?.title || "Unknown"}</p>
+      {/* <p><strong>{msg.senderId?.name || "Unknown Sender"}</strong> ({msg.senderId?.email || "No email"}):</p> */}
+      <p className="text-gray-700"><span><strong>Your Message: </strong> </span>{msg.message}</p>
       <p className="text-sm text-gray-500">Sent: {new Date(msg.timestamp).toLocaleString()}</p>
 
       {/* Display Replies */}
@@ -123,7 +123,11 @@ useEffect(() => {
           <h3 className="text-md font-semibold text-blue-600">Replies:</h3>
           {msg.replies.map((reply) => (
             <p key={reply._id} className="text-gray-800">
-              {reply.message} <span className="text-sm text-gray-500">({new Date(reply.timestamp).toLocaleString()})</span>
+              <strong>{reply.senderId?.name || "Unknown"}</strong> ({reply.senderId?.email || "No email"})
+             <p> {reply.message} </p>
+              <span className="text-sm text-gray-500">
+                ({new Date(reply.timestamp).toLocaleString()})
+              </span>
             </p>
           ))}
         </div>
@@ -133,6 +137,7 @@ useEffect(() => {
 ) : (
   <p className="text-gray-500 text-center">No messages received.</p>
 )}
+
 
 
     </div>
