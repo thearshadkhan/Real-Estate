@@ -187,7 +187,7 @@ const PropertyPage = () => {
         </div>
       ) : (
         <div>
-        <div className="grid grid-cols-3 gap-12">
+        <div className="grid max-sm:grid-cols-1 max-md:grid-cols-2 grid-cols-3 gap-12">
           {currentProperties.length > 0 ? (
             currentProperties.map((property) => (
               <Link to={`/property/${property._id}`} key={property._id}>

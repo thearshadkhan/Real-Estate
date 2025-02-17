@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation,useNavigate} from "react-router-dom";
 
 const PropertyManagement = () => {
   const [properties, setProperties] = useState([]);
   const [error, setError] = useState("");
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -26,8 +27,8 @@ const PropertyManagement = () => {
         const queryParams = new URLSearchParams(location.search);
         const isActive = queryParams.get("active") === "true";
 
-        const filteredProperties = isActive 
-          ? data.filter(property => property.approvalStatus === "approved") 
+        const filteredProperties = isActive
+          ? data.filter(property => property.approvalStatus === "approved")
           : data;
 
         setProperties(filteredProperties);
@@ -105,13 +106,14 @@ const PropertyManagement = () => {
                 <span className="font-bold">Owner:</span> {property.ownerId?.name} <br /><span className="font-bold">Email:</span> {property.ownerId?.email}
               </p>
               {property.photos && property.photos.length > 0 && (
-  <img
-    src={property.photos[0].startsWith("http") ? property.photos[0] : `http://localhost:5000/uploads/${property.photos[0]}`}
-    alt={property.name}
-    className="w-full h-60 object-cover"
-    onError={(e) => e.target.src = errorImage} // Fallback for broken images
-  />
-)}
+                <img
+                  src={property.photos[0].startsWith("http") ? property.photos[0] : `http://localhost:5000/uploads/${property.photos[0]}`}
+                  alt={property.name}
+                  onClick={() => navigate(`/details/${property._id}`)}
+                  className="w-full h-60 object-cover hover:scale-102 transition hover:cursor-pointer"
+                  onError={(e) => e.target.src = errorImage} // Fallback for broken images
+                />
+              )}
 
               <div className="p-5">
                 <h3 className="text-2xl font-semibold text-gray-900">{property.name}</h3>
