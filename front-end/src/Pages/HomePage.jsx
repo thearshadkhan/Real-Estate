@@ -35,7 +35,7 @@ const HomePage = () => {
         const data = await fetchAllProperties();
         setTimeout(() => {
           setProperties(data);
-          setFilteredProperties(data.slice(0, 6));
+          setFilteredProperties(data.slice(0, 9));
           setLoading(false);
         }, 100);
       } catch (error) {
@@ -76,7 +76,7 @@ const HomePage = () => {
     if (filters.location) filtered = filtered.filter((prop) => prop.city.toLowerCase().trim() === filters.location.toLowerCase().trim());
     if (filters.size) filtered = filtered.filter((prop) => prop.size === filters.size);
     if (filters.price) filtered = filtered.filter((prop) => prop.price <= filters.price);
-    setFilteredProperties(filtered.slice(0, 9));
+    setFilteredProperties(filtered.slice(0, 6));
     propertiesSectionRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -84,31 +84,26 @@ const HomePage = () => {
     <div className="relative w-full min-h-screen bg-white">
       {/* Hero Section */}
       <div
-        className="relative flex flex-col justify-center items-center text-center text-white mt-18 py-32 px-6"
-        style={{ backgroundImage: `url(${heroBg})`, backgroundSize: "cover", backgroundPosition: "center", height: "70vh" }}
+        className="flex flex-row justify-between px-60 items-center text-center text-white mt-15 py-32 max-sm:px-10 max-md:flex-col"
+        style={{ backgroundImage: `url(${heroBg})`, backgroundSize: "cover", backgroundPosition: "center", height: "fit-content" }}
       >
-        <h2 className="text-4xl mb-5 text-gray-100 drop-shadow-md shadow stroke-1">
-          <span className="text-white text-7xl font-bold">Brick & Beams</span>
+        <h2 className="text-left text-4xl mb-5 text-gray-100 drop-shadow-md shadow stroke-1 max-sm:text-2xl max-md:text-center">
+          <span className="text-white text-7xl font-bold max-sm:text-4xl">Bricks & Beams</span>
           <br />
           Made Easy to<br />Buy & Sell Property
         </h2>
-        <div className="bg-white bg-opacity-50 rounded-full p-4 mt-6 flex gap-4">
-          <select name="type" className="py-2 px-4 font-semibold text-black rounded outline-none" onChange={handleFilterChange}>
-            <option value="">Type</option>
-            <option value="Home">Home</option>
-            <option value="Apartment">Apartment</option>
-            <option value="Villa">Villa</option>
+        <div className="bg-gradient-to-r from-white/20 to-white/5 backdrop-blur-sm border border-white/10 bg-opacity-50 rounded-lg px-10 py-5 text-xl flex flex-col gap-4">
+          <select name="type" className="py-2 pr-4 font-semibold text-white  rounded outline-none" onChange={handleFilterChange}>
+            <option className="bg-black" value="">Type</option>
+            <option className="bg-black" value="Home">Home</option>
+            <option className="bg-black" value="Apartment">Apartment</option>
+            <option className="bg-black" value="Villa">Villa</option>
           </select>
-          <select name="location" className="py-2 px-4 font-semibold text-black rounded outline-none" onChange={handleFilterChange}>
-            <option value="">Location</option>
-            <option value="Agra">Agra</option>
-            <option value="Delhi">Delhi</option>
-            <option value="Mumbai">Mumbai</option>
-            <option value="Jaipur">Jaipur</option>
-            <option value="Bangalore">Bangalore</option>
-            <option value="Hyderabad">Hyderabad</option>
-            <option value="Pune">Pune</option>
-            <option value="Gurgaon">Gurgaon</option>
+          <select name="location" className="py-2 pr-4 font-semibold text-white rounded outline-none" onChange={handleFilterChange}>
+            <option className="bg-black" value="">Location</option>
+            <option className="bg-black" value="Agra">Agra</option>
+            <option className="bg-black" value="Delhi">Delhi</option>
+            <option className="bg-black" value="Mumbai">Mumbai</option>
           </select>
 
           {/* <div className="flex flex-col items-center px-4">
@@ -125,16 +120,16 @@ const HomePage = () => {
             />
           </div> */}
           {filters.type === "Apartment" ? (
-          <select name="size" className="py-2 px-4 font-semibold text-black rounded outline-none" onChange={handleSizeChange}>
-            <option value="">Select BHK</option>
-            <option value="1BHK">1 BHK</option>
-            <option value="2BHK">2 BHK</option>
-            <option value="3BHK">3 BHK</option>
-            <option value="4BHK">4 BHK</option>
+          <select name="size" className="py-2 pr-4 font-semibold text-white rounded outline-none" onChange={handleSizeChange}>
+            <option className="bg-black"  value="">Select BHK</option>
+            <option  className="bg-black" value="1BHK">1 BHK</option>
+            <option  className="bg-black" value="2BHK">2 BHK</option>
+            <option  className="bg-black" value="3BHK">3 BHK</option>
+            <option  className="bg-black" value="4BHK">4 BHK</option>
           </select>
         ) : (
-          <div className="flex flex-col items-center px-4">
-            <label className="text-sm font-semibold text-gray-800">Min Size: {filters.size.toLocaleString()} sq ft</label>
+          <div className="flex flex-col items-start pr-4">
+            <label className="text-sm text-left font-semibold text-white">Min Size: {filters.size.toLocaleString()} sq ft</label>
             <input
               type="range"
               name="size"
@@ -150,8 +145,8 @@ const HomePage = () => {
 
 
           {/* Price Range Slider */}
-          <div className="flex flex-col items-center px-4">
-            <label className="text-sm font-semibold text-gray-800">Max Price: ${filters.price.toLocaleString()}</label>
+          <div className="flex flex-col items-center pr-4">
+            <label className="text-sm font-semibold text-white">Max Price: ${filters.price.toLocaleString()}</label>
             <input
               type="range"
               name="price"
@@ -164,22 +159,22 @@ const HomePage = () => {
             />
           </div>
 
-          <button onClick={handleSearch} className="flex items-center space-x-2 font-semibold bg-red-700 hover:bg-red-600 text-white px-4 py-2 rounded-full">
-            <FaSearch className="text-lg" />
+          <button onClick={handleSearch} className="flex items-center justify-center space-x-2 font-semibold bg-red-700 hover:bg-red-600 text-white px-4 py-1 rounded-full">
+            
             <span>Search</span>
+            <FaSearch className="text-md" />
           </button>
         </div>
       </div>
       {/*About us*/}
       <div className="text-center mt-10 mb-10">
-        <h2 className="text-4xl text-gray-600">Discover Your Perfect Space with Brick & Beams
-          <br />Where Dreams Find Their Foundation
+        <h2 className="text-4xl text-gray-600 max-md:text-xl px-2">Discover Your Perfect Space with Bricks & Beams, Where Dreams Find Their Foundation
         </h2>
       </div>
 
       {/*Cards*/}
       <div className="max-w-4xl mx-auto mb-12">
-        <h2 className="text-5xl font-semibold text-gray-900 mb-6 text-center">Our Values</h2>
+        <h2 className="text-5xl font-semibold text-gray-900 mb-6 text-center max-md:text-3xl">Our Values</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {values.map((value, index) => (
             <div key={index} className="relative overflow-hidden bg-white p-6 rounded-lg shadow-lg group">
@@ -196,7 +191,7 @@ const HomePage = () => {
                 <h3 className="mt-4 text-xl font-semibold text-gray-900 group-hover:text-white transition-colors duration-500">
                   {value.title}
                 </h3>
-                <p className="mt-2 text-gray-700 group-hover:text-white transition-colors duration-500">
+                <p className="mt-2 text-gray-700 group-hover:text-white transition-colors duration-500 px-4">
                   {value.desc}
                 </p>
               </div>
@@ -207,7 +202,7 @@ const HomePage = () => {
 
 
       {/* Property Listings */}
-      <div ref={propertiesSectionRef} className="max-w-7xl mx-auto p-6">
+      <div ref={propertiesSectionRef} className="flex flex-col justify-center items-center max-w-7xl mx-auto p-6">
         <h2 className="text-4xl font-bold text-red-700 mb-6 text-center">Featured Properties</h2>
         {loading ? (
           <div className="flex justify-center items-center h-40">
@@ -233,7 +228,6 @@ const HomePage = () => {
                     className="w-full h-60 object-cover hover:scale-105 transition-all"
                   />
 
-
                     {/* Property Details */}
                     <div className="p-5 relative">
                       
@@ -258,7 +252,7 @@ const HomePage = () => {
             )}
           </div>
         )}
-        <Link to={"/propertyPage"}><button className="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold shadow-lg mt-10 ml-130 hover:bg-white hover:scale-105 hover:shadow-2xl transition hover:text-red-700">View All Properties</button></Link>
+        <Link to={"/propertyPage"}><button className="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold shadow-lg mt-10 item-center hover:bg-white hover:text-red-700">View All Properties</button></Link>
       </div>
 
       {/* Back to Top Button */}
