@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 
 const LandscapeCard = ({ property }) => {
   return (
-<<<<<<< HEAD
     <div className="block mt-5" key={property._id}>
     <div className="relative bg-white shadow-xl rounded-lg overflow-hidden hover:shadow-2xl transition duration-300 group">
 
@@ -26,24 +25,6 @@ const LandscapeCard = ({ property }) => {
             className="rounded-md object-cover w-90 h-60"
           />
         )}
-=======
-    <div className="grid grid-row-2 rounded-lg w-fit my-5 h-120 p-2 border-[0.1px] gap-2 border-red-300 shadow-[0px_2px_4px_2px_rgba(0,_0,_0,_0.35)]  hover:shadow-[0px_8px_9px_2px_rgba(0,_0,_0,_0.35)]">
-      <div className="rounded-md w-80">
-      {property.photos.length > 0 ? (
-  <img
-    src={property.photos[0].startsWith("http") ? property.photos[0] : `http://localhost:5000/uploads/${property.photos[0]}`}
-    alt={property.title}
-    className="rounded-md object-fill w-fit h-60 hover:scale-102 transition"
-    onError={(e) => e.target.src = errorImage} // Handle broken image links
-  />
-) : (
-  <img
-    src={errorImage}
-    alt={property.title}
-    className="rounded-md object-fill w-90 h-60"
-  />
-)}
->>>>>>> 0d874e80dbbbe31066f7a619dba348d8498a93e4
 
       {/* Property Details */}
       <div className="p-5 relative">
