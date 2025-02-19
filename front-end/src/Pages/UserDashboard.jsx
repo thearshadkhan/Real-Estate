@@ -6,7 +6,7 @@ import {
   toggleSaveProperty,
 } from "../services/propertyService"; // Add functions to fetch liked and saved properties
 import PropertyCard from "../components/PropertyCard"; // A component to display property details
-import { fetchUserMessages, fetchOwnerMessages, fetchReplies } from "../services/messageService";
+import { fetchUserMessages, fetchOwnerMessages, fetchReplies,replyToMessage } from "../services/messageService";
 
 const UserDashboard = () => {
   const [likedProperties, setLikedProperties] = useState([]);
@@ -16,24 +16,43 @@ const UserDashboard = () => {
   const [replyText, setReplyText] = useState({})
 
 
+
+
+  const handleReplySubmit = async (propertyId) => {
+    if (!replyText[propertyId]) return;
+  
+    try {
+      await replyToMessage(propertyId, replyText[propertyId]); // Send message to owner
+  
+      setReplyText((prev) => ({ ...prev, [propertyId]: "" }));
+  
+      // Fetch updated messages after sending
+      const updatedMessages = await fetchUserMessages();
+      setMessages(updatedMessages);
+    } catch (error) {
+      console.error("Error sending message to owner:", error.message);
+    }
+  };
+
+  
     const handleReplyChange = (messageId, text) => {
       setReplyText((prev) => ({ ...prev, [messageId]: text }));
     };
   
-    const handleReplySubmit = async (messageId) => {
-      if (!replyText[messageId]) return;
+    // const handleReplySubmit = async (messageId) => {
+    //   if (!replyText[messageId]) return;
   
-      try {
-        await replyToMessage(messageId, replyText[messageId]);
+    //   try {
+    //     await replyToMessage(messageId, replyText[messageId]);
   
-        setReplyText((prev) => ({ ...prev, [messageId]: "" }));
+    //     setReplyText((prev) => ({ ...prev, [messageId]: "" }));
   
-        const updatedMessages = await fetchOwnerMessages();
-        setMessages(updatedMessages);
-      } catch (error) {
-        console.error("Error sending reply:", error.message);
-      }
-    };
+    //     const updatedMessages = await fetchOwnerMessages();
+    //     setMessages(updatedMessages);
+    //   } catch (error) {
+    //     console.error("Error sending reply:", error.message);
+    //   }
+    // };
 
   useEffect(() => {
     const getLikedProperties = async () => {
