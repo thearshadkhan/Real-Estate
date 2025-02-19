@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchOwnerProperties } from "../services/propertyService";
-import { fetchOwnerMessages, replyToMessage } from "../services/messageService";
+import { fetchOwnerMessages, replyToMessage, fetchUserMessages } from "../services/messageService";
 import { useNavigate } from "react-router-dom";
 
 const OwnerDashboard = () => {
