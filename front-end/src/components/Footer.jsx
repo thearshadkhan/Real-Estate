@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-white py-16 px-8">
+    <footer className="bg-black text-white py-16 px-8 ">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-lg">
 
         {/* About Section */}
-        <div>
+        <div className="max-sm:text-left">
           <h2 className="text-3xl font-bold text-red-600">Brick & Beams</h2>
           <p className="text-gray-400 mt-4 leading-relaxed">
             Your trusted partner in buying, selling, and renting properties.
@@ -16,7 +16,7 @@ const Footer = () => {
         </div>
 
         {/* Quick Links */}
-        <div className="text-center">
+        <div className="text-center max-sm:text-left">
           <h3 className="text-2xl font-semibold">Quick Links</h3>
           <ul className="mt-4 space-y-3">
             <li>
@@ -43,7 +43,7 @@ const Footer = () => {
         </div>
 
         {/* Contact Info */}
-        <div className="text-right">
+        <div className="text-right max-sm:text-left">
           <h3 className="text-2xl font-semibold">Contact Us</h3>
           <p className="text-gray-400 mt-4">📍 123 Real Estate St, City, Country</p>
           <p className="text-gray-400 mt-2">📞 +1 234 567 890</p>

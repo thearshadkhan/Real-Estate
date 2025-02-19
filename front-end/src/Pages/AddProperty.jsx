@@ -59,11 +59,9 @@ const AddProperty = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         height: "120vh",
-        borderBottomRightRadius: 20,
-        borderBottomLeftRadius: 20,
       }}
     >
-      <div className="relative w-full max-w-lg p-8 rounded-2xl bg-gradient-to-r from-white/20 to-white/5 backdrop-blur-sm border border-white/10">
+      <div className="max-sm:p-4 relative w-full max-w-lg p-8 rounded-2xl bg-gradient-to-r from-white/20 to-white/5 backdrop-blur-sm border border-white/10">
         <h2 className="text-2xl font-bold text-white text-center mb-4">
           Add Property
         </h2>
