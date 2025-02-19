@@ -85,7 +85,7 @@ const PropertyDetails = () => {
         <img
           src={mainImage}
           alt="Main Property"
-          className="w-full h-130 object-cover rounded-md shadow-md cursor-pointer"
+          className="max-sm:h-50 w-full h-130 object-cover rounded-md shadow-md cursor-pointer"
         />
       )}
 
@@ -170,7 +170,7 @@ const PropertyDetails = () => {
       <div className="mt-6 flex justify-between">
         <button
           onClick={() => setShowMessageBox(true)}
-          className="px-5 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition flex items-center"
+          className="max-sm:p-1 px-5 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition flex items-center"
         >
           <FaEnvelope className="mr-2" /> Send Message
         </button>

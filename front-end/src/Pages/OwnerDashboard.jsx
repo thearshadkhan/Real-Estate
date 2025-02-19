@@ -70,13 +70,13 @@ const OwnerDashboard = () => {
           {properties.length > 0 ? (
             properties.map((property) => (
               <div key={property._id} className="bg-white p-4 rounded-lg shadow-md">
-              <img
-  src={property.photos[0].startsWith("http") ? property.photos[0] : `http://localhost:5000/uploads/${property.photos[0]}`}
-  alt={property.title}
-  className="w-full h-40 object-cover rounded-md mb-4"
-/>
+                <img
+                  src={property.photos[0].startsWith("http") ? property.photos[0] : `http://localhost:5000/uploads/${property.photos[0]}`}
+                  alt={property.title}
+                  className="w-full h-40 object-cover rounded-md mb-4"
+                />
 
-                <h3 className="text-xl font-semibold">{property.title}</h3> 
+                <h3 className="text-xl font-semibold">{property.title}</h3>
                 <p className="text-gray-600">{property.city}</p>
                 <p className="text-gray-800 font-semibold">${property.price}</p>
                 <button

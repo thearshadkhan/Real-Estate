@@ -78,8 +78,23 @@ const Details = () => {
         <img
           src={mainImage}
           alt="Main Property"
-          className="w-full h-130 object-cover rounded-md shadow-md cursor-pointer"
+          className="max-sm:h-50 w-full h-130 object-cover rounded-md shadow-md cursor-pointer"
         />
+      )}
+      {property?.photos.length > 0 && (
+        <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {property.photos.map((photo, index) => (
+            <img
+              key={index}
+              src={photo.startsWith("http") ? photo : `http://localhost:5000/uploads/${photo}`}
+              // Directly use the backend-provided URL
+              alt={`Property ${index + 1}`}
+              className="w-full h-32 object-cover rounded-md shadow-md cursor-pointer transition-transform transform hover:scale-110"
+              onClick={() => setMainImage(photo)}
+              onError={(e) => e.target.src = errorImage} // Fallback if image fails
+            />
+          ))}
+        </div>
       )}
 
       <h2 className="text-4xl font-bold text-gray-800 mt-6">{property.title}</h2>
